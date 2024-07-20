@@ -4,8 +4,8 @@ import {AppController} from './app.controller';
 import {AppService} from './app.service';
 import {ConfigModule, ConfigService} from "@nestjs/config";
 import {MongooseModule} from "@nestjs/mongoose";
-import {VotesModule} from "./votes/votes.module";
-import {CastModule} from "./casts/cast.module";
+import {VotesModule} from "./api/votes/votes.module";
+import {CastModule} from "./api/casts/cast.module";
 
 @Module({
   imports: [
