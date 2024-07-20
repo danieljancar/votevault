@@ -17,6 +17,7 @@
 [![Formatting](https://github.com/danieljancar/votevault/actions/workflows/format.yml/badge.svg)](https://github.com/yourusername/votevault/actions/workflows/format.yml)
 
 [![MIT License](https://img.shields.io/badge/License-MIT-blue)](LICENSE)
+
 </div>
 
 ---
