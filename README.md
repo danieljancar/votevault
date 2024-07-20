@@ -10,13 +10,13 @@
 [![Nx Workspace](https://img.shields.io/badge/Nx-143055?logo=nx)](https://nx.dev/)
 [![NestJS](https://img.shields.io/badge/NestJS-E0234E?logo=nestjs)](https://nestjs.com/)
 [![Angular](https://img.shields.io/badge/Angular-DD0031?logo=angular)](https://angular.io/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript)](https://www.typescriptlang.org/)
-[![MongoDB](https://img.shields.io/badge/MongoDB-47A248?logo=mongodb)](https://www.mongodb.com/)
-[![License](https://img.shields.io/badge/License-MIT-blue)](#license)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-47A248?logo=mongodb&logoColor=white)](https://www.mongodb.com/)
 
 [![Linter](https://github.com/danieljancar/votevault/actions/workflows/lint.yml/badge.svg)](https://github.com/yourusername/votevault/actions/workflows/lint.yml)
 [![Formatting](https://github.com/danieljancar/votevault/actions/workflows/format.yml/badge.svg)](https://github.com/yourusername/votevault/actions/workflows/format.yml)
 
+[![MIT License](https://img.shields.io/badge/License-MIT-blue)](LICENSE)
 </div>
 
 ---

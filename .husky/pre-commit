@@ -18,6 +18,5 @@ else
   echo "No changes detected in backend."
 fi
 
-npx nx format:check --all
 npx nx format:write --all
 
