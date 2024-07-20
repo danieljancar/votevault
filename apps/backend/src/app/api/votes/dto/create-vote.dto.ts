@@ -1,6 +1,6 @@
 export class CreateVoteDto {
-  title: string;
-  description: string;
-  options: string[];
-  createdBy: string;
+  title: string
+  description: string
+  options: string[]
+  createdBy: string
 }

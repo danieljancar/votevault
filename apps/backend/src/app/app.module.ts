@@ -1,11 +1,11 @@
-import {Module} from '@nestjs/common';
+import { Module } from '@nestjs/common'
 
-import {AppController} from './app.controller';
-import {AppService} from './app.service';
-import {ConfigModule, ConfigService} from "@nestjs/config";
-import {MongooseModule} from "@nestjs/mongoose";
-import {VotesModule} from "./api/votes/votes.module";
-import {CastModule} from "./api/casts/cast.module";
+import { AppController } from './app.controller'
+import { AppService } from './app.service'
+import { ConfigModule, ConfigService } from '@nestjs/config'
+import { MongooseModule } from '@nestjs/mongoose'
+import { VotesModule } from './api/votes/votes.module'
+import { CastModule } from './api/casts/cast.module'
 
 @Module({
   imports: [
@@ -18,10 +18,9 @@ import {CastModule} from "./api/casts/cast.module";
       inject: [ConfigService],
     }),
     VotesModule,
-    CastModule
+    CastModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {
-}
+export class AppModule {}

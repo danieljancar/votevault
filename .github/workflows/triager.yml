@@ -1,0 +1,62 @@
+name: Triage Labeler
+
+on:
+  issues:
+    types: [opened]
+  pull_request:
+    types: [opened]
+
+jobs:
+  label-triage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add triage label to new issues and PRs from non-collaborators
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const eventName = context.eventName;
+            let issueOrPR = eventName === 'issues' ? context.issue : context.payload.pull_request;
+            let username;
+
+            if (issueOrPR && issueOrPR.user && issueOrPR.user.login) {
+                username = issueOrPR.user.login;
+            } else {
+                console.log("Could not retrieve username from the event payload.");
+                return;
+            }
+
+            const repoOwner = context.repo.owner;
+            const repoName = context.repo.repo;
+
+            async function isCollaborator(username) {
+              try {
+                await github.rest.repos.checkCollaborator({
+                  owner: repoOwner,
+                  repo: repoName,
+                  username: username,
+                });
+                return true;
+              } catch (error) {
+                return false;
+              }
+            }
+
+            if (!await isCollaborator(username)) {
+              const labels = ['triage'];
+              if (eventName === 'issues') {
+                await github.rest.issues.addLabels({
+                  owner: repoOwner,
+                  repo: repoName,
+                  issue_number: issueOrPR.number,
+                  labels: labels
+                });
+              } else {
+                await github.rest.issues.addLabels({
+                  owner: repoOwner,
+                  repo: repoName,
+                  issue_number: issueOrPR.number,
+                  labels: labels
+                });
+              }
+            }

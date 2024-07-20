@@ -1,0 +1,3 @@
+npx nx lint frontend --fix && npx nx lint backend --fix
+npx nx format:check
+npx nx format:write

@@ -41,7 +41,6 @@
       },
       "configurations": {
         "ci": {
-          "ci": true,
           "codeCoverage": true
         }
       }
@@ -79,5 +78,5 @@
       "style": "scss",
       "unitTestRunner": "jest"
     }
-  },
+  }
 }
