@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient id="gradient-1-0" gradientUnits="userSpaceOnUse" x1="150.53" y1="173.065" x2="150.53" y2="197.256" gradientTransform="matrix(1, 0, 0, 1, 0.000064, 0.000089)" xlink:href="#gradient-1"/>
+    <linearGradient id="gradient-1">
+      <stop offset="0" style="stop-color: rgb(102, 98, 175);"/>
+      <stop offset="1" style="stop-color: rgb(88, 80, 221);"/>
+    </linearGradient>
+    <linearGradient id="gradient-1-1" gradientUnits="userSpaceOnUse" x1="150.53" y1="173.065" x2="150.53" y2="197.256" gradientTransform="matrix(1, 0, 0, 0.977616, 0.000026, -0.000708)" xlink:href="#gradient-1"/>
+    <linearGradient id="gradient-1-2" gradientUnits="userSpaceOnUse" x1="150.53" y1="173.065" x2="150.53" y2="197.256" gradientTransform="matrix(1.000001, 0, 0, 1.000001, 0.000101, 0.000081)" xlink:href="#gradient-1"/>
+    <linearGradient id="gradient-1-3" gradientUnits="userSpaceOnUse" x1="150.53" y1="173.065" x2="150.53" y2="197.256" gradientTransform="matrix(1, 0, 0, 0.977616, -0.000108, -0.000217)" xlink:href="#gradient-1"/>
+  </defs>
+  <rect x="121.887" y="115.875" width="23.977" height="277.913" style="stroke-miterlimit: 1; paint-order: fill; stroke-width: 20px; stroke-linejoin: bevel; stroke-dashoffset: 100px; fill: rgb(102, 98, 175); transform-origin: 89.269px 265.296px;" transform="matrix(0.927184104919, 0.374607056379, -0.374607056379, 0.927184104919, -47.058179382567, -121.550415363525)"/>
+  <rect x="122.007" y="85.948" width="24" height="206.135" style="stroke-miterlimit: 1; paint-order: fill; stroke-width: 20px; stroke-linejoin: bevel; stroke-dashoffset: 100px; fill: rgb(102, 98, 175); transform-origin: 134.007px 189.015px;" transform="matrix(0.927184104919, -0.374606013298, 0.374606013298, 0.927184104919, 65.048609184978, -71.533564510255)"/>
+  <rect x="122.007" y="14.847" width="24" height="35.609" style="stroke-miterlimit: 1; paint-order: fill; stroke-width: 20px; stroke-linejoin: bevel; stroke-dashoffset: 100px; fill: rgb(102, 98, 175); transform-origin: 134.007px 32.651px;" transform="matrix(0.927184104919, -0.374606013298, 0.374606013298, 0.927184104919, 123.877211537428, 230.436672814714)"/>
+  <rect x="121.887" y="115.875" width="23.977" height="277.913" style="stroke-miterlimit: 1; paint-order: fill; stroke-width: 20px; stroke-linejoin: bevel; stroke-dashoffset: 100px; fill: rgb(88, 80, 221); transform-origin: 89.269px 265.296px;" transform="matrix(0.927184104919, 0.374607056379, -0.374607056379, 0.927184104919, 75.941870208498, -121.550430622314)"/>
+  <rect x="121.887" y="17.425" width="23.977" height="41.793" style="stroke-miterlimit: 1; paint-order: fill; stroke-width: 20px; stroke-linejoin: bevel; stroke-dashoffset: 100px; fill: rgb(88, 80, 221); transform-origin: 89.269px 39.895px;" transform="matrix(0.927184104919, -0.374606013298, 0.374606013298, 0.927184104919, -85.133581507796, 18.048208785798)"/>
+  <rect x="121.887" y="81.631" width="23.977" height="195.782" style="stroke-miterlimit: 1; paint-order: fill; stroke-width: 20px; stroke-linejoin: bevel; stroke-dashoffset: 100px; fill: rgb(88, 80, 221); transform-origin: 89.269px 186.893px;" transform="matrix(0.927184104919, -0.374606013298, 0.374606013298, 0.927184104919, -24.99317541997, 25.480019359989)"/>
+  <rect x="136.869" y="99.001" width="26.895" height="24.68" style="fill: rgb(102, 98, 175);"/>
+  <rect x="166.226" y="135.803" width="26.895" height="24.68" style="fill: rgb(88, 80, 221);"/>
+  <rect x="136.869" y="170.236" width="26.895" height="24.68" style="fill: rgb(102, 98, 175);"/>
+  <rect x="147.644" y="173.065" width="5.772" height="24.191" style="paint-order: fill; fill: url('#gradient-1-0'); transform-origin: 150.53px 185.161px;" transform="matrix(0.882947802544, -0.46947106719, 0.46947106719, 0.882947802544, 14.245590961535, -56.452614732455)"/>
+  <rect x="147.644" y="169.191" width="5.772" height="23.65" style="paint-order: fill; fill: url('#gradient-1-1'); transform-origin: 150.53px 181.016px;" transform="matrix(-0.906307995319, -0.422619074583, 0.422618061304, -0.906307995319, 15.426411280965, -15.901299345438)"/>
+  <rect x="106.879" y="136.685" width="26.895" height="24.68" style="fill: rgb(88, 80, 221);"/>
+  <rect x="147.644" y="173.065" width="5.772" height="24.191" style="paint-order: fill; fill: url('#gradient-1-2'); transform-origin: 150.53px 185.161px;" transform="matrix(0.882946848869, 0.469472050667, -0.469472050667, 0.882946848869, -16.324024894693, -53.401985199811)"/>
+  <rect x="147.644" y="169.191" width="5.772" height="23.65" style="paint-order: fill; fill: url('#gradient-1-3'); transform-origin: 150.53px 181.016px;" transform="matrix(-0.882947802544, 0.46947106719, -0.469472050667, -0.882946848869, -15.329077550761, -14.774478533111)"/>
+</svg>
