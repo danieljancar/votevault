@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { randomBytes } from 'crypto'
 import { Keypair } from '@stellar/stellar-sdk'
 import { JwtService } from '@nestjs/jwt'
-import { UserService } from '../user/user.service'
+import { UserService } from '../api/user/user.service'
 
 @Injectable()
 export class AuthService {

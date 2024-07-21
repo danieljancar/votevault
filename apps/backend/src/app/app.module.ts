@@ -8,7 +8,7 @@ import { AppService } from './app.service'
 import { VotesModule } from './api/votes/votes.module'
 import { CastModule } from './api/casts/cast.module'
 import { AuthModule } from './auth/auth.module'
-import { UserModule } from './user/user.module'
+import { UserModule } from './api/user/user.module'
 import { createThrottlerConfig } from './config/throttler.config'
 
 @Module({
