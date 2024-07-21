@@ -1,7 +1,7 @@
-import { Controller, Post, Body } from '@nestjs/common';
-import {AuthService} from "./auth.service";
-import {RequestChallengeDto} from "./dto/request-challenge.dto";
-import {VerifySignatureDto} from "./dto/verify-signature.dto";
+import { Controller, Post, Body } from '@nestjs/common'
+import { AuthService } from './auth.service'
+import { RequestChallengeDto } from './dto/request-challenge.dto'
+import { VerifySignatureDto } from './dto/verify-signature.dto'
 
 @Controller('auth')
 export class AuthController {
@@ -9,7 +9,7 @@ export class AuthController {
 
   @Post('request-challenge')
   async requestChallenge(@Body() requestChallengeDto: RequestChallengeDto) {
-    return this.authService.generateChallenge(requestChallengeDto.publicKey);
+    return this.authService.generateChallenge(requestChallengeDto.publicKey)
   }
 
   @Post('verify')
@@ -17,6 +17,6 @@ export class AuthController {
     return this.authService.verifySignature(
       verifySignatureDto.publicKey,
       verifySignatureDto.signature,
-    );
+    )
   }
 }
