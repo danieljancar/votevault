@@ -1,5 +1,9 @@
 #!/bin/bash
 
+npx nx format:write --all
+
+git add .
+
 if git diff --cached --name-only | grep -q "^apps/frontend/"; then
   echo "Changes detected in frontend. Running lint."
   npx nx lint frontend --fix
@@ -14,4 +18,3 @@ else
   echo "No changes detected in backend."
 fi
 
-npx nx format:write --all

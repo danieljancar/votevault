@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import {CommonModule, NgOptimizedImage} from '@angular/common'
+import { CommonModule, NgOptimizedImage } from '@angular/common'
 
 @Component({
   selector: 'app-navbar',
@@ -9,13 +9,13 @@ import {CommonModule, NgOptimizedImage} from '@angular/common'
   styleUrl: './navbar.component.scss',
 })
 export class NavbarComponent {
-  isMenuOpen = false;
+  isMenuOpen = false
 
   toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
+    this.isMenuOpen = !this.isMenuOpen
   }
 
   closeMenu() {
-    this.isMenuOpen = false;
+    this.isMenuOpen = false
   }
 }

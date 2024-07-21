@@ -1,6 +1,6 @@
-import {Component} from '@angular/core'
-import {RouterModule} from '@angular/router'
-import {NavbarComponent} from "./shared/navbar/navbar.component";
+import { Component } from '@angular/core'
+import { RouterModule } from '@angular/router'
+import { NavbarComponent } from './shared/navbar/navbar.component'
 
 @Component({
   standalone: true,
@@ -9,5 +9,4 @@ import {NavbarComponent} from "./shared/navbar/navbar.component";
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
-}
+export class AppComponent {}
