@@ -1,11 +1,29 @@
-import { Component } from '@angular/core'
-import { CommonModule } from '@angular/common'
+import { Component, inject } from '@angular/core'
+import { CommonModule, NgOptimizedImage } from '@angular/common'
+import { FormsModule } from '@angular/forms'
+import { AuthService } from '../../core/auth.service'
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule, NgOptimizedImage],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
+  styleUrls: ['./login.component.css'],
 })
-export class LoginComponent {}
+export class LoginComponent {
+  publicKey: string = ''
+  private authService = inject(AuthService)
+
+  onSubmit() {
+    if (this.publicKey) {
+      this.authService.login(this.publicKey).subscribe(
+        response => {
+          console.log('Login successful', response)
+        },
+        error => {
+          console.error('Login failed', error)
+        },
+      )
+    }
+  }
+}

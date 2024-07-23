@@ -1,22 +1,30 @@
 import { Controller, Post, Body } from '@nestjs/common'
 import { AuthService } from './auth.service'
-import { RequestChallengeDto } from './dto/request-challenge.dto'
-import { VerifySignatureDto } from './dto/verify-signature.dto'
+import { UserService } from '../user/user.service'
+import { Account } from '@stellar/stellar-sdk'
+import { User } from '../user/schemas/user.schema'
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly userService: UserService,
+  ) {}
 
-  @Post('request-challenge')
-  async requestChallenge(@Body() requestChallengeDto: RequestChallengeDto) {
-    return this.authService.generateChallenge(requestChallengeDto.publicKey)
-  }
+  @Post('login')
+  async login(@Body('wallet') walletKey: string) {
+    const user = await this.userService.findByWallet(walletKey)
 
-  @Post('verify')
-  async verify(@Body() verifySignatureDto: VerifySignatureDto) {
-    return this.authService.verifySignature(
-      verifySignatureDto.publicKey,
-      verifySignatureDto.signature,
-    )
+    if (!user) {
+      const newUser: User = {
+        wallet: walletKey,
+        createdAt: new Date(),
+      }
+      await new Account(walletKey, '0')
+      const createdUser = await this.userService.create(newUser)
+      return this.authService.login(createdUser.wallet)
+    }
+
+    return this.authService.login(user.wallet)
   }
 }

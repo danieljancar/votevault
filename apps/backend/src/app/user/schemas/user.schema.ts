@@ -5,8 +5,11 @@ export type UserDocument = User & Document
 
 @Schema()
 export class User {
-  @Prop({ required: true, unique: true })
-  publicKey: string
+  @Prop({ required: true, unique: true, type: String, index: true })
+  wallet: string
+
+  @Prop({ default: Date.now, required: false, type: Date })
+  createdAt: Date
 }
 
 export const UserSchema = SchemaFactory.createForClass(User)
