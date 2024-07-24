@@ -11,7 +11,7 @@ import { AuthService } from '../../core/auth.service'
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-  publicKey: string = ''
+  publicKey = ''
   private authService = inject(AuthService)
 
   onSubmit() {

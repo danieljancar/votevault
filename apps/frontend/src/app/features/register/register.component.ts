@@ -11,8 +11,8 @@ import { AuthService } from '../../core/auth.service'
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent {
-  publicKey: string = ''
-  privateKey: string = ''
+  publicKey = ''
+  privateKey = ''
   private authService = inject(AuthService)
 
   generateKeyPair() {
