@@ -41,9 +41,7 @@ VoteVault is designed to revolutionize voting processes with its cutting-edge fe
 - **Stellar Smart Contracts**: Ensure secure and verifiable voting through Stellar smart contracts.
 - **NestJS Backend**: Benefit from a robust and scalable backend powered by NestJS.
 - **Angular Frontend**: Enjoy a sleek, responsive user interface designed using Angular, optimized for both desktop and mobile devices.
-- **MongoDB Integration**: Utilize MongoDB for efficient storage and management of votes and "user" data.
-- **Completly Anonymous**: VoteVault ensures that all votes are anonymous and cannot be traced back to the voter.
-- **Secure and Transparent**: VoteVault guarantees secure and transparent voting processes, ensuring the integrity of the voting system.
+- **Secure and Transparent**: VoteVault tries to implement secure and transparent voting processes, ensuring the integrity of the voting system.
 - **Verifiable Results**: All votes are stored on the Stellar blockchain, allowing for easy verification of the voting results.
 
 # Contributing
@@ -59,12 +57,6 @@ We have several documents for developers to help them get started with the proje
 - [Best Practices](docs/BEST_PRACTICES.md)
 - [Formatting](docs/FORMATTING.md)
 - [Dev Actions](docs/DEV_ACTIONS.md)
-
-## Development Previews
-
-We deploy the latest development version of VoteVault to a staging environment. You can find the latest preview at:
-
-- [VoteVault Development Preview](https://dev-preview-votevault.web.app/)
 
 # License
 
