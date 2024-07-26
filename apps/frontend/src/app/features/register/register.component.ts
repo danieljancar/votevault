@@ -1,7 +1,8 @@
-import { Component, inject } from '@angular/core'
+import { Component } from '@angular/core'
 import { CommonModule, NgOptimizedImage } from '@angular/common'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { AuthService } from '../../core/auth.service'
+import { Keypair } from '@stellar/typescript-wallet-sdk'
 
 @Component({
   selector: 'app-register',
@@ -11,26 +12,32 @@ import { AuthService } from '../../core/auth.service'
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent {
-  publicKey = ''
-  privateKey = ''
-  private authService = inject(AuthService)
+  publicKey: string = ''
+  secretKey: string = ''
+  captchaImage: string = ''
+  captchaId: string = ''
+  transaction: string = ''
+  captchaAnswer: string = ''
+  authToken: string = ''
 
-  generateKeyPair() {
-    const keypair = this.authService.generateKeyPair()
+  constructor(private authService: AuthService) {}
+
+  generateKeypair() {
+    const keypair = Keypair.random()
     this.publicKey = keypair.publicKey()
-    this.privateKey = keypair.secret()
+    this.secretKey = keypair.secret()
   }
 
-  onSubmit() {
-    if (this.publicKey) {
-      this.authService.register(this.publicKey).subscribe(
-        response => {
-          console.log('Registration successful', response)
-        },
-        error => {
-          console.error('Registration failed', error)
-        },
-      )
-    }
+  generateChallenge() {
+    this.authService.getChallenge(this.publicKey).subscribe(
+      response => {
+        this.transaction = response.transaction
+        this.captchaId = response.captchaId
+        this.captchaImage = response.captchaImage
+      },
+      error => {
+        console.error('Error generating challenge:', error)
+      },
+    )
   }
 }

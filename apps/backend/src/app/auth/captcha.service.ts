@@ -35,7 +35,6 @@ export class CaptchaService {
   ): Promise<string> {
     const image = new Jimp(200, 100, 'white')
     await Jimp.loadFont(Jimp.FONT_SANS_32_BLACK).then(font => {
-      // @ts-expect-error - TS doesn't know about the print method
       image.print(font, 50, 50, answer)
     })
 
