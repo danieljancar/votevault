@@ -50,6 +50,29 @@ fn get_vote() {
 }
 
 #[test]
+fn get_vote_options() {
+    let env = Env::default();
+    let contract_id = env.register_contract(None, VotingContract);
+    let client = VotingContractClient::new(&env, &contract_id);
+
+    client.create_vote(
+        &symbol_short!("ID"),
+        &vec![&env, symbol_short!("OP1"), symbol_short!("OP2")],
+        &String::from_str(&env, "Title"),
+        &String::from_str(&env, "Desc"),
+        &String::from_str(&env, "0"),
+        &String::from_str(&env, "0"),
+    );
+
+    let options = client.get_vote_options(&symbol_short!("ID"));
+
+    assert_eq!(
+        options,
+        vec![&env, symbol_short!("OP1"), symbol_short!("OP2")]
+    );
+}
+
+#[test]
 fn vote() {
     let env = Env::default();
     env.mock_all_auths();

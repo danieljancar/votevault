@@ -10,14 +10,14 @@ impl VotingContract {
     pub fn create_vote(
         env: Env,
         vote_id: Symbol,
-        options: Vec<Symbol>,
+        vote_options: Vec<Symbol>,
         title: String,
         description: String,
         start_date: String,
         end_date: String,
     ) {
         let mut options_map = Map::new(&env);
-        for option in options.iter() {
+        for option in vote_options.iter() {
             options_map.set(option, 0u32);
         }
 
@@ -34,6 +34,11 @@ impl VotingContract {
         let start_date: String = env.storage().persistent().get(&description).unwrap();
         let end_date: String = env.storage().persistent().get(&start_date).unwrap();
         vec![&env, title, description, start_date, end_date]
+    }
+
+    pub fn get_vote_options(env: Env, vote_id: Symbol) -> Vec<Symbol> {
+        let options_map: Map<Symbol, u32> = env.storage().instance().get(&vote_id).unwrap();
+        options_map.keys()
     }
 
     pub fn cast(env: Env, vote_id: Symbol, option: Symbol, voter: Address) {
