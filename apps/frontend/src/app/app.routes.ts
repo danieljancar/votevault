@@ -4,6 +4,7 @@ import { AboutComponent } from './features/about/about.component'
 import { LoginComponent } from './features/login/login.component'
 import { RegisterComponent } from './features/register/register.component'
 import { AuthGuard } from './guards/auth.guard'
+import { CastComponent } from './features/voting/cast/cast.component'
 
 export const appRoutes: Route[] = [
   {
@@ -25,7 +26,31 @@ export const appRoutes: Route[] = [
     component: RegisterComponent,
   },
   {
-    path: '**',
+    path: 'voting',
+    children: [
+      {
+        path: 'cast',
+        children: [
+          {
+            path: '',
+            redirectTo: '/',
+            pathMatch: 'full',
+          },
+          {
+            path: ':id',
+            component: CastComponent,
+          },
+        ],
+      },
+      {
+        path: '',
+        redirectTo: '/',
+        pathMatch: 'full',
+      },
+    ],
+  },
+  {
+    path: 'about',
     redirectTo: '',
   },
 ]

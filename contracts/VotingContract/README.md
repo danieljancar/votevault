@@ -52,7 +52,7 @@ stellar contract invoke \
   --source {local-stellar-user} \
   --network {stellar-network} \
   -- \
-  create_vote --vote_id {vote-id} --options '[{vote1}, {vote2}, {...}]' --title {vote-title} --description {vote-description} --start_date '"{start-date-nr (ddMMYYYY)}"' --end_date '"{end-date-nr (ddMMYYYY)}"'
+  create_vote --vote_id {vote-id} --vote_options '[{vote1}, {vote2}, {...}]' --title {vote-title} --description {vote-description} --start_date '"{start-date-nr (ddMMYYYY)}"' --end_date '"{end-date-nr (ddMMYYYY)}"'
 ```
 
 <h5>example</h5>
@@ -63,7 +63,7 @@ stellar contract invoke \
   --source grill \
   --network testnet \
   -- \
-  create_vote --vote_id testvote --options '["Trump", "Harris"]' --title TestTitle --description Beschreibung --start_date '"25072024"' --end_date '"26072024"'
+  create_vote --vote_id testvote --vote_options '["Trump", "Harris"]' --title TestTitle --description Beschreibung --start_date '"25072024"' --end_date '"26072024"'
 ```
 
 <h5>result</h5>
@@ -156,8 +156,24 @@ stellar contract invoke \
   get_vote_result --vote_id testvote
 ```
 
-<h5>result</h5>
+## deploy_ts
+
+<h5>theory</h5>
 
 ```
-{"\"Harris\"":0,"\"Trump\"":1}
+stellar contract bindings typescript \
+  --network {stellar-network} \
+  --contract-id {contract-id} \
+  --output-dir ../../packages/voting_contract \
+  --overwrite
+```
+
+<h5>example</h5>
+
+```
+stellar contract bindings typescript \
+  --network testnet \
+  --contract-id CAFM6NNXNSR2ST7EANC4R6EJZ6NUMFGP6EA2RRGXLUCYXPRHHTB36WU2 \
+  --output-dir ../../packages/voting_contract \
+  --overwrite
 ```

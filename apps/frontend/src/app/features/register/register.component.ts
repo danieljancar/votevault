@@ -12,13 +12,13 @@ import { Keypair } from '@stellar/typescript-wallet-sdk'
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent {
-  publicKey: string = ''
-  secretKey: string = ''
-  captchaImage: string = ''
-  captchaId: string = ''
-  transaction: string = ''
-  captchaAnswer: string = ''
-  authToken: string = ''
+  publicKey = ''
+  secretKey = ''
+  captchaImage = ''
+  captchaId = ''
+  transaction = ''
+  captchaAnswer = ''
+  authToken = ''
 
   constructor(private authService: AuthService) {}
 
