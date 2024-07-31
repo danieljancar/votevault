@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core'
 import { CONTRACT_ID } from '../../config/config'
-import { CookieService } from 'ngx-cookie-service'
 import {
   BASE_FEE,
   Contract,
@@ -14,22 +13,19 @@ import { Keypair } from '@stellar/typescript-wallet-sdk'
 @Injectable({
   providedIn: 'root',
 })
-export class CastVoteService {
+export class GetVoteService {
   private contractId = CONTRACT_ID
+  private dataArr = new Array<string>()
   private isLoading = true
   private hasError = false
   private errorMessage = ''
 
-  constructor(private ngxCookieService: CookieService) {}
-
-  async castVote(
+  async getVote(
     server: SorobanRpc.Server,
     sourceKeypair: Keypair,
     voteId: string,
-    currentOption: string,
   ) {
     try {
-      this.hasError = false
       const contract = new Contract(this.contractId)
 
       const sourceAccount = await server.getAccount(sourceKeypair.publicKey())
@@ -39,12 +35,7 @@ export class CastVoteService {
         networkPassphrase: Networks.TESTNET,
       })
         .addOperation(
-          contract.call(
-            'cast',
-            nativeToScVal(voteId, { type: 'symbol' }),
-            nativeToScVal(currentOption, { type: 'symbol' }),
-            nativeToScVal(sourceKeypair.publicKey(), { type: 'address' }),
-          ),
+          contract.call('get_vote', nativeToScVal(voteId, { type: 'symbol' })),
         )
         .setTimeout(30)
         .build()
@@ -64,6 +55,16 @@ export class CastVoteService {
           getResponse = await server.getTransaction(sendResponse.hash)
         }
         if (getResponse.status === 'SUCCESS') {
+          if (!getResponse.returnValue?.vec()) {
+            return
+          }
+
+          getResponse.returnValue.vec()?.forEach(item => {
+            if (!item.value()) {
+              return
+            }
+            this.dataArr.push(String(item.value()))
+          })
           this.isLoading = false
         } else {
           return
@@ -71,24 +72,14 @@ export class CastVoteService {
       } else {
         return
       }
-    } catch (err: any) {
-      if (err?.code === undefined) {
-        this.ngxCookieService.set(voteId, 'true')
-        this.errorMessage =
-          'You have already voted, you cannot vote again on the same poll'
-      } else {
-        this.errorMessage =
-          'There was an Error submitting your vote, please try again later'
-      }
+    } catch (err) {
       this.isLoading = false
       this.hasError = true
+      this.errorMessage =
+        'There was an Error getting this vote ID, please try again.'
     }
-
-    if (!this.hasError) {
-      this.ngxCookieService.set(voteId, 'true')
-    }
-
     return {
+      dataArr: this.dataArr,
       isLoading: this.isLoading,
       hasError: this.hasError,
       errorMessage: this.errorMessage,

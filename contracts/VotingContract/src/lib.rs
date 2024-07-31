@@ -17,22 +17,30 @@ impl VotingContract {
         end_date: String,
     ) {
         let mut options_map = Map::new(&env);
+        let mut data_map = Map::new(&env);
+
+        data_map.set(String::from_str(&env, "title"), title);
+        data_map.set(String::from_str(&env, "description"), description);
+        data_map.set(String::from_str(&env, "start_date"), start_date);
+        data_map.set(String::from_str(&env, "end_date"), end_date);
+
+        env.storage().persistent().set(&vote_id, &data_map);
+        env.storage().instance().set(&vote_id, &options_map);
+
         for option in vote_options.iter() {
             options_map.set(option, 0u32);
         }
 
-        env.storage().persistent().set(&vote_id, &title);
-        env.storage().persistent().set(&title, &description);
-        env.storage().persistent().set(&description, &start_date);
-        env.storage().persistent().set(&start_date, &end_date);
+        env.storage().persistent().set(&vote_id, &data_map);
         env.storage().instance().set(&vote_id, &options_map);
     }
 
     pub fn get_vote(env: Env, vote_id: Symbol) -> Vec<String> {
-        let title: String = env.storage().persistent().get(&vote_id).unwrap();
-        let description: String = env.storage().persistent().get(&title).unwrap();
-        let start_date: String = env.storage().persistent().get(&description).unwrap();
-        let end_date: String = env.storage().persistent().get(&start_date).unwrap();
+        let data_map: Map<String, String> = env.storage().persistent().get(&vote_id).unwrap();
+        let title = data_map.get(String::from_str(&env, "title")).unwrap();
+        let description = data_map.get(String::from_str(&env, "description")).unwrap();
+        let start_date = data_map.get(String::from_str(&env, "start_date")).unwrap();
+        let end_date = data_map.get(String::from_str(&env, "end_date")).unwrap();
         vec![&env, title, description, start_date, end_date]
     }
 

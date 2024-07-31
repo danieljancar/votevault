@@ -1,0 +1,33 @@
+<div class="flex justify-center mt-20">
+  <fieldset class="w-11/12">
+    <div class="overflow-hidden bg-white sm:rounded-lg sm:shadow">
+      <div class="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
+        <h3 class="font-semibold leading-6 text-gray-900 text-xl">
+          {{ dataArr[0] }} - Results
+        </h3>
+      </div>
+      <ul role="list" class="divide-y divide-gray-200">
+        @for (result of resultArr; track result.key){
+        <li>
+          <a href="#" class="block hover:bg-gray-50">
+            <div class="px-4 py-4 sm:px-6">
+              <div class="flex cursor-pointer justify-between items-center">
+                <div>
+                  <p class="text-gray-950 text-xl">{{ result.key }}</p>
+                </div>
+
+                <div class="ml-2 flex flex-shrink-0">
+                  <span
+                    class="w-12 h-12 inline-flex justify-center items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20"
+                    >{{ result.val }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </a>
+        </li>
+        }
+      </ul>
+    </div>
+  </fieldset>
+</div>
