@@ -4,7 +4,6 @@ import { AboutComponent } from './features/about/about.component'
 import { LoginComponent } from './features/login/login.component'
 import { RegisterComponent } from './features/register/register.component'
 import { AuthGuard } from './guards/auth.guard'
-import { VotingComponent } from './features/voting/voting.component'
 import { CastComponent } from './features/voting/cast/cast.component'
 
 export const appRoutes: Route[] = [

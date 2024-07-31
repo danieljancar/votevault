@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router'
 import { Location } from '@angular/common'
 import { GetVoteOptionService } from '../../../core/stellar/getVoteOption.service'
 import { CastVoteService } from '../../../core/stellar/castVote.service'
+import { TEST_ACCOUNT } from '../../../config/config'
 
 @Component({
   selector: 'app-cast',
@@ -13,9 +14,7 @@ import { CastVoteService } from '../../../core/stellar/castVote.service'
   styleUrl: './cast.component.css',
 })
 export class CastComponent implements OnInit {
-  sourceKeypair = Keypair.fromSecret(
-    'SD45R4RQCOSOSS3VJWQS7JK7KP34YMLVHSGSMIOZYAHK6KZSOJFDIIM7',
-  )
+  sourceKeypair = Keypair.fromSecret(TEST_ACCOUNT)
 
   server = new SorobanRpc.Server('https://soroban-testnet.stellar.org')
 
