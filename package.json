@@ -37,13 +37,14 @@
     "jimp": "^0.22.12",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.5.1",
+    "ngx-cookie-service": "^18.0.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.14.3",
-    "voting_contract": "./packages/voting_contract"
+    "voting_contract": "./packages/voting_contract",
+    "zone.js": "~0.14.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~18.1.0",

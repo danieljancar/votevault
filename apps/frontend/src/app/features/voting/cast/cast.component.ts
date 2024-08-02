@@ -1,10 +1,8 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { Keypair, SorobanRpc } from '@stellar/stellar-sdk'
-import { ActivatedRoute } from '@angular/router'
-import { Location } from '@angular/common'
-import { GetVoteOptionService } from '../../../core/stellar/getVoteOption.service'
 import { CastVoteService } from '../../../core/stellar/castVote.service'
 import { TEST_ACCOUNT } from '../../../config/config'
+import { CookieService } from 'ngx-cookie-service'
 
 @Component({
   selector: 'app-cast',
@@ -17,56 +15,30 @@ export class CastComponent implements OnInit {
   sourceKeypair = Keypair.fromSecret(TEST_ACCOUNT)
 
   server = new SorobanRpc.Server('https://soroban-testnet.stellar.org')
-
-  voteId = ''
   currentOption = ''
-  optionsArr = new Array<string>()
-  isLoading = true
+
+  @Output() castedEvent = new EventEmitter<boolean>()
+
+  @Input({ required: true }) voteId = ''
+  @Input({ required: true }) optionsArr: Array<string> = []
+
+  isLoading = false
 
   hasError = false
   errorMessage = ''
 
   constructor(
-    private route: ActivatedRoute,
-    private location: Location,
-    private getVoteOptionService: GetVoteOptionService,
     private castVoteService: CastVoteService,
+    private ngxCookieService: CookieService,
   ) {}
 
-  async ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.voteId = params['id']
-    })
-    await this.getVoteOptions()
-  }
-
-  async getVoteOptions() {
-    this.isLoading = true
-    const result = await this.getVoteOptionService.getVoteOptions(
-      this.server,
-      this.sourceKeypair,
-      this.voteId,
-    )
-    if (
-      result?.errorMessage === undefined ||
-      result?.hasError === undefined ||
-      result?.optionsArr === undefined ||
-      result?.isLoading === undefined
-    ) {
-      this.isLoading = false
-      this.hasError = true
-      this.errorMessage = 'An unexpected Error occurred'
-      return
-    }
-
-    this.optionsArr = result.optionsArr
-    this.isLoading = result.isLoading
-    this.hasError = result.hasError
-    this.errorMessage = result.errorMessage
+  ngOnInit() {
+    this.isLoading = false
   }
 
   async submitVote() {
     this.isLoading = true
+    this.hasError = false
     const result = await this.castVoteService.castVote(
       this.server,
       this.sourceKeypair,
@@ -74,23 +46,25 @@ export class CastComponent implements OnInit {
       this.currentOption,
     )
 
+    this.isLoading = false
+
     if (
       result?.errorMessage === undefined ||
       result?.hasError === undefined ||
       result?.isLoading === undefined
     ) {
-      this.isLoading = false
       this.hasError = true
       this.errorMessage = 'An unexpected Error occurred'
       return
     }
 
-    this.isLoading = result.isLoading
+    if (!result.hasError) {
+      console.log('no err')
+      const hasCasted = this.ngxCookieService.check(this.voteId)
+      this.castedEvent.emit(hasCasted)
+    }
+
     this.hasError = result.hasError
     this.errorMessage = result.errorMessage
-  }
-
-  goBack() {
-    this.location.back()
   }
 }

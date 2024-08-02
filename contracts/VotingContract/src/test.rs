@@ -31,7 +31,7 @@ fn get_vote() {
         &vec![&env, symbol_short!("OP1"), symbol_short!("OP2")],
         &String::from_str(&env, "Title"),
         &String::from_str(&env, "Desc"),
-        &String::from_str(&env, "0"),
+        &String::from_str(&env, "1"),
         &String::from_str(&env, "0"),
     );
 
@@ -43,7 +43,7 @@ fn get_vote() {
             &env,
             String::from_str(&env, "Title"),
             String::from_str(&env, "Desc"),
-            String::from_str(&env, "0"),
+            String::from_str(&env, "1"),
             String::from_str(&env, "0")
         ]
     )
