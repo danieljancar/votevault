@@ -8,8 +8,8 @@ import { CastComponent } from './cast/cast.component'
 import { ResultsComponent } from './results/results.component'
 import { GetVoteOptionService } from '../../core/stellar/getVoteOption.service'
 import { GetVoteResultsService } from '../../core/stellar/getVoteResults.service'
-import { CookieService } from 'ngx-cookie-service'
 import { ThanksComponent } from './thanks/thanks.component'
+import { CheckUserVotedService } from '../../core/stellar/checkUserVoted.service'
 
 @Component({
   selector: 'app-voting',
@@ -43,7 +43,7 @@ export class VotingComponent implements OnInit {
     private getVoteService: GetVoteService,
     private getVoteOptionService: GetVoteOptionService,
     private getVoteResultsService: GetVoteResultsService,
-    private ngxCookieService: CookieService,
+    private checkUserVotedService: CheckUserVotedService,
   ) {}
 
   async ngOnInit() {
@@ -51,12 +51,11 @@ export class VotingComponent implements OnInit {
       this.voteId = params['id']
     })
 
-    this.hasAlreadyVoted = this.ngxCookieService.check(this.voteId)
-
     if (!this.hasAlreadyVoted) {
       this.today = new Date()
       this.isLoading = true
       await this.getVoteData()
+      await this.checkIfUserHasVoted()
       await this.getVoteOptions()
       await this.getVoteResults()
       this.isLoading = false
@@ -142,6 +141,33 @@ export class VotingComponent implements OnInit {
       this.isLoading = false
       this.hasError = true
       this.errorMessage = result.errorMessage
+    }
+  }
+
+  async checkIfUserHasVoted() {
+    const result = await this.checkUserVotedService.checkIfUserVoted(
+      this.server,
+      this.sourceKeypair,
+      this.voteId,
+      this.sourceKeypair.publicKey(),
+    )
+    if (
+      result?.isLoading === undefined ||
+      result?.hasError === undefined ||
+      result?.hasVoted === undefined
+    ) {
+      this.isLoading = false
+      this.hasError = true
+      this.errorMessage = 'An unexpected Error occurred'
+      return
+    }
+
+    if (result.hasError) {
+      this.isLoading = false
+      this.hasError = true
+      this.errorMessage = result.errorMessage
+    } else {
+      this.hasAlreadyVoted = result.hasVoted
     }
   }
 

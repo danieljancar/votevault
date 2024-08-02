@@ -73,6 +73,36 @@ fn get_vote_options() {
 }
 
 #[test]
+fn check_if_user_voted(){
+    let env = Env::default();
+    env.mock_all_auths();
+
+    let contract_id = env.register_contract(None, VotingContract);
+    let client = VotingContractClient::new(&env, &contract_id);
+
+    let user = <soroban_sdk::Address as Address>::generate(&env);
+
+    client.create_vote(
+        &symbol_short!("ID"),
+        &vec![&env, symbol_short!("OP1"), symbol_short!("OP2")],
+        &String::from_str(&env, "Title"),
+        &String::from_str(&env, "Description"),
+        &String::from_str(&env, "0"),
+        &String::from_str(&env, "0"),
+    );
+
+    let has_voted = client.check_if_user_voted(&symbol_short!("ID"), &user);
+
+    assert_eq!(has_voted, false);
+
+    client.cast(&symbol_short!("ID"), &symbol_short!("OP1"), &user);
+
+    let has_voted = client.check_if_user_voted(&symbol_short!("ID"), &user);
+
+    assert_eq!(has_voted, true);
+}
+
+#[test]
 fn vote() {
     let env = Env::default();
     env.mock_all_auths();
