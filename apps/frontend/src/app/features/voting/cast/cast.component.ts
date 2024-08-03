@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { Keypair, SorobanRpc } from '@stellar/stellar-sdk'
 import { CastVoteService } from '../../../core/stellar/castVote.service'
 import { TEST_ACCOUNT } from '../../../config/config'
-import { CookieService } from 'ngx-cookie-service'
 
 @Component({
   selector: 'app-cast',
@@ -27,10 +26,7 @@ export class CastComponent implements OnInit {
   hasError = false
   errorMessage = ''
 
-  constructor(
-    private castVoteService: CastVoteService,
-    private ngxCookieService: CookieService,
-  ) {}
+  constructor(private castVoteService: CastVoteService) {}
 
   ngOnInit() {
     this.isLoading = false
@@ -59,9 +55,7 @@ export class CastComponent implements OnInit {
     }
 
     if (!result.hasError) {
-      console.log('no err')
-      const hasCasted = this.ngxCookieService.check(this.voteId)
-      this.castedEvent.emit(hasCasted)
+      this.castedEvent.emit(true)
     }
 
     this.hasError = result.hasError

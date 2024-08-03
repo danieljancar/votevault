@@ -102,6 +102,44 @@ stellar contract invoke \
 ["TestTitle","Beschreibung","25072024","26072024"]
 ```
 
+## get_vote_options
+
+<h5>theory</h5>
+
+```
+stellar contract invoke \
+  --id {contract-id} \
+  --source {local-stellar-user} \
+  --network {ßtellar-network} \
+  -- \
+  get_vote_options --vote_id {vote-id}
+```
+
+<h5>result</h5>
+
+```
+['option1', 'option2']
+```
+
+## check_if_user_voted
+
+<h5>theory</h5>
+
+```
+stellar contract invoke \
+  --id {contract-id} \
+  --source {local-stellar-user} \
+  --network {ßtellar-network} \
+  -- \
+  check_if_user_voted --vote_id {vote-id} --voter {voter-public-key}
+```
+
+<h5>result</h5>
+
+```
+true | false
+```
+
 ## cast
 
 <h5>theory</h5>
