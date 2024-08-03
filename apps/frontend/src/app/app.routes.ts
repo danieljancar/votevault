@@ -17,7 +17,6 @@ export const appRoutes: Route[] = [
   {
     path: 'about',
     component: AboutComponent,
-    canActivate: [AuthGuard],
   },
   {
     path: 'login',
