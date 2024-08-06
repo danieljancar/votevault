@@ -1,6 +1,10 @@
 import * as process from 'process'
 
 const API_URL = process.env['API_URL'] || 'http://localhost:3000'
-const CONTRACT_ID = process.env['CONTRACT_ID'] || ''
-const TEST_ACCOUNT = process.env['TEST_ACCOUNT'] || ''
+const CONTRACT_ID =
+  process.env['CONTRACT_ID'] ||
+  'CBBES5DBUZDWJOWD4M6YGNNMP6HFMLCIMNVFFF77DJN6GWWU6DWF5QNF'
+const TEST_ACCOUNT =
+  process.env['TEST_ACCOUNT'] ||
+  'SD45R4RQCOSOSS3VJWQS7JK7KP34YMLVHSGSMIOZYAHK6KZSOJFDIIM7'
 export { API_URL, CONTRACT_ID, TEST_ACCOUNT }

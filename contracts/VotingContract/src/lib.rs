@@ -9,7 +9,7 @@ pub struct VotingContract;
 impl VotingContract {
     pub fn create_vote(
         env: Env,
-        vote_id: Symbol,
+        vote_id: String,
         vote_options: Vec<Symbol>,
         title: String,
         description: String
@@ -35,24 +35,24 @@ impl VotingContract {
         env.storage().instance().set(&vote_id, &options_map);
     }
 
-    pub fn get_vote(env: Env, vote_id: Symbol) -> Vec<String> {
+    pub fn get_vote(env: Env, vote_id: String) -> Vec<String> {
         let data_map: Map<String, String> = env.storage().persistent().get(&vote_id).unwrap();
         let title = data_map.get(String::from_str(&env, "title")).unwrap();
         let description = data_map.get(String::from_str(&env, "description")).unwrap();
         vec![&env, title, description]
     }
 
-    pub fn get_vote_options(env: Env, vote_id: Symbol) -> Vec<Symbol> {
+    pub fn get_vote_options(env: Env, vote_id: String) -> Vec<Symbol> {
         let options_map: Map<Symbol, u32> = env.storage().instance().get(&vote_id).unwrap();
         options_map.keys()
     }
 
-    pub fn check_if_user_voted(env: Env, vote_id: Symbol, voter: Address) -> bool {
+    pub fn check_if_user_voted(env: Env, vote_id: String, voter: Address) -> bool {
         let has_casted_key = (vote_id.clone(), voter.clone());
         env.storage().persistent().has(&has_casted_key)
     }
 
-    pub fn cast(env: Env, vote_id: Symbol, option: Symbol, voter: Address) {
+    pub fn cast(env: Env, vote_id: String, option: Symbol, voter: Address) {
         let mut options_map: Map<Symbol, u32> = env.storage().instance().get(&vote_id).unwrap();
         let has_casted_key = (vote_id.clone(), voter.clone());
         let has_casted: bool = env.storage().persistent().has(&has_casted_key.clone());
@@ -67,7 +67,7 @@ impl VotingContract {
         env.storage().instance().set(&vote_id, &options_map);
     }
 
-    pub fn get_vote_result(env: Env, vote_id: Symbol) -> Map<Symbol, u32> {
+    pub fn get_vote_result(env: Env, vote_id: String) -> Map<Symbol, u32> {
         env.storage().instance().get(&vote_id).unwrap()
     }
 }
