@@ -3,21 +3,19 @@ import { HomeComponent } from './features/home/home.component'
 import { AboutComponent } from './features/about/about.component'
 import { LoginComponent } from './features/login/login.component'
 import { RegisterComponent } from './features/register/register.component'
-import { AuthGuard } from './guards/auth.guard'
-import { CastComponent } from './features/voting/cast/cast.component'
-import { ResultsComponent } from './features/voting/results/results.component'
 import { VotingComponent } from './features/voting/voting.component'
+import { CreateComponent } from './features/voting/create/create.component'
 
 export const appRoutes: Route[] = [
   {
     path: '',
     component: HomeComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
   },
   {
     path: 'about',
     component: AboutComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
   },
   {
     path: 'login',
@@ -29,6 +27,7 @@ export const appRoutes: Route[] = [
   },
   {
     path: 'voting',
+    // canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -36,13 +35,13 @@ export const appRoutes: Route[] = [
         pathMatch: 'full',
       },
       {
+        path: 'create',
+        component: CreateComponent,
+      },
+      {
         path: ':id',
         component: VotingComponent,
       },
     ],
-  },
-  {
-    path: 'about',
-    redirectTo: '',
   },
 ]
