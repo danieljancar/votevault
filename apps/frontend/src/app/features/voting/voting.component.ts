@@ -33,10 +33,6 @@ export class VotingComponent implements OnInit {
   hasError = false
   errorMessage = ''
 
-  today!: Date
-  startDate!: Date
-  endDate!: Date
-
   constructor(
     private route: ActivatedRoute,
     private location: Location,
@@ -52,7 +48,6 @@ export class VotingComponent implements OnInit {
     })
 
     if (!this.hasAlreadyVoted) {
-      this.today = new Date()
       this.isLoading = true
       await this.getVoteData()
       await this.checkIfUserHasVoted()
@@ -86,10 +81,6 @@ export class VotingComponent implements OnInit {
       this.hasError = true
       this.errorMessage = result.errorMessage
     }
-
-    this.startDate = this.parseDate(this.dataArr[2])
-    this.endDate = this.parseDate(this.dataArr[3])
-    this.isBeforeStartDate()
   }
 
   async getVoteOptions() {
@@ -169,30 +160,6 @@ export class VotingComponent implements OnInit {
     } else {
       this.hasAlreadyVoted = result.hasVoted
     }
-  }
-
-  parseDate(dateStr: string): Date {
-    const day = parseInt(dateStr.substring(0, 2), 10)
-    const month = parseInt(dateStr.substring(2, 4), 10) - 1
-    const year = parseInt(dateStr.substring(4, 8), 10)
-    return new Date(year, month, day)
-  }
-
-  isBeforeStartDate() {
-    if (this.today < this.startDate) {
-      this.isLoading = false
-      this.hasError = true
-      this.errorMessage =
-        'There was an Error getting this vote ID, please try again.'
-    }
-  }
-
-  isBetweenDates(): boolean {
-    return this.today >= this.startDate && this.today < this.endDate
-  }
-
-  isAfterEndDate(): boolean {
-    return this.today >= this.endDate
   }
 
   receiveCastedEvent(event: boolean) {

@@ -40,11 +40,10 @@ export class CreateVoteService {
         .addOperation(
           contract.call(
             'create_vote',
-            nativeToScVal(voteId, { type: 'symbol' }),
-            nativeToScVal(options, { type: 'vec' }),
+            nativeToScVal(voteId, { type: 'string' }),
+            nativeToScVal(options, { type: 'symbol' }),
             nativeToScVal(title, { type: 'string' }),
             nativeToScVal(description, { type: 'string' }),
-            nativeToScVal(sourceKeypair.publicKey(), { type: 'address' }),
           ),
         )
         .setTimeout(30)
