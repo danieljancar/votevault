@@ -6,16 +6,16 @@ import { CommonModule, NgOptimizedImage } from '@angular/common'
   standalone: true,
   imports: [CommonModule, NgOptimizedImage],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.scss',
+  styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent {
   isMenuOpen = false
 
-  toggleMenu() {
+  toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen
   }
 
-  closeMenu() {
+  closeMenu(): void {
     this.isMenuOpen = false
   }
 }
