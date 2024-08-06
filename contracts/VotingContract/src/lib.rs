@@ -47,6 +47,11 @@ impl VotingContract {
         options_map.keys()
     }
 
+    pub fn check_if_user_voted(env: Env, vote_id: Symbol, voter: Address) -> bool {
+        let has_casted_key = (vote_id.clone(), voter.clone());
+        env.storage().persistent().has(&has_casted_key)
+    }
+
     pub fn cast(env: Env, vote_id: Symbol, option: Symbol, voter: Address) {
         let mut options_map: Map<Symbol, u32> = env.storage().instance().get(&vote_id).unwrap();
         let has_casted_key = (vote_id.clone(), voter.clone());
