@@ -12,20 +12,20 @@ impl VotingContract {
         vote_id: Symbol,
         vote_options: Vec<Symbol>,
         title: String,
-        description: String,
-        start_date: String,
-        end_date: String,
+        description: String
     ) {
         let mut options_map = Map::new(&env);
         let mut data_map = Map::new(&env);
 
         data_map.set(String::from_str(&env, "title"), title);
         data_map.set(String::from_str(&env, "description"), description);
-        data_map.set(String::from_str(&env, "start_date"), start_date);
-        data_map.set(String::from_str(&env, "end_date"), end_date);
 
         env.storage().persistent().set(&vote_id, &data_map);
         env.storage().instance().set(&vote_id, &options_map);
+
+        if vote_options.len() > 5 {
+            panic!("Vote options must be less than 5");
+        }
 
         for option in vote_options.iter() {
             options_map.set(option, 0u32);
@@ -39,19 +39,12 @@ impl VotingContract {
         let data_map: Map<String, String> = env.storage().persistent().get(&vote_id).unwrap();
         let title = data_map.get(String::from_str(&env, "title")).unwrap();
         let description = data_map.get(String::from_str(&env, "description")).unwrap();
-        let start_date = data_map.get(String::from_str(&env, "start_date")).unwrap();
-        let end_date = data_map.get(String::from_str(&env, "end_date")).unwrap();
-        vec![&env, title, description, start_date, end_date]
+        vec![&env, title, description]
     }
 
     pub fn get_vote_options(env: Env, vote_id: Symbol) -> Vec<Symbol> {
         let options_map: Map<Symbol, u32> = env.storage().instance().get(&vote_id).unwrap();
         options_map.keys()
-    }
-
-    pub fn check_if_user_voted(env: Env, vote_id: Symbol, voter: Address) -> bool {
-        let has_casted_key = (vote_id.clone(), voter.clone());
-        env.storage().persistent().has(&has_casted_key)
     }
 
     pub fn cast(env: Env, vote_id: Symbol, option: Symbol, voter: Address) {
