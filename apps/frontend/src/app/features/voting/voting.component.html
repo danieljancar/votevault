@@ -23,19 +23,13 @@
       </svg>
       <span class="sr-only">Loading...</span>
     </div>
-    } @if (!isLoading && !hasError && !hasAlreadyVoted){ @if (isBetweenDates()){
+    } @if (!isLoading && !hasError){
     <app-cast
       [voteId]="voteId"
       [optionsArr]="optionsArr"
       (castedEvent)="receiveCastedEvent($event)"
     />
-    } @if (isAfterEndDate()){
-    <app-results
-      [voteId]="voteId"
-      [resultArr]="resultArr"
-      [dataArr]="dataArr"
-    />
-    } } @if (hasError){
+    } @if (hasError){
     <div class="rounded-md bg-red-50 p-4">
       <div class="flex">
         <div class="flex-shrink-0">

@@ -14,7 +14,11 @@
 } @else if (successMessage) {
 <app-success
   [title]="'Vote Created'"
-  [message]="'Your vote has been created successfully.'"
+  [message]="
+    'Your vote has been created successfully using the voteID ' +
+    this.voteForm.value.id +
+    '.'
+  "
   [action]="'Go to Home'"
   [route]="'/'"
   aria-live="assertive"

@@ -38,7 +38,7 @@ export class CheckUserVotedService {
         .addOperation(
           contract.call(
             'check_if_user_voted',
-            nativeToScVal(voteId, { type: 'symbol' }),
+            nativeToScVal(voteId, { type: 'string' }),
             nativeToScVal(voterId, { type: 'address' }),
           ),
         )

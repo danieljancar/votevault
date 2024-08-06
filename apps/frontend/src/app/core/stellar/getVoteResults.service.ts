@@ -37,7 +37,7 @@ export class GetVoteResultsService {
         .addOperation(
           contract.call(
             'get_vote_result',
-            nativeToScVal(voteId, { type: 'symbol' }),
+            nativeToScVal(voteId, { type: 'string' }),
           ),
         )
         .setTimeout(30)
