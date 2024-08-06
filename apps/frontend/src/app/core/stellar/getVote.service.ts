@@ -35,7 +35,7 @@ export class GetVoteService {
         networkPassphrase: Networks.TESTNET,
       })
         .addOperation(
-          contract.call('get_vote', nativeToScVal(voteId, { type: 'symbol' })),
+          contract.call('get_vote', nativeToScVal(voteId, { type: 'string' })),
         )
         .setTimeout(30)
         .build()
