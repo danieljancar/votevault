@@ -14,6 +14,7 @@ import { CreateVoteService } from '../../../core/stellar/createVote.service'
 import { LoadingComponent } from '../../../shared/loading/loading.component'
 import { ErrorComponent } from '../../../shared/error/error.component'
 import { SuccessComponent } from '../../../shared/success/success.component'
+import { v4 as uuidv4 } from 'uuid'
 
 @Component({
   selector: 'app-create',
@@ -43,6 +44,7 @@ export class CreateComponent implements OnInit {
     private createVoteService: CreateVoteService,
   ) {
     this.voteForm = this.fb.group({
+      id: ['', Validators.required],
       title: ['', Validators.required],
       description: ['', Validators.required],
       options: this.fb.array(
@@ -57,6 +59,7 @@ export class CreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.voteForm.controls['id'].setValue(this.createVoteId())
     this.addOption()
     this.addOption()
   }
@@ -79,6 +82,10 @@ export class CreateComponent implements OnInit {
     }
   }
 
+  createVoteId(): string {
+    return uuidv4()
+  }
+
   async onSubmit(): Promise<void> {
     this.isLoading = true
     this.hasError = false
@@ -86,12 +93,18 @@ export class CreateComponent implements OnInit {
     this.successMessage = ''
 
     try {
+      // Extract options as an array of strings
+      const options = this.voteForm.value.options.map(
+        (opt: { option: string }) => opt.option,
+      )
+
       const result = await this.createVoteService.createVote(
         this.server,
         this.sourceKeypair,
+        this.voteForm.value.id,
         this.voteForm.value.title,
         this.voteForm.value.description,
-        this.voteForm.value.options,
+        options,
       )
 
       if (!result || result.hasError) {
@@ -115,7 +128,7 @@ export class CreateComponent implements OnInit {
 
   errorAction = (): void => {
     this.hasError = false
-    this.voteForm.reset()
+    this.voteForm.controls['id'].setValue(this.createVoteId())
     this.errorMessage = ''
     this.successMessage = ''
   }

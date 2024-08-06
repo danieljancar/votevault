@@ -22,6 +22,7 @@ export class CreateVoteService {
   async createVote(
     server: SorobanRpc.Server,
     sourceKeypair: Keypair,
+    voteId: string,
     title: string,
     description: string,
     options: string[],
@@ -38,10 +39,11 @@ export class CreateVoteService {
       })
         .addOperation(
           contract.call(
-            'create',
+            'create_vote',
+            nativeToScVal(voteId, { type: 'symbol' }),
+            nativeToScVal(options, { type: 'vec' }),
             nativeToScVal(title, { type: 'string' }),
             nativeToScVal(description, { type: 'string' }),
-            nativeToScVal(options, { type: 'array' }),
             nativeToScVal(sourceKeypair.publicKey(), { type: 'address' }),
           ),
         )
@@ -72,6 +74,7 @@ export class CreateVoteService {
       }
     } catch (err: any) {
       if (err?.code === undefined) {
+        console.error('Unexpected error:', err)
         this.errorMessage = err.message
         this.isLoading = false
         this.hasError = true
