@@ -1,0 +1,170 @@
+@if (isLoading) {
+<app-loading aria-live="polite" aria-label="Loading..."></app-loading>
+} @else { @if (hasError) {
+<app-error
+  [title]="'Error occurred'"
+  [message]="
+    'An error occurred while creating the vote. Please try again later.'
+  "
+  [action]="'Try again'"
+  [callback]="errorAction"
+  aria-live="assertive"
+  aria-label="Error occurred"
+/>
+} @else if (successMessage) {
+<app-success
+  [title]="'Vote Created'"
+  [message]="'Your vote has been created successfully.'"
+  [action]="'Go to Home'"
+  [route]="'/'"
+  aria-live="assertive"
+  aria-label="Vote created successfully"
+/>
+} @else {
+<form
+  (ngSubmit)="onSubmit()"
+  [formGroup]="voteForm"
+  class="mx-auto max-w-7xl"
+  aria-labelledby="vote-form-title"
+>
+  <div class="space-y-12 mx-1 sm:mx-1.5 md:mx-3 lg:mx-5 xl:mx-0">
+    <div class="border-b border-gray-900 /10 pb-5">
+      <h2
+        id="vote-form-title"
+        class="text-base font-semibold leading-7 text-gray-900"
+      >
+        New Vote
+      </h2>
+      <p class="mt-1 text-sm leading-6 text-gray-600">
+        Create a new vote on the blockchain, and let the community decide.
+      </p>
+    </div>
+
+    <div class="space-y-2">
+      <div class="space-y-2">
+        <label
+          class="block text-sm font-medium leading-5 text-gray-700"
+          for="title"
+        >
+          Vote ID*
+        </label>
+        <input
+          class="block w-full rounded-none rounded-l-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 bg-gray-100"
+          formControlName="id"
+          id="id"
+          aria-required="true"
+          aria-label="ID"
+          required
+          type="text"
+          readonly
+        />
+      </div>
+
+      <div class="space-y-2">
+        <label
+          class="block text-sm font-medium leading-5 text-gray-700"
+          for="title"
+        >
+          Title*
+        </label>
+        <input
+          class="block w-full rounded-none rounded-l-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+          formControlName="title"
+          id="title"
+          aria-required="true"
+          aria-label="Title"
+          required
+          type="text"
+        />
+      </div>
+
+      <div class="space-y-2">
+        <label
+          class="block text-sm font-medium leading-5 text-gray-700"
+          for="description"
+        >
+          Description*
+        </label>
+        <textarea
+          class="block w-full rounded-none rounded-l-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+          formControlName="description"
+          id="description"
+          aria-required="true"
+          aria-label="Description"
+          required
+          rows="3"
+        ></textarea>
+      </div>
+
+      <div formArrayName="options">
+        <label class="text-sm font-semibold leading-5 text-gray-700">
+          Options*
+        </label>
+        @for (option of options.controls; track $index) {
+        <div [formGroupName]="$index" class="space-y-2">
+          <div class="mt-2 flex rounded-md shadow-sm">
+            <input
+              class="block w-full rounded-none rounded-l-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              formControlName="option"
+              id="option-{{ $index }}"
+              aria-required="true"
+              required
+              type="text"
+            />
+            @if (options.controls.length > 2 && option !== options.controls[0]
+            && option !== options.controls[1]) {
+            <button
+              (click)="removeOption($index)"
+              class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-red-500 ring-1 ring-inset ring-red-300 hover:bg-red-100 focus:outline-none focus:shadow-outline-red focus:bg-red-100 active:bg-red-100"
+              type="button"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="size-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                />
+              </svg>
+            </button>
+            }
+          </div>
+        </div>
+        }
+      </div>
+
+      @if (options.controls.length < 5) {
+      <button
+        (click)="addOption()"
+        aria-label="Add Option"
+        class="mt-2 inline-flex items-center px-3 py-1 text-sm font-medium leading-5 text-green-700 transition duration-150 ease-in-out bg-white border border-green-300 rounded-md shadow-sm hover:bg-green-50 focus:outline-none focus:shadow-outline-green focus:bg-green-100 active:bg-green-100"
+        type="button"
+      >
+        Add Option
+      </button>
+      }
+    </div>
+
+    <div class="flex justify-end">
+      <button
+        [disabled]="voteForm.invalid"
+        [ngClass]="{
+          'bg-gray-700 hover:bg-gray-700': voteForm.invalid,
+          'bg-indigo-600 hover:bg-indigo-700': voteForm.valid
+        }"
+        aria-label="Create Vote"
+        class="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white border border-transparent rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        type="submit"
+      >
+        Create Vote
+      </button>
+    </div>
+  </div>
+</form>
+} }
