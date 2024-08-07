@@ -5,6 +5,8 @@ import { LoginComponent } from './features/login/login.component'
 import { RegisterComponent } from './features/register/register.component'
 import { VotingComponent } from './features/voting/voting.component'
 import { CreateComponent } from './features/voting/create/create.component'
+import { ResultsComponent } from './features/voting/results/results.component'
+import { UnsavedChangesGuard } from './guards/unsaved-changes.guard' // Adjust path as needed
 
 export const appRoutes: Route[] = [
   {
@@ -37,11 +39,21 @@ export const appRoutes: Route[] = [
       {
         path: 'create',
         component: CreateComponent,
+        canDeactivate: [UnsavedChangesGuard],
+      },
+      {
+        path: 'results/:id',
+        component: ResultsComponent,
       },
       {
         path: ':id',
         component: VotingComponent,
+        canDeactivate: [UnsavedChangesGuard],
       },
     ],
+  },
+  {
+    path: '**',
+    redirectTo: '/',
   },
 ]

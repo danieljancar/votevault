@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
 import { RouterModule } from '@angular/router'
-import { NavbarComponent } from './shared/navbar/navbar.component'
+import { NavbarComponent } from './shared/navigation/navbar/navbar.component'
 
 @Component({
   standalone: true,
