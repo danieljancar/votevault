@@ -7,7 +7,6 @@ import {
   Validators,
 } from '@angular/forms'
 import { NgClass } from '@angular/common'
-import { TEST_ACCOUNT } from '../../../config/config'
 import { Keypair } from '@stellar/typescript-wallet-sdk'
 import { SorobanRpc } from '@stellar/stellar-sdk'
 import { CreateVoteService } from '../../../core/stellar/createVote.service'
@@ -15,6 +14,7 @@ import { LoadingComponent } from '../../../shared/loading/loading.component'
 import { ErrorComponent } from '../../../shared/error/error.component'
 import { SuccessComponent } from '../../../shared/success/success.component'
 import { v4 as uuidv4 } from 'uuid'
+import { AuthService } from '../../../core/auth.service'
 
 @Component({
   selector: 'app-create',
@@ -36,13 +36,16 @@ export class CreateComponent implements OnInit {
   protected errorMessage = ''
   protected successMessage = ''
 
-  private sourceKeypair = Keypair.fromSecret(TEST_ACCOUNT)
+  private sourceKeypair: Keypair
   private server = new SorobanRpc.Server('https://soroban-testnet.stellar.org')
 
   constructor(
     private fb: FormBuilder,
     private createVoteService: CreateVoteService,
+    private authService: AuthService,
   ) {
+    this.sourceKeypair = Keypair.fromSecret(this.authService.getPrivateKey())
+
     this.voteForm = this.fb.group({
       id: ['', Validators.required],
       title: ['', Validators.required],

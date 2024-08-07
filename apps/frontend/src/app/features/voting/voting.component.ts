@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { GetVoteService } from '../../core/stellar/getVote.service'
 import { Keypair, SorobanRpc } from '@stellar/stellar-sdk'
-import { TEST_ACCOUNT } from '../../config/config'
 import { Location } from '@angular/common'
 import { CastComponent } from './cast/cast.component'
 import { ResultsComponent } from './results/results.component'
@@ -10,6 +9,7 @@ import { GetVoteOptionService } from '../../core/stellar/getVoteOption.service'
 import { GetVoteResultsService } from '../../core/stellar/getVoteResults.service'
 import { ThanksComponent } from './thanks/thanks.component'
 import { CheckUserVotedService } from '../../core/stellar/checkUserVoted.service'
+import { AuthService } from '../../core/auth.service'
 
 @Component({
   selector: 'app-voting',
@@ -19,7 +19,7 @@ import { CheckUserVotedService } from '../../core/stellar/checkUserVoted.service
   styleUrl: './voting.component.css',
 })
 export class VotingComponent implements OnInit {
-  sourceKeypair = Keypair.fromSecret(TEST_ACCOUNT)
+  sourceKeypair: Keypair
   server = new SorobanRpc.Server('https://soroban-testnet.stellar.org')
 
   hasAlreadyVoted = false
@@ -40,7 +40,10 @@ export class VotingComponent implements OnInit {
     private getVoteOptionService: GetVoteOptionService,
     private getVoteResultsService: GetVoteResultsService,
     private checkUserVotedService: CheckUserVotedService,
-  ) {}
+    private authService: AuthService,
+  ) {
+    this.sourceKeypair = Keypair.fromSecret(this.authService.getPrivateKey())
+  }
 
   async ngOnInit() {
     this.route.params.subscribe(params => {

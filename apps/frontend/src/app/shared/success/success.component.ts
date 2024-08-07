@@ -15,6 +15,7 @@ export class SuccessComponent {
   @Input() action = 'OK'
   @Input() route = '/'
   @Input() callback: (() => void) | null = null
+  @Input() showHomeButton = true
   @Output() actionClicked = new EventEmitter<void>()
 
   constructor(private router: Router) {}

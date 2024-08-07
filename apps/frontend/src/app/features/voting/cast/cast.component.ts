@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { Keypair, SorobanRpc } from '@stellar/stellar-sdk'
 import { CastVoteService } from '../../../core/stellar/castVote.service'
-import { TEST_ACCOUNT } from '../../../config/config'
+import { AuthService } from '../../../core/auth.service'
 
 @Component({
   selector: 'app-cast',
@@ -11,7 +11,7 @@ import { TEST_ACCOUNT } from '../../../config/config'
   styleUrl: './cast.component.css',
 })
 export class CastComponent implements OnInit {
-  sourceKeypair = Keypair.fromSecret(TEST_ACCOUNT)
+  sourceKeypair: Keypair
 
   server = new SorobanRpc.Server('https://soroban-testnet.stellar.org')
   currentOption = ''
@@ -26,7 +26,12 @@ export class CastComponent implements OnInit {
   hasError = false
   errorMessage = ''
 
-  constructor(private castVoteService: CastVoteService) {}
+  constructor(
+    private castVoteService: CastVoteService,
+    private authService: AuthService,
+  ) {
+    this.sourceKeypair = Keypair.fromSecret(this.authService.getPrivateKey())
+  }
 
   ngOnInit() {
     this.isLoading = false
