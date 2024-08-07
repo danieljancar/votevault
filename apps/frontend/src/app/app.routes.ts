@@ -5,17 +5,18 @@ import { LoginComponent } from './features/login/login.component'
 import { RegisterComponent } from './features/register/register.component'
 import { VotingComponent } from './features/voting/voting.component'
 import { CreateComponent } from './features/voting/create/create.component'
+import { AuthGuard } from './guards/auth.guard'
 
 export const appRoutes: Route[] = [
   {
     path: '',
     component: HomeComponent,
-    // canActivate: [AuthGuard],
+    //canActivate: [AuthGuard],
   },
   {
     path: 'about',
     component: AboutComponent,
-    // canActivate: [AuthGuard],
+    //canActivate: [AuthGuard],
   },
   {
     path: 'login',
@@ -27,7 +28,7 @@ export const appRoutes: Route[] = [
   },
   {
     path: 'voting',
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',

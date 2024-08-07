@@ -7,6 +7,7 @@
     <h1 class="font-bold">{{ title }}</h1>
     <p class="text-sm">
       {{ message }}
+      @if (showHomeButton){
       <button
         (click)="onActionClick()"
         class="hover:underline font-medium cursor-pointer text-green-800 hover:text-green-600 focus:outline-none focus:underline focus:text-green-600"
@@ -15,6 +16,7 @@
       >
         {{ action }}
       </button>
+      }
     </p>
   </div>
 </div>
