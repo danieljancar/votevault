@@ -11,8 +11,8 @@
 [![Angular](https://img.shields.io/badge/Angular-DD0031?logo=angular)](https://angular.io/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 
-[![Linter](https://github.com/danieljancar/votevault/actions/workflows/lint.yml/badge.svg)](https://github.com/yourusername/votevault/actions/workflows/lint.yml)
-[![Formatting](https://github.com/danieljancar/votevault/actions/workflows/format.yml/badge.svg)](https://github.com/yourusername/votevault/actions/workflows/format.yml)
+[![Linter](https://github.com/danieljancar/votevault/actions/workflows/lint.yml/badge.svg)](https://github.com/danieljancar/votevault/actions/workflows/lint.yml)
+[![Formatting](https://github.com/danieljancar/votevault/actions/workflows/format.yml/badge.svg)](https://github.com/danieljancar/votevault/actions/workflows/format.yml)
 
 [![MIT License](https://img.shields.io/badge/License-MIT-blue)](LICENSE)
 
@@ -20,14 +20,15 @@
 
 ---
 
+This project is part of the [Stellar Smart Contract Challenge](https://dev.to/challenges/stellar) on [Dev.to](https://dev.to/). We built a blockchain-based voting platform using Stellar Smart Contracts. VoteVault is a secure and transparent voting platform that allows users to create and participate in voting processes. Find out more about our journey building VoteVault in the [Dev.to post]() or visit the [VoteVault website]().
+
 # Table of Contents
 
 - [Features](#features)
-- [User Stories](#user-stories)
-  - [Authentication](#authentication)
-  - [Voting](#voting)
-  - [User Experience](#user-experience)
-- [Known Issues](#known-issues)
+- [Product Evaluation](#product-evaluation)
+  - [User Stories](#user-stories)
+  - [Use Cases](#use-cases)
+  - [Known Issues](#known-issues)
 - [Contributing](#contributing)
   - [Developer Guidelines and Repository Setup](#developer-guidelines-and-repository-setup)
   - [Development Previews](#development-previews)
@@ -45,28 +46,40 @@ With VoteVault, you can create and participate in secure and transparent voting 
 - **Secure and Transparent**: VoteVault tries to implement secure and transparent voting processes, ensuring the integrity of the voting system.
 - **Verifiable Results**: All votes are stored on the Stellar blockchain, allowing for verification of the voting results.
 
-# User Stories
+# Product Evaluation
+
+## User Stories
 
 We wrote down some user stories to guide the development of VoteVault. Here are some of the most important ones:
 
-## Authentication
+### Authentication
 
 - As a user, I want to be able to register a new Stellar account, so I can participate in the voting process.
 - As a user, I want to be able to login to my account, so I can access the voting platform.
 
-## Voting
+### Voting
 
 - As a user, I want to be able to create a new vote, so I can start a voting process.
 - As a user, I want to be able to cast my opinion on a vote, so I can participate in the voting process.
 - As a user, I want to be able to see the results of a vote, so I can verify the voting process.
 - As a user, I want to be able to copy the vote link, so I can share it with others.
 
-## User Experience
+### User Experience
 
 - As a user, I want to get feedback on my actions, so I know what is happening.
 - As a user relying on accessibility features, I want to be able to use the platform, so I can participate in the voting process.
 
-# Known Issues
+## Use Cases
+
+VoteVault integrating Stellar Smart Contracts could be used in various scenarios, such as:
+
+- **Company Elections**: Companies could use VoteVault to conduct internal elections, such as electing a new board member.
+- **Community Decisions**: Communities could use VoteVault to make decisions on community projects or initiatives.
+- **Controversial Opinions**: People could use VoteVault to express their opinions on controversial topics.
+
+Based on this evaluation, the product sets a base source code for enhancing the platform with more features. Such as using VoteVault "core" as a base for a more complex voting system, like government elections with each citizen being registered once (which would kill the anonymity of the votes - _sigh_) and more. This provides a real-world use case for the Stellar Smart Contracts and the VoteVault platform.
+
+## Known Issues
 
 As this project was developed in a short amount of time, there are some known issues that we would like to call out and address in the future:
 

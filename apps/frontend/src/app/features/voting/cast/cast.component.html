@@ -10,7 +10,7 @@
 } @if (isLoading) {
 <app-loading aria-live="polite" aria-label="Loading..."></app-loading>
 } @if (!isLoading && !hasError) {
-<div class="mx-auto max-w-7xl" aria-labelledby="cast-form-title">
+<div class="mx-auto max-w-7xl">
   <form
     (ngSubmit)="submitVote()"
     [formGroup]="voteForm"
@@ -69,5 +69,11 @@
       </div>
     </div>
   </form>
+  <div class="mt-3 text-center text-sm text-gray-500">
+    <p>
+      <strong>Note:</strong> Your cast vote will be created on the blockchain
+      and can't be modified or deleted.
+    </p>
+  </div>
 </div>
 }
