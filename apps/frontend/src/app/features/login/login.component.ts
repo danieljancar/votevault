@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { ChangeDetectorRef, Component } from '@angular/core'
 import { CommonModule, NgOptimizedImage } from '@angular/common'
 import {
   FormBuilder,
@@ -8,7 +8,6 @@ import {
   Validators,
 } from '@angular/forms'
 import { AuthService } from '../../core/auth.service'
-import { Router } from '@angular/router'
 import { ErrorComponent } from '../../shared/feedback/error/error.component'
 import { LoadingComponent } from '../../shared/feedback/loading/loading.component'
 import { SuccessComponent } from '../../shared/feedback/success/success.component'
@@ -37,7 +36,7 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
-    private router: Router,
+    private cd: ChangeDetectorRef,
   ) {
     this.loginForm = this.fb.group({
       privateKey: ['', Validators.required],
@@ -49,10 +48,14 @@ export class LoginComponent {
     const couldLogin = await this.authService.loginUsingPrivateKey(privateKey)
 
     if (couldLogin) {
-      this.successMessage = 'Login successful. You can now vote.'
+      this.successMessage = 'Successfully logged in!'
+      this.hasError = false
+      this.cd.detectChanges()
     } else {
       this.hasError = true
-      this.errorMessage = 'Failed to login. Please check your private key.'
+      this.errorMessage =
+        'Failed to login. Please check your private key or register a new account.'
+      this.loginForm.reset()
     }
   }
 

@@ -21,10 +21,18 @@ export class AuthService {
   }
 
   generateKeypair(): Keypair {
-    const keypair = Keypair.random()
-    this.cookieService.set('privateKey', keypair.secret())
-    this.cookieService.set('publicKey', keypair.publicKey())
-    return keypair
+    return Keypair.random() // This creates the wallet on the Stellar network
+  }
+
+  createAccount(publicKey: string, secretKey: string): boolean {
+    try {
+      this.cookieService.set('privateKey', secretKey)
+      this.cookieService.set('publicKey', publicKey)
+      return true
+    } catch (error) {
+      console.error('Failed to store keys in cookies:', error)
+      return false
+    }
   }
 
   getKeypair(): Keypair | null {
@@ -49,7 +57,7 @@ export class AuthService {
       const data = await firstValueFrom(response)
       return data.successful
     } catch (error) {
-      console.error('Error funding account!')
+      console.error('Error funding account:', error)
       return false
     }
   }
@@ -89,21 +97,6 @@ export class AuthService {
     } catch (error) {
       return false
     }
-  }
-
-  getPrivateKey(): string | null {
-    const keypair = this.getKeypair()
-    return keypair ? keypair.secret() : null
-  }
-
-  getPublicKey(): string | null {
-    const keypair = this.getKeypair()
-    return keypair ? keypair.publicKey() : null
-  }
-
-  redirectToLoginUrl(): boolean {
-    this.router.navigate(['/login'])
-    return false
   }
 
   logout(): void {

@@ -1,6 +1,12 @@
 import { Component } from '@angular/core'
 import { CommonModule, NgOptimizedImage } from '@angular/common'
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms'
 import { AuthService } from '../../core/auth.service'
 import { Router } from '@angular/router'
 import { ErrorComponent } from '../../shared/feedback/error/error.component'
@@ -13,31 +19,46 @@ import { SuccessComponent } from '../../shared/feedback/success/success.componen
   imports: [
     CommonModule,
     FormsModule,
-    NgOptimizedImage,
     ReactiveFormsModule,
     ErrorComponent,
     LoadingComponent,
     SuccessComponent,
+    NgOptimizedImage,
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent {
+  protected registerForm: FormGroup
   protected publicKey = ''
   protected secretKey = ''
+  protected hasDownloaded = false
 
   protected isLoading = false
   protected hasError = false
   protected errorMessage = ''
   protected successMessage = ''
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private fb: FormBuilder,
+  ) {
+    this.registerForm = this.fb.group({
+      publicKey: [{ value: '', disabled: true }, Validators.required],
+      privateKey: [{ value: '', disabled: true }, Validators.required],
+    })
+  }
 
   async generateKeypair() {
     const keypair = this.authService.generateKeypair()
     if (keypair) {
       this.publicKey = keypair.publicKey()
       this.secretKey = keypair.secret()
+      this.registerForm.patchValue({
+        publicKey: this.publicKey,
+        privateKey: this.secretKey,
+      })
     }
   }
 
@@ -55,25 +76,42 @@ export class RegisterComponent {
     this.isLoading = false
   }
 
+  async onSubmit() {
+    if (this.registerForm.valid) {
+      this.isLoading = true
+      const accountCreated = this.authService.createAccount(
+        this.publicKey,
+        this.secretKey,
+      )
+
+      if (accountCreated) {
+        await this.fundAccount()
+      } else {
+        this.hasError = true
+        this.errorMessage = 'Account creation failed'
+      }
+
+      this.isLoading = false
+    }
+  }
+
   downloadSecretKey() {
-    const blob = new Blob([this.secretKey], { type: 'text/plain' })
+    const keyData = `Public Key: ${this.publicKey}\nSecret Key: ${this.secretKey}`
+    const blob = new Blob([keyData], { type: 'text/plain;charset=utf-8' })
     const url = window.URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = 'secretKey.txt'
-    document.body.appendChild(a)
+    a.download = 'keypair.txt'
     a.click()
-    document.body.removeChild(a)
     window.URL.revokeObjectURL(url)
+    this.hasDownloaded = true
   }
 
   continueToLogin() {
     this.router.navigate(['/login'])
   }
 
-  errorAction = (): void => {
+  errorAction() {
     this.hasError = false
-    this.errorMessage = ''
-    this.successMessage = ''
   }
 }

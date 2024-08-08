@@ -1,17 +1,15 @@
 <div align="center">
     <img src="assets/brand/vv-logo-m.webp" width="250" height="250" alt="VoteVault Logo">
     <h1>VoteVault</h1>
-    <p>An advanced voting platform integrating Stellar smart contracts with NestJS and Angular, ensuring secure, transparent, and verifiable voting processes.</p>
+    <p>A open-source, blockchain-based voting platform built with Stellar Smart Contracts.</p>
 </div>
 
 <div align="center">
 
 [![Stellar](https://img.shields.io/badge/Stellar-07B5E5?logo=stellar)](https://stellar.org)
 [![Nx Workspace](https://img.shields.io/badge/Nx-143055?logo=nx)](https://nx.dev/)
-[![NestJS](https://img.shields.io/badge/NestJS-E0234E?logo=nestjs)](https://nestjs.com/)
 [![Angular](https://img.shields.io/badge/Angular-DD0031?logo=angular)](https://angular.io/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![MongoDB](https://img.shields.io/badge/MongoDB-47A248?logo=mongodb&logoColor=white)](https://www.mongodb.com/)
 
 [![Linter](https://github.com/danieljancar/votevault/actions/workflows/lint.yml/badge.svg)](https://github.com/yourusername/votevault/actions/workflows/lint.yml)
 [![Formatting](https://github.com/danieljancar/votevault/actions/workflows/format.yml/badge.svg)](https://github.com/yourusername/votevault/actions/workflows/format.yml)
@@ -25,7 +23,11 @@
 # Table of Contents
 
 - [Features](#features)
-- [Usage](#usage)
+- [User Stories](#user-stories)
+  - [Authentication](#authentication)
+  - [Voting](#voting)
+  - [User Experience](#user-experience)
+- [Known Issues](#known-issues)
 - [Contributing](#contributing)
   - [Developer Guidelines and Repository Setup](#developer-guidelines-and-repository-setup)
   - [Development Previews](#development-previews)
@@ -36,17 +38,45 @@
 
 # Features
 
-VoteVault is designed to revolutionize voting processes with its cutting-edge features:
+With VoteVault, you can create and participate in secure and transparent voting processes. Here are some of the features of VoteVault:
 
 - **Stellar Smart Contracts**: Ensure secure and verifiable voting through Stellar smart contracts.
-- **NestJS Backend**: Benefit from a robust and scalable backend powered by NestJS.
-- **Angular Frontend**: Enjoy a sleek, responsive user interface designed using Angular, optimized for both desktop and mobile devices.
+- **Angular Frontend**: Enjoy a sleek, responsive user interface designed using Angular, optimized for both desktop and mobile devices, developed with Tailwind CSS.
 - **Secure and Transparent**: VoteVault tries to implement secure and transparent voting processes, ensuring the integrity of the voting system.
-- **Verifiable Results**: All votes are stored on the Stellar blockchain, allowing for easy verification of the voting results.
+- **Verifiable Results**: All votes are stored on the Stellar blockchain, allowing for verification of the voting results.
+
+# User Stories
+
+We wrote down some user stories to guide the development of VoteVault. Here are some of the most important ones:
+
+## Authentication
+
+- As a user, I want to be able to register a new Stellar account, so I can participate in the voting process.
+- As a user, I want to be able to login to my account, so I can access the voting platform.
+
+## Voting
+
+- As a user, I want to be able to create a new vote, so I can start a voting process.
+- As a user, I want to be able to cast my opinion on a vote, so I can participate in the voting process.
+- As a user, I want to be able to see the results of a vote, so I can verify the voting process.
+- As a user, I want to be able to copy the vote link, so I can share it with others.
+
+## User Experience
+
+- As a user, I want to get feedback on my actions, so I know what is happening.
+- As a user relying on accessibility features, I want to be able to use the platform, so I can participate in the voting process.
+
+# Known Issues
+
+As this project was developed in a short amount of time, there are some known issues that we would like to call out and address in the future:
+
+- **Accessibility**: The platform is not fully accessible yet. We tried to implement some accessibility features, but there is still some work to do.
+- **Error Handling**: The error handling is not perfect yet, but already pretty good.
+- **Protect from Sybil Attacks**: We need to implement a way to protect the platform better from Sybil and other attacks.
 
 # Contributing
 
-Contributions are appreciated and needed to make VoteVault the best voting platform out there. If you want to contribute, please read the [Contributing Guidelines](.github/CONTRIBUTING.md), [Code of Conduct](.github/CODE_OF_CONDUCT.md), and [Developer Certificate of Origin](.github/DCO.md) first.
+Contributions are appreciate!. If you want to contribute, please read and comply with the [Contributing Guidelines](.github/CONTRIBUTING.md), [Code of Conduct](.github/CODE_OF_CONDUCT.md), and [Developer Certificate of Origin](.github/DCO.md) first.
 
 ## Developer Guidelines and Repository Setup
 
@@ -57,6 +87,8 @@ We have several documents for developers to help them get started with the proje
 - [Best Practices](docs/BEST_PRACTICES.md)
 - [Formatting](docs/FORMATTING.md)
 - [Dev Actions](docs/DEV_ACTIONS.md)
+
+We very much suggest you read these documents before contributing to the project, especially the [Contributing Guidelines](.github/CONTRIBUTING.md) and [Workflow](docs/WORKFLOW.md).
 
 # License
 
@@ -69,8 +101,8 @@ This project is licensed under the [MIT License](LICENSE). By contributing to Vo
 Thanks to the following projects and their contributors for making VoteVault possible:
 
 - [Stellar](https://stellar.org)
-- [NestJS](https://nestjs.com/)
 - [Angular](https://angular.io/)
+- [Tailwind CSS](https://tailwindcss.com/)
 
 This project was done as part of the [Stellar Smart Contract Challenge](https://dev.to/challenges/stellar) on [Dev.to](https://dev.to/).
 
@@ -80,4 +112,4 @@ Thanks to the following people for their contributions:
 
 [![Contributors](https://contrib.rocks/image?repo=danieljancar/votevault)](https://github.com/danieljancar/votevault/graphs/contributors)
 
-Released under [MIT License](LICENSE) by [@danieljancar](https://github.com/danieljancar).
+Released under [MIT License](LICENSE) by [@danieljancar](https://github.com/danieljancar) and [@cyrilkurmann](https://github.com/Gr1ll)

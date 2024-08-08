@@ -11,7 +11,7 @@ import { AuthService } from '../../../core/auth.service'
 })
 export class NavbarComponent implements OnInit {
   isMenuOpen = false
-  isLoggedIn = false
+  isLoggedIn = true
 
   constructor(
     private authService: AuthService,
@@ -24,7 +24,6 @@ export class NavbarComponent implements OnInit {
 
   async updateLoginStatus(): Promise<void> {
     this.isLoggedIn = await this.authService.isLoggedIn()
-    console.log('Is logged in:', this.isLoggedIn)
     this.cd.detectChanges()
   }
 
@@ -40,5 +39,6 @@ export class NavbarComponent implements OnInit {
     this.closeMenu()
     this.authService.logout()
     await this.updateLoginStatus()
+    this.cd.detectChanges()
   }
 }
