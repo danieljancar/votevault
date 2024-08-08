@@ -30,15 +30,15 @@ import { VoteConfigService } from '../../../core/vote-transaction.service'
   styleUrls: ['./cast.component.css'],
 })
 export class CastComponent implements OnChanges {
-  @Input() public voteId: string = ''
+  @Input() public voteId = ''
   @Input() public optionsArr: Array<string> = []
   @Input() public dataArr: Array<string> = []
   @Output() public castedEvent = new EventEmitter<boolean>()
 
   public voteForm: FormGroup
-  public isLoading: boolean = false
-  public hasError: boolean = false
-  public errorMessage: string = ''
+  public isLoading = false
+  public hasError = false
+  public errorMessage = ''
   private baseVoteConfig!: BaseVoteConfig
 
   constructor(
