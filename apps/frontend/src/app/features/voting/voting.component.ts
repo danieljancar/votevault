@@ -1,18 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { GetVoteService } from '../../core/stellar/getVote.service'
-import { Keypair, SorobanRpc } from '@stellar/stellar-sdk'
-import { TEST_ACCOUNT } from '../../config/config'
-import { Location } from '@angular/common'
-import { CastComponent } from './cast/cast.component'
-import { ResultsComponent } from './results/results.component'
 import { GetVoteOptionService } from '../../core/stellar/getVoteOption.service'
 import { GetVoteResultsService } from '../../core/stellar/getVoteResults.service'
-import { ThanksComponent } from './thanks/thanks.component'
 import { CheckUserVotedService } from '../../core/stellar/checkUserVoted.service'
+import { CastComponent } from './cast/cast.component'
+import { ResultsComponent } from './results/results.component'
+import { ThanksComponent } from './thanks/thanks.component'
 import { LoadingComponent } from '../../shared/feedback/loading/loading.component'
 import { ErrorComponent } from '../../shared/feedback/error/error.component'
 import { Subscription } from 'rxjs'
+import { SorobanRpc } from '@stellar/stellar-sdk'
+import { Keypair } from '@stellar/typescript-wallet-sdk'
+import { VoteConfigService } from '../../core/vote-transaction.service'
 
 @Component({
   selector: 'app-voting',
@@ -36,24 +36,37 @@ export class VotingComponent implements OnInit, OnDestroy {
   public resultArr: Array<{ key: string; val: string }> = []
   public hasError = false
   public errorMessage = ''
-  private sourceKeypair = Keypair.fromSecret(TEST_ACCOUNT)
-  private server = new SorobanRpc.Server('https://soroban-testnet.stellar.org')
+  private sourceKeypair!: Keypair
+  private server!: SorobanRpc.Server
   private routeParamsSubscription!: Subscription
 
   constructor(
     private route: ActivatedRoute,
-    private location: Location,
     private getVoteService: GetVoteService,
     private getVoteOptionService: GetVoteOptionService,
     private getVoteResultsService: GetVoteResultsService,
     private checkUserVotedService: CheckUserVotedService,
+    private voteConfigService: VoteConfigService,
   ) {}
 
   public async ngOnInit(): Promise<void> {
-    this.routeParamsSubscription = this.route.params.subscribe(async params => {
-      this.voteId = params['id']
-      await this.initializeData()
-    })
+    try {
+      const config = await this.voteConfigService.getBaseVoteConfig()
+      this.server = config.server
+      this.sourceKeypair = config.sourceKeypair
+
+      this.routeParamsSubscription = this.route.params.subscribe(
+        async params => {
+          this.voteId = params['id']
+          await this.initializeData()
+        },
+      )
+    } catch (error) {
+      console.error('Error initializing voting component:', error)
+      this.hasError = true
+      this.errorMessage = 'Failed to initialize voting component.'
+      this.isLoading = false
+    }
   }
 
   public ngOnDestroy(): void {
@@ -65,11 +78,6 @@ export class VotingComponent implements OnInit, OnDestroy {
 
   public receiveCastedEvent(event: boolean): void {
     this.hasAlreadyVoted = event
-  }
-
-  public errorAction(): void {
-    this.hasError = false
-    this.errorMessage = ''
   }
 
   private async initializeData(): Promise<void> {

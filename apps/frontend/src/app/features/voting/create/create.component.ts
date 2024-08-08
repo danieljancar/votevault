@@ -12,10 +12,10 @@ import { LoadingComponent } from '../../../shared/feedback/loading/loading.compo
 import { ErrorComponent } from '../../../shared/feedback/error/error.component'
 import { SuccessComponent } from '../../../shared/feedback/success/success.component'
 import { v4 as uuidv4 } from 'uuid'
-import { getBaseVoteConfig } from '../../../utils/vote-transactions.util'
 import { BaseVoteConfig } from '../../../types/vote.types'
 import { ConfirmReloadService } from '../../../shared/services/confirm-reload/confirm-reload.service'
 import { CanComponentDeactivate } from '../../../types/can-deactivate.interfaces'
+import { VoteConfigService } from '../../../core/vote-transaction.service'
 
 @Component({
   selector: 'app-create',
@@ -38,13 +38,13 @@ export class CreateComponent
   public hasError = false
   public errorMessage = ''
   public successMessage = ''
-
-  private baseVoteConfig: BaseVoteConfig = getBaseVoteConfig()
+  private baseVoteConfig!: BaseVoteConfig
 
   constructor(
     private fb: FormBuilder,
     private createVoteService: CreateVoteService,
     private confirmReloadService: ConfirmReloadService,
+    private voteConfigService: VoteConfigService,
   ) {
     this.voteForm = this.fb.group({
       id: ['', Validators.required],
@@ -61,12 +61,21 @@ export class CreateComponent
     return this.voteForm.get('options') as FormArray
   }
 
-  public ngOnInit(): void {
+  public async ngOnInit(): Promise<void> {
     this.voteForm.controls['id'].setValue(this.createVoteId())
     this.addOption()
     this.addOption()
 
     window.addEventListener('beforeunload', this.beforeUnloadHandler)
+
+    try {
+      this.baseVoteConfig = await this.voteConfigService.getBaseVoteConfig()
+    } catch (error) {
+      console.error('Error fetching vote configuration:', error)
+      this.hasError = true
+      this.errorMessage = 'Failed to load vote configuration.'
+      this.isLoading = false
+    }
   }
 
   public ngOnDestroy(): void {

@@ -15,12 +15,12 @@ import {
 } from '@angular/forms'
 import { CastVoteService } from '../../../core/stellar/castVote.service'
 import { BaseVoteConfig } from '../../../types/vote.types'
-import { getBaseVoteConfig } from '../../../utils/vote-transactions.util'
 import { ConfirmReloadService } from '../../../shared/services/confirm-reload/confirm-reload.service'
 import { LoadingComponent } from '../../../shared/feedback/loading/loading.component'
 import { ErrorComponent } from '../../../shared/feedback/error/error.component'
 import { NgClass } from '@angular/common'
 import { GetVoteOptionService } from '../../../core/stellar/getVoteOption.service'
+import { VoteConfigService } from '../../../core/vote-transaction.service'
 
 @Component({
   selector: 'app-cast',
@@ -39,7 +39,7 @@ export class CastComponent implements OnChanges {
   public isLoading: boolean = false
   public hasError: boolean = false
   public errorMessage: string = ''
-  private baseVoteConfig: BaseVoteConfig = getBaseVoteConfig()
+  private baseVoteConfig!: BaseVoteConfig
 
   constructor(
     private fb: FormBuilder,
@@ -47,13 +47,14 @@ export class CastComponent implements OnChanges {
     private router: Router,
     private confirmReloadService: ConfirmReloadService,
     private getVoteOptionService: GetVoteOptionService,
+    private voteConfigService: VoteConfigService,
   ) {
     this.voteForm = this.fb.group({
       selectedOption: ['', Validators.required],
     })
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  async ngOnChanges(changes: SimpleChanges): Promise<void> {
     if (changes['dataArr'] && changes['dataArr'].currentValue) {
       this.dataArr = this.removeDuplicates(changes['dataArr'].currentValue)
     }
@@ -62,37 +63,42 @@ export class CastComponent implements OnChanges {
         changes['optionsArr'].currentValue,
       )
     }
+
+    try {
+      this.baseVoteConfig = await this.voteConfigService.getBaseVoteConfig()
+    } catch (error) {
+      console.error('Error fetching vote configuration:', error)
+      this.hasError = true
+      this.errorMessage = 'Failed to load vote configuration.'
+    }
   }
 
   public async submitVote(): Promise<void> {
     this.isLoading = true
     this.hasError = false
-    const result = await this.castVoteService.castVote(
-      this.baseVoteConfig.server,
-      this.baseVoteConfig.sourceKeypair,
-      this.voteId,
-      this.voteForm.value.selectedOption,
-    )
 
-    this.isLoading = false
+    try {
+      const result = await this.castVoteService.castVote(
+        this.baseVoteConfig.server,
+        this.baseVoteConfig.sourceKeypair,
+        this.voteId,
+        this.voteForm.value.selectedOption,
+      )
 
-    if (
-      result?.errorMessage === undefined ||
-      result?.hasError === undefined ||
-      result?.isLoading === undefined
-    ) {
+      if (result?.hasError) {
+        this.hasError = true
+        this.errorMessage = result.errorMessage
+      } else {
+        this.castedEvent.emit(true)
+        this.voteForm.markAsPristine()
+      }
+    } catch (error) {
       this.hasError = true
-      this.errorMessage = 'An unexpected Error occurred'
-      return
+      this.errorMessage = 'An unexpected error occurred.'
+      console.error('Unexpected error:', error)
+    } finally {
+      this.isLoading = false
     }
-
-    if (!result.hasError) {
-      this.castedEvent.emit(true)
-      this.voteForm.markAsPristine()
-    }
-
-    this.hasError = result.hasError
-    this.errorMessage = result.errorMessage
   }
 
   public viewResults(): void {

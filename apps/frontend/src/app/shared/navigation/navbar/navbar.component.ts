@@ -1,5 +1,6 @@
-import { Component } from '@angular/core'
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core'
 import { CommonModule, NgOptimizedImage } from '@angular/common'
+import { AuthService } from '../../../core/auth.service'
 
 @Component({
   selector: 'app-navbar',
@@ -8,8 +9,24 @@ import { CommonModule, NgOptimizedImage } from '@angular/common'
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
   isMenuOpen = false
+  isLoggedIn = false
+
+  constructor(
+    private authService: AuthService,
+    private cd: ChangeDetectorRef,
+  ) {}
+
+  async ngOnInit(): Promise<void> {
+    await this.updateLoginStatus()
+  }
+
+  async updateLoginStatus(): Promise<void> {
+    this.isLoggedIn = await this.authService.isLoggedIn()
+    console.log('Is logged in:', this.isLoggedIn)
+    this.cd.detectChanges()
+  }
 
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen
@@ -17,5 +34,11 @@ export class NavbarComponent {
 
   closeMenu(): void {
     this.isMenuOpen = false
+  }
+
+  async logout(): Promise<void> {
+    this.closeMenu()
+    this.authService.logout()
+    await this.updateLoginStatus()
   }
 }

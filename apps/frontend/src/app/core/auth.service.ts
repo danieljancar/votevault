@@ -3,15 +3,41 @@ import { HttpClient } from '@angular/common/http'
 import { Keypair } from '@stellar/typescript-wallet-sdk'
 import { firstValueFrom, Observable } from 'rxjs'
 import { CookieService } from 'ngx-cookie-service'
+import { Horizon } from '@stellar/stellar-sdk'
+import { Router } from '@angular/router'
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpClient, private cookieService: CookieService) {}
+  private server = new Horizon.Server('https://horizon-testnet.stellar.org')
 
-  getKeypair(): Keypair {
-    return Keypair.random()
+  constructor(
+    private http: HttpClient,
+    private cookieService: CookieService,
+    private router: Router,
+  ) {
+    this.initializeKeypair()
+  }
+
+  generateKeypair(): Keypair {
+    const keypair = Keypair.random()
+    this.cookieService.set('privateKey', keypair.secret())
+    this.cookieService.set('publicKey', keypair.publicKey())
+    return keypair
+  }
+
+  getKeypair(): Keypair | null {
+    const privateKey = this.cookieService.get('privateKey')
+    if (privateKey) {
+      try {
+        return Keypair.fromSecret(privateKey)
+      } catch (error) {
+        console.error('Failed to retrieve keypair from cookie:', error)
+        return null
+      }
+    }
+    return null
   }
 
   async fundAccount(publicKey: string): Promise<boolean> {
@@ -28,36 +54,85 @@ export class AuthService {
     }
   }
 
-  loginUsingPrivateKey(privateKey: string): boolean {
+  async loginUsingPrivateKey(privateKey: string): Promise<boolean> {
     try {
       const keyPair = Keypair.fromSecret(privateKey)
-      if (keyPair) {
+      const publicKey = keyPair.publicKey()
+
+      try {
+        await this.server.accounts().accountId(publicKey).call()
         this.cookieService.set('privateKey', privateKey)
+        this.cookieService.set('publicKey', publicKey)
         return true
-      } else {
+      } catch (error) {
+        console.error('Account does not exist or cannot be retrieved:', error)
         return false
       }
+    } catch (error) {
+      console.error('Failed to login:', error)
+      return false
+    }
+  }
+
+  async isLoggedIn(): Promise<boolean> {
+    const keypair = this.getKeypair()
+    if (keypair) {
+      return await this.isAccountExist(keypair.publicKey())
+    }
+    return false
+  }
+
+  async isAccountExist(publicKey: string): Promise<boolean> {
+    try {
+      await this.server.accounts().accountId(publicKey).call()
+      return true
     } catch (error) {
       return false
     }
   }
 
-  isLoggedIn(): boolean {
-    const isSet = this.cookieService.check('privateKey')
-    if (isSet) {
-      const privateKey = this.cookieService.get('privateKey')
-      try {
-        Keypair.fromSecret(privateKey)
-        return true
-      } catch (error) {
-        return false
-      }
-    } else {
-      return false
-    }
+  getPrivateKey(): string | null {
+    const keypair = this.getKeypair()
+    return keypair ? keypair.secret() : null
   }
 
-  getPrivateKey(): string {
-    return this.cookieService.get('privateKey')
+  getPublicKey(): string | null {
+    const keypair = this.getKeypair()
+    return keypair ? keypair.publicKey() : null
+  }
+
+  redirectToLoginUrl(): boolean {
+    this.router.navigate(['/login'])
+    return false
+  }
+
+  logout(): void {
+    this.cookieService.delete('privateKey')
+    this.cookieService.delete('publicKey')
+    this.router.navigate(['/login'])
+  }
+
+  private initializeKeypair(): void {
+    const privateKey = this.cookieService.get('privateKey')
+    if (privateKey) {
+      try {
+        const keypair = Keypair.fromSecret(privateKey)
+        this.isAccountExist(keypair.publicKey())
+          .then(exists => {
+            if (!exists) {
+              this.cookieService.delete('privateKey')
+              this.cookieService.delete('publicKey')
+            }
+          })
+          .catch(error =>
+            console.error(
+              'Error checking account existence during initialization:',
+              error,
+            ),
+          )
+      } catch (error) {
+        console.error('Failed to initialize keypair from private key:', error)
+      }
+    }
   }
 }

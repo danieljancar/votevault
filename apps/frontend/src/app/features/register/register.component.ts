@@ -2,10 +2,10 @@ import { Component } from '@angular/core'
 import { CommonModule, NgOptimizedImage } from '@angular/common'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { AuthService } from '../../core/auth.service'
-import { ErrorComponent } from '../../shared/error/error.component'
-import { LoadingComponent } from '../../shared/loading/loading.component'
-import { SuccessComponent } from '../../shared/success/success.component'
 import { Router } from '@angular/router'
+import { ErrorComponent } from '../../shared/feedback/error/error.component'
+import { LoadingComponent } from '../../shared/feedback/loading/loading.component'
+import { SuccessComponent } from '../../shared/feedback/success/success.component'
 
 @Component({
   selector: 'app-register',
@@ -34,32 +34,25 @@ export class RegisterComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   async generateKeypair() {
-    const keypair = this.authService.getKeypair()
-    this.publicKey = keypair.publicKey()
-    this.secretKey = keypair.secret()
+    const keypair = this.authService.generateKeypair()
+    if (keypair) {
+      this.publicKey = keypair.publicKey()
+      this.secretKey = keypair.secret()
+    }
   }
 
-  fundAccount() {
+  async fundAccount() {
     this.isLoading = true
-    this.authService
-      .fundAccount(this.publicKey)
-      .then(
-        value => {
-          if (value) {
-            this.successMessage = 'Account funded successfully'
-          } else {
-            this.hasError = true
-            this.errorMessage = 'Failed to fund account'
-          }
-        },
-        () => {
-          this.hasError = true
-          this.errorMessage = 'Failed to fund account'
-        },
-      )
-      .finally(() => {
-        this.isLoading = false
-      })
+    const success = await this.authService.fundAccount(this.publicKey)
+
+    if (success) {
+      this.successMessage = 'Account funded successfully'
+    } else {
+      this.hasError = true
+      this.errorMessage = 'Failed to fund account'
+    }
+
+    this.isLoading = false
   }
 
   downloadSecretKey() {

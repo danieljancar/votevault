@@ -5,23 +5,23 @@ import { AuthService } from '../core/auth.service'
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard implements CanActivate {
+export class NotAuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
   async canActivate(): Promise<boolean> {
     try {
       const isLoggedIn = await this.authService.isLoggedIn()
-      if (isLoggedIn) {
-        console.log('User is authenticated')
+      if (!isLoggedIn) {
+        console.log('User is not authenticated')
         return true
       } else {
-        this.router.navigate(['/login'])
-        console.log('User is not authenticated')
+        console.log('User is authenticated')
+        this.router.navigate(['/'])
         return false
       }
     } catch (error) {
       console.error('Error checking authentication status', error)
-      this.router.navigate(['/login'])
+      this.router.navigate(['/'])
       return false
     }
   }
