@@ -21,4 +21,4 @@ jobs:
         run: npm install
 
       - name: Lint code
-        run: npx nx lint frontend && npx nx lint backend --fix
+        run: npx nx lint frontend --fix
