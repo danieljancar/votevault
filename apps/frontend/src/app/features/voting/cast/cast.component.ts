@@ -55,7 +55,7 @@ export class CastComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['dataArr'] && changes['dataArr'].currentValue) {
-      console.log('dataArr in CastComponent:', changes['dataArr'].currentValue)
+      this.dataArr = changes['dataArr'].currentValue
     }
     if (changes['optionsArr'] && changes['optionsArr'].currentValue) {
       this.optionsArr = changes['optionsArr'].currentValue

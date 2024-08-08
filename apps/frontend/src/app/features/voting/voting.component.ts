@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnDestroy, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { GetVoteService } from '../../core/stellar/getVote.service'
 import { Keypair, SorobanRpc } from '@stellar/stellar-sdk'
@@ -12,6 +12,7 @@ import { ThanksComponent } from './thanks/thanks.component'
 import { CheckUserVotedService } from '../../core/stellar/checkUserVoted.service'
 import { LoadingComponent } from '../../shared/feedback/loading/loading.component'
 import { ErrorComponent } from '../../shared/feedback/error/error.component'
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'app-voting',
@@ -26,7 +27,7 @@ import { ErrorComponent } from '../../shared/feedback/error/error.component'
   templateUrl: './voting.component.html',
   styleUrls: ['./voting.component.css'],
 })
-export class VotingComponent implements OnInit {
+export class VotingComponent implements OnInit, OnDestroy {
   public hasAlreadyVoted = false
   public voteId = ''
   public isLoading = true
@@ -35,10 +36,9 @@ export class VotingComponent implements OnInit {
   public resultArr: Array<{ key: string; val: string }> = []
   public hasError = false
   public errorMessage = ''
-  protected voteTitle = ''
-  protected voteDescription = ''
   private sourceKeypair = Keypair.fromSecret(TEST_ACCOUNT)
   private server = new SorobanRpc.Server('https://soroban-testnet.stellar.org')
+  private routeParamsSubscription!: Subscription
 
   constructor(
     private route: ActivatedRoute,
@@ -50,10 +50,17 @@ export class VotingComponent implements OnInit {
   ) {}
 
   public async ngOnInit(): Promise<void> {
-    this.route.params.subscribe(async params => {
+    this.routeParamsSubscription = this.route.params.subscribe(async params => {
       this.voteId = params['id']
       await this.initializeData()
     })
+  }
+
+  public ngOnDestroy(): void {
+    if (this.routeParamsSubscription) {
+      this.routeParamsSubscription.unsubscribe()
+    }
+    this.resetState()
   }
 
   public receiveCastedEvent(event: boolean): void {
@@ -144,5 +151,16 @@ export class VotingComponent implements OnInit {
     if (result) {
       this.hasAlreadyVoted = result.hasVoted
     }
+  }
+
+  private resetState(): void {
+    this.hasAlreadyVoted = false
+    this.voteId = ''
+    this.isLoading = true
+    this.dataArr = []
+    this.optionsArr = []
+    this.resultArr = []
+    this.hasError = false
+    this.errorMessage = ''
   }
 }

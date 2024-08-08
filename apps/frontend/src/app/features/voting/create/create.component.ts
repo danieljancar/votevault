@@ -112,8 +112,8 @@ export class CreateComponent
         }
       } else {
         this.successMessage = 'Vote created successfully!'
-        this.voteForm.markAsPristine() // Mark the form as pristine
-        this.voteForm.controls['id'].setValue(this.createVoteId()) // Set new ID
+        this.voteForm.markAsPristine()
+        this.voteForm.controls['id'].setValue(this.createVoteId())
       }
     } catch (error) {
       this.hasError = true

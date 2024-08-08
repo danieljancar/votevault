@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core'
 })
 export class ConfirmReloadService {
   public confirmReload(
-    message: string = 'You have unsaved changes. Are you sure you want to leave this page?',
+    message = 'You have unsaved changes. Are you sure you want to leave this page?',
   ): boolean {
     return confirm(message)
   }
