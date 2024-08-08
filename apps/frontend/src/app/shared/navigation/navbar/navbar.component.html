@@ -51,6 +51,7 @@
         >About</a
       >
     </div>
+    @if (!isLoggedIn) {
     <div class="hidden lg:flex lg:flex-1 lg:justify-end">
       <a
         class="text-sm font-semibold leading-6 text-gray-900 focus:ring-2 focus:ring-gray-500"
@@ -59,6 +60,16 @@
         Log in <span aria-hidden="true">&rarr;</span>
       </a>
     </div>
+    } @else {
+    <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+      <button
+        (click)="logout()"
+        class="text-sm font-semibold leading-6 text-gray-900 focus:ring-2 focus:ring-gray-500"
+      >
+        Log out <span aria-hidden="true">&rarr;</span>
+      </button>
+    </div>
+    }
   </nav>
 
   <div *ngIf="isMenuOpen" aria-modal="true" class="lg:hidden" role="dialog">
@@ -67,7 +78,7 @@
       class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10"
     >
       <div class="flex items-center justify-between">
-        <a class="-m-1.5 p-1.5" href="/">
+        <a class="-m-1.5 p-1.5" href="/apps/frontend/public">
           <span class="sr-only">VoteVault</span>
           <img
             alt="VoteVault logo"
@@ -106,7 +117,7 @@
             <a
               (click)="closeMenu()"
               class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 focus:ring-2 focus:ring-gray-500"
-              href="/"
+              href="/apps/frontend/public"
             >
               Home
             </a>
@@ -118,15 +129,26 @@
               About
             </a>
           </div>
+          @if (!isLoggedIn) {
           <div class="py-6">
             <a
               (click)="closeMenu()"
-              class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 focus:ring-2 focus:ring-gray-500"
+              class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 focus:ring-2 focus:ring-gray-500"
               href="/login"
             >
               Log in
             </a>
           </div>
+          } @else {
+          <div class="py-6">
+            <button
+              (click)="logout()"
+              class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 focus:ring-2 focus:ring-gray-500"
+            >
+              Log out
+            </button>
+          </div>
+          }
         </div>
       </div>
     </div>

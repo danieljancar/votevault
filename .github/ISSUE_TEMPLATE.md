@@ -3,7 +3,7 @@
 ### Package
 
 - [ ] `frontend`
-- [ ] `backend`
+- [ ] `contracts`
 - [ ] `architecture`
 - [ ] `documentation`
 - [ ] `Other`

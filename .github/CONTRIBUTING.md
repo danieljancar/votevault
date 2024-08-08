@@ -15,21 +15,21 @@ Every commit message should be structured as follows:
 
 1. **Type**: This describes the nature of the change. Common types include:
 
-   - `feat` (new feature)
-   - `fix` (bug fix)
-   - `docs` (changes in documentation)
-   - `style` (formatting, missing semi colons, etc; no code change)
-   - `refactor` (refactoring production code)
-   - `test` (adding tests, refactoring tests; no production code change)
-   - `chore` (updating build tasks, package manager configs, etc; no production code change)
+- `feat` (new feature)
+- `fix` (bug fix)
+- `docs` (changes in documentation)
+- `style` (formatting, missing semi colons, etc; no code change)
+- `refactor` (refactoring production code)
+- `test` (adding tests, refactoring tests; no production code change)
+- `chore` (updating build tasks, package manager configs, etc; no production code change)
 
 2. **Scope** (optional): This refers to the part of the codebase affected by the change:
 
-   - `frontend`
-   - `backend`
-   - `architecture`
-   - `documentation`
-   - `Other`
+- `frontend`
+- `contracts`
+- `architecture`
+- `documentation`
+- `Other`
 
 3. **Subject**: A brief description of the change, in the imperative mood.
 

@@ -1,69 +1,121 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
-import { Keypair, SorobanRpc } from '@stellar/stellar-sdk'
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from '@angular/core'
+import { Router } from '@angular/router'
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms'
 import { CastVoteService } from '../../../core/stellar/castVote.service'
-import { AuthService } from '../../../core/auth.service'
+import { BaseVoteConfig } from '../../../types/vote.types'
+import { ConfirmReloadService } from '../../../shared/services/confirm-reload/confirm-reload.service'
+import { LoadingComponent } from '../../../shared/feedback/loading/loading.component'
+import { ErrorComponent } from '../../../shared/feedback/error/error.component'
+import { NgClass } from '@angular/common'
+import { GetVoteOptionService } from '../../../core/stellar/getVoteOption.service'
+import { VoteConfigService } from '../../../core/vote-transaction.service'
 
 @Component({
   selector: 'app-cast',
   standalone: true,
-  imports: [],
+  imports: [LoadingComponent, ErrorComponent, NgClass, ReactiveFormsModule],
   templateUrl: './cast.component.html',
-  styleUrl: './cast.component.css',
+  styleUrls: ['./cast.component.css'],
 })
-export class CastComponent implements OnInit {
-  sourceKeypair: Keypair
+export class CastComponent implements OnChanges {
+  @Input() public voteId = ''
+  @Input() public optionsArr: Array<string> = []
+  @Input() public dataArr: Array<string> = []
+  @Output() public castedEvent = new EventEmitter<boolean>()
 
-  server = new SorobanRpc.Server('https://soroban-testnet.stellar.org')
-  currentOption = ''
-
-  @Output() castedEvent = new EventEmitter<boolean>()
-
-  @Input({ required: true }) voteId = ''
-  @Input({ required: true }) optionsArr: Array<string> = []
-
-  isLoading = false
-
-  hasError = false
-  errorMessage = ''
+  public voteForm: FormGroup
+  public isLoading = false
+  public hasError = false
+  public errorMessage = ''
+  private baseVoteConfig!: BaseVoteConfig
 
   constructor(
+    private fb: FormBuilder,
     private castVoteService: CastVoteService,
-    private authService: AuthService,
+    private router: Router,
+    private confirmReloadService: ConfirmReloadService,
+    private getVoteOptionService: GetVoteOptionService,
+    private voteConfigService: VoteConfigService,
   ) {
-    this.sourceKeypair = Keypair.fromSecret(this.authService.getPrivateKey())
+    this.voteForm = this.fb.group({
+      selectedOption: ['', Validators.required],
+    })
   }
 
-  ngOnInit() {
-    this.isLoading = false
+  async ngOnChanges(changes: SimpleChanges): Promise<void> {
+    if (changes['dataArr'] && changes['dataArr'].currentValue) {
+      this.dataArr = this.removeDuplicates(changes['dataArr'].currentValue)
+    }
+    if (changes['optionsArr'] && changes['optionsArr'].currentValue) {
+      this.optionsArr = this.removeDuplicates(
+        changes['optionsArr'].currentValue,
+      )
+    }
+
+    try {
+      this.baseVoteConfig = await this.voteConfigService.getBaseVoteConfig()
+    } catch (error) {
+      console.error('Error fetching vote configuration:', error)
+      this.hasError = true
+      this.errorMessage = 'Failed to load vote configuration.'
+    }
   }
 
-  async submitVote() {
+  public async submitVote(): Promise<void> {
     this.isLoading = true
     this.hasError = false
-    const result = await this.castVoteService.castVote(
-      this.server,
-      this.sourceKeypair,
-      this.voteId,
-      this.currentOption,
-    )
 
-    this.isLoading = false
+    try {
+      const result = await this.castVoteService.castVote(
+        this.baseVoteConfig.server,
+        this.baseVoteConfig.sourceKeypair,
+        this.voteId,
+        this.voteForm.value.selectedOption,
+      )
 
-    if (
-      result?.errorMessage === undefined ||
-      result?.hasError === undefined ||
-      result?.isLoading === undefined
-    ) {
+      if (result?.hasError) {
+        this.hasError = true
+        this.errorMessage = result.errorMessage
+      } else {
+        this.castedEvent.emit(true)
+        this.voteForm.markAsPristine()
+      }
+    } catch (error) {
       this.hasError = true
-      this.errorMessage = 'An unexpected Error occurred'
-      return
+      this.errorMessage = 'An unexpected error occurred.'
+      console.error('Unexpected error:', error)
+    } finally {
+      this.isLoading = false
     }
+  }
 
-    if (!result.hasError) {
-      this.castedEvent.emit(true)
+  public viewResults(): void {
+    if (this.voteForm.dirty) {
+      if (!this.confirmReloadService.confirmReload()) {
+        return
+      }
     }
+    this.router.navigate(['/voting/results', this.voteId])
+  }
 
-    this.hasError = result.hasError
-    this.errorMessage = result.errorMessage
+  public errorAction(): void {
+    this.hasError = false
+    this.errorMessage = ''
+  }
+
+  private removeDuplicates(arr: Array<string>): Array<string> {
+    return Array.from(new Set(arr))
   }
 }

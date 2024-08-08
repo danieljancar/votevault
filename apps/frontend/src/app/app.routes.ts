@@ -6,25 +6,28 @@ import { RegisterComponent } from './features/register/register.component'
 import { VotingComponent } from './features/voting/voting.component'
 import { CreateComponent } from './features/voting/create/create.component'
 import { AuthGuard } from './guards/auth.guard'
+import { NotAuthGuard } from './guards/not-auth.guard'
+import { UnsavedChangesGuard } from './guards/unsaved-changes.guard'
+import { ResultsComponent } from './features/voting/results/results.component'
 
 export const appRoutes: Route[] = [
   {
     path: '',
     component: HomeComponent,
-    //canActivate: [AuthGuard],
   },
   {
     path: 'about',
     component: AboutComponent,
-    //canActivate: [AuthGuard],
   },
   {
     path: 'login',
     component: LoginComponent,
+    canActivate: [NotAuthGuard],
   },
   {
     path: 'register',
     component: RegisterComponent,
+    canActivate: [NotAuthGuard],
   },
   {
     path: 'voting',
@@ -38,11 +41,20 @@ export const appRoutes: Route[] = [
       {
         path: 'create',
         component: CreateComponent,
+        canDeactivate: [UnsavedChangesGuard],
+      },
+      {
+        path: 'results/:id',
+        component: ResultsComponent,
       },
       {
         path: ':id',
         component: VotingComponent,
       },
     ],
+  },
+  {
+    path: '**',
+    redirectTo: '/',
   },
 ]
