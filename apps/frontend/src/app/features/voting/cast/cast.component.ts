@@ -55,10 +55,12 @@ export class CastComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['dataArr'] && changes['dataArr'].currentValue) {
-      this.dataArr = changes['dataArr'].currentValue
+      this.dataArr = this.removeDuplicates(changes['dataArr'].currentValue)
     }
     if (changes['optionsArr'] && changes['optionsArr'].currentValue) {
-      this.optionsArr = changes['optionsArr'].currentValue
+      this.optionsArr = this.removeDuplicates(
+        changes['optionsArr'].currentValue,
+      )
     }
   }
 
@@ -105,5 +107,9 @@ export class CastComponent implements OnChanges {
   public errorAction(): void {
     this.hasError = false
     this.errorMessage = ''
+  }
+
+  private removeDuplicates(arr: Array<string>): Array<string> {
+    return Array.from(new Set(arr))
   }
 }
