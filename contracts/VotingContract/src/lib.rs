@@ -23,8 +23,8 @@ impl VotingContract {
         env.storage().persistent().set(&vote_id, &data_map);
         env.storage().instance().set(&vote_id, &options_map);
 
-        if vote_options.len() > 5 {
-            panic!("Vote options must be less than 5");
+        if vote_options.len() > 6 {
+            panic!("Vote options must be less than 6");
         }
 
         for option in vote_options.iter() {

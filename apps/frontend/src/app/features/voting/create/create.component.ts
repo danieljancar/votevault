@@ -16,6 +16,7 @@ import { BaseVoteConfig } from '../../../types/vote.types'
 import { ConfirmReloadService } from '../../../shared/services/confirm-reload/confirm-reload.service'
 import { CanComponentDeactivate } from '../../../types/can-deactivate.interfaces'
 import { VoteConfigService } from '../../../core/vote-transaction.service'
+import { ShareComponent } from './share/share.component'
 
 @Component({
   selector: 'app-create',
@@ -28,6 +29,7 @@ import { VoteConfigService } from '../../../core/vote-transaction.service'
     LoadingComponent,
     ErrorComponent,
     SuccessComponent,
+    ShareComponent,
   ],
 })
 export class CreateComponent
