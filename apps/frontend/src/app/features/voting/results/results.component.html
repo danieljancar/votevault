@@ -9,9 +9,9 @@
       <ul role="list" class="divide-y divide-gray-200">
         @for (result of resultArr; track result.key){
         <li>
-          <a href="#" class="block hover:bg-gray-50">
+          <div class="block hover:bg-gray-50">
             <div class="px-4 py-4 sm:px-6">
-              <div class="flex cursor-pointer justify-between items-center">
+              <div class="flex justify-between items-center">
                 <div>
                   <p class="text-gray-950 text-xl">{{ result.key }}</p>
                 </div>
@@ -24,10 +24,22 @@
                 </div>
               </div>
             </div>
-          </a>
+          </div>
         </li>
         }
       </ul>
+      @if (!hasAlreadyVoted){
+      <div class="flex justify-end space-x-4 mt-4">
+        <button
+          (click)="voteInstead()"
+          type="button"
+          aria-label="View Results instead"
+          class="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-gray-700 bg-gray-50 border border-gray-300 rounded-md shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+        >
+          Vote instead
+        </button>
+      </div>
+      }
     </div>
   </fieldset>
 </div>

@@ -1,13 +1,22 @@
-@if (hasAlreadyVoted) {
+@if (showThankYouScreen) {
 <app-thanks />
 } @else { @if (isLoading) {
 <app-loading aria-live="polite" aria-label="Loading..."></app-loading>
-} @if (!isLoading && !hasError) {
+} @if (!isLoading && !hasError && !hasAlreadyVoted && !showResults) {
 <app-cast
   [voteId]="voteId"
   [optionsArr]="optionsArr"
   (castedEvent)="receiveCastedEvent($event)"
+  (showResultsEvent)="receiveShowResultsEvent($event)"
   [dataArr]="dataArr"
+/>
+} @if (!isLoading && (hasAlreadyVoted || showResults ) && !hasError){
+<app-results
+  [voteId]="voteId"
+  [dataArr]="dataArr"
+  [resultArr]="resultArr"
+  [hasAlreadyVoted]="hasAlreadyVoted"
+  (voteInsteadEvent)="receiveVoteInsteadEvent($event)"
 />
 } @if (hasError) {
 <app-error

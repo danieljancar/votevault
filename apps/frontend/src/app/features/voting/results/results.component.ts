@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core'
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 
 @Component({
   selector: 'app-results',
@@ -11,4 +11,10 @@ export class ResultsComponent {
   @Input({ required: true }) voteId = ''
   @Input({ required: true }) dataArr: Array<string> = []
   @Input({ required: true }) resultArr: Array<{ key: string; val: string }> = []
+  @Input({ required: true }) hasAlreadyVoted = false
+  @Output() public voteInsteadEvent = new EventEmitter<boolean>()
+
+  voteInstead() {
+    this.voteInsteadEvent.emit(true)
+  }
 }

@@ -44,10 +44,6 @@ export const appRoutes: Route[] = [
         canDeactivate: [UnsavedChangesGuard],
       },
       {
-        path: 'results/:id',
-        component: ResultsComponent,
-      },
-      {
         path: ':id',
         component: VotingComponent,
       },

@@ -34,6 +34,7 @@ export class CastComponent implements OnChanges {
   @Input() public optionsArr: Array<string> = []
   @Input() public dataArr: Array<string> = []
   @Output() public castedEvent = new EventEmitter<boolean>()
+  @Output() public showResultsEvent = new EventEmitter<boolean>()
 
   public voteForm: FormGroup
   public isLoading = false
@@ -44,9 +45,7 @@ export class CastComponent implements OnChanges {
   constructor(
     private fb: FormBuilder,
     private castVoteService: CastVoteService,
-    private router: Router,
     private confirmReloadService: ConfirmReloadService,
-    private getVoteOptionService: GetVoteOptionService,
     private voteConfigService: VoteConfigService,
   ) {
     this.voteForm = this.fb.group({
@@ -107,12 +106,7 @@ export class CastComponent implements OnChanges {
         return
       }
     }
-    this.router.navigate(['/voting/results', this.voteId])
-  }
-
-  public errorAction(): void {
-    this.hasError = false
-    this.errorMessage = ''
+    this.showResultsEvent.emit(true)
   }
 
   private removeDuplicates(arr: Array<string>): Array<string> {

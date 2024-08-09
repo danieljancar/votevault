@@ -28,7 +28,9 @@ import { VoteConfigService } from '../../core/vote-transaction.service'
   styleUrls: ['./voting.component.css'],
 })
 export class VotingComponent implements OnInit, OnDestroy {
+  public showThankYouScreen = false
   public hasAlreadyVoted = false
+  public showResults = false
   public voteId = ''
   public isLoading = true
   public dataArr: Array<string> = []
@@ -77,7 +79,7 @@ export class VotingComponent implements OnInit, OnDestroy {
   }
 
   public receiveCastedEvent(event: boolean): void {
-    this.hasAlreadyVoted = event
+    this.showThankYouScreen = event
   }
 
   private async initializeData(): Promise<void> {
@@ -162,6 +164,7 @@ export class VotingComponent implements OnInit, OnDestroy {
   }
 
   private resetState(): void {
+    this.showThankYouScreen = false
     this.hasAlreadyVoted = false
     this.voteId = ''
     this.isLoading = true
@@ -170,5 +173,13 @@ export class VotingComponent implements OnInit, OnDestroy {
     this.resultArr = []
     this.hasError = false
     this.errorMessage = ''
+  }
+
+  protected receiveShowResultsEvent(event: boolean): void {
+    this.showResults = event
+  }
+
+  protected receiveVoteInsteadEvent(event: boolean): void {
+    this.showResults = !event
   }
 }
