@@ -89,7 +89,7 @@ As this project was developed in a short amount of time, there are some known is
 
 # Contributing
 
-Contributions are appreciate!. If you want to contribute, please read and comply with the [Contributing Guidelines](.github/CONTRIBUTING.md), [Code of Conduct](.github/CODE_OF_CONDUCT.md), and [Developer Certificate of Origin](.github/DCO.md) first.
+Contributions are appreciated! If you want to contribute, please read and comply with the [Contributing Guidelines](.github/CONTRIBUTING.md), [Code of Conduct](.github/CODE_OF_CONDUCT.md), and [Developer Certificate of Origin](.github/DCO.md) first.
 
 ## Developer Guidelines and Repository Setup
 
