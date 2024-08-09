@@ -60,12 +60,28 @@
       </div>
 
       <div class="space-y-2">
-        <label
-          class="block text-sm font-medium leading-5 text-gray-700"
-          for="title"
-        >
-          Title*
-        </label>
+        <div class="flex justify-between">
+          <label
+            class="block text-sm font-medium leading-5 text-gray-700"
+            for="title"
+          >
+            Title*
+          </label>
+          <span
+            class="text-sm leading-6"
+            [ngClass]="{
+              'text-gray-500':
+                voteForm.controls['title'].valid ||
+                voteForm.controls['title'].value.length === 0,
+              'text-red-600':
+                voteForm.controls['title'].invalid &&
+                voteForm.controls['title'].value.length > 0
+            }"
+            id="title-counter"
+            >{{ voteForm.controls['title'].value.length }}/50</span
+          >
+        </div>
+
         <input
           class="block w-full rounded-none rounded-l-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           formControlName="title"
@@ -78,12 +94,27 @@
       </div>
 
       <div class="space-y-2">
-        <label
-          class="block text-sm font-medium leading-5 text-gray-700"
-          for="description"
-        >
-          Description*
-        </label>
+        <div class="flex justify-between">
+          <label
+            class="block text-sm font-medium leading-5 text-gray-700"
+            for="title"
+          >
+            Description*
+          </label>
+          <span
+            class="text-sm leading-6"
+            [ngClass]="{
+              'text-gray-500':
+                voteForm.controls['description'].valid ||
+                voteForm.controls['description'].value.length === 0,
+              'text-red-600':
+                voteForm.controls['description'].invalid &&
+                voteForm.controls['description'].value.length > 0
+            }"
+            id="description-count"
+            >{{ voteForm.controls['description'].value.length }}/150</span
+          >
+        </div>
         <textarea
           class="block w-full rounded-none rounded-l-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           formControlName="description"
@@ -101,6 +132,20 @@
         </label>
         @for (option of options.controls; track $index) {
         <div [formGroupName]="$index" class="space-y-2">
+          <div class="flex justify-end">
+            <span
+              [ngClass]="{
+                'text-gray-500':
+                  voteForm.value.options[$index].option.length >= 0,
+                'text-red-600':
+                  voteForm.value.options[$index].option.length > 32
+              }"
+              class="text-sm leading-6 text-gray-500"
+              id="{{ $index }}-count"
+            >
+              {{ voteForm.value.options[$index].option.length }}/32</span
+            >
+          </div>
           <div class="mt-2 flex rounded-md shadow-sm">
             <input
               class="block w-full rounded-none rounded-l-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -155,7 +200,7 @@
         [disabled]="voteForm.invalid"
         [ngClass]="{
           'bg-gray-700 hover:bg-gray-700': voteForm.invalid,
-          'bg-indigo-600 hover:bg-indigo-700': voteForm.valid
+          'bg-indigo-600 hover:bg-indigo-700': !voteForm.invalid
         }"
         aria-label="Create Vote"
         class="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white border border-transparent rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

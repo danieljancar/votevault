@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { Injectable, EventEmitter } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Keypair } from '@stellar/typescript-wallet-sdk'
 import { firstValueFrom, Observable } from 'rxjs'
@@ -11,17 +11,18 @@ import { Router } from '@angular/router'
 })
 export class AuthService {
   private server = new Horizon.Server('https://horizon-testnet.stellar.org')
+  public loginStatusChanged = new EventEmitter<boolean>() // Emit login status changes
 
   constructor(
     private http: HttpClient,
     private cookieService: CookieService,
     private router: Router,
   ) {
-    this.initializeKeypair()
+    this.initializeKeypair().then()
   }
 
   generateKeypair(): Keypair {
-    return Keypair.random() // This creates the wallet on the Stellar network
+    return Keypair.random()
   }
 
   createAccount(publicKey: string, secretKey: string): boolean {
@@ -71,6 +72,7 @@ export class AuthService {
         await this.server.accounts().accountId(publicKey).call()
         this.cookieService.set('privateKey', privateKey)
         this.cookieService.set('publicKey', publicKey)
+        this.loginStatusChanged.emit(true) // Notify login status change
         return true
       } catch (error) {
         console.error('Account does not exist or cannot be retrieved:', error)
@@ -99,30 +101,26 @@ export class AuthService {
     }
   }
 
-  logout(): void {
+  async logout(): Promise<void> {
     this.cookieService.delete('privateKey')
     this.cookieService.delete('publicKey')
-    this.router.navigate(['/login'])
+    this.loginStatusChanged.emit(false) // Notify logout status change
+    await this.router.navigate(['/login'])
   }
 
-  private initializeKeypair(): void {
+  private async initializeKeypair(): Promise<void> {
     const privateKey = this.cookieService.get('privateKey')
     if (privateKey) {
       try {
         const keypair = Keypair.fromSecret(privateKey)
-        this.isAccountExist(keypair.publicKey())
-          .then(exists => {
-            if (!exists) {
-              this.cookieService.delete('privateKey')
-              this.cookieService.delete('publicKey')
-            }
-          })
-          .catch(error =>
-            console.error(
-              'Error checking account existence during initialization:',
-              error,
-            ),
-          )
+        const exists = await this.isAccountExist(keypair.publicKey())
+        if (!exists) {
+          this.cookieService.delete('privateKey')
+          this.cookieService.delete('publicKey')
+          this.loginStatusChanged.emit(false)
+        } else {
+          this.loginStatusChanged.emit(true)
+        }
       } catch (error) {
         console.error('Failed to initialize keypair from private key:', error)
       }

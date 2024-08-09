@@ -1,7 +1,7 @@
 #![cfg(test)]
 
 use super::*;
-use soroban_sdk::{symbol_short, testutils::Address, vec, Env};
+use soroban_sdk::{testutils::Address, vec, Env};
 
 #[test]
 fn initialize() {
@@ -11,7 +11,11 @@ fn initialize() {
 
     let word = client.create_vote(
         &String::from_str(&env, "ID"),
-        &vec![&env, symbol_short!("OP1"), symbol_short!("OP2")],
+        &vec![
+            &env,
+            String::from_str(&env, "OP1"),
+            String::from_str(&env, "OP2"),
+        ],
         &String::from_str(&env, "Title"),
         &String::from_str(&env, "Description"),
     );
@@ -29,12 +33,12 @@ fn initialize_more_than_5() {
         &String::from_str(&env, "ID"),
         &vec![
             &env,
-            symbol_short!("OP1"),
-            symbol_short!("OP2"),
-            symbol_short!("OP3"),
-            symbol_short!("OP4"),
-            symbol_short!("OP5"),
-            symbol_short!("OP6"),
+            String::from_str(&env, "OP1"),
+            String::from_str(&env, "OP2"),
+            String::from_str(&env, "OP3"),
+            String::from_str(&env, "OP4"),
+            String::from_str(&env, "OP5"),
+            String::from_str(&env, "OP6"),
         ],
         &String::from_str(&env, "Title"),
         &String::from_str(&env, "Description"),
@@ -49,7 +53,11 @@ fn get_vote() {
 
     client.create_vote(
         &String::from_str(&env, "ID"),
-        &vec![&env, symbol_short!("OP1"), symbol_short!("OP2")],
+        &vec![
+            &env,
+            String::from_str(&env, "OP1"),
+            String::from_str(&env, "OP2"),
+        ],
         &String::from_str(&env, "Title"),
         &String::from_str(&env, "Desc"),
     );
@@ -74,7 +82,11 @@ fn get_vote_options() {
 
     client.create_vote(
         &String::from_str(&env, "ID"),
-        &vec![&env, symbol_short!("OP1"), symbol_short!("OP2")],
+        &vec![
+            &env,
+            String::from_str(&env, "OP1"),
+            String::from_str(&env, "OP2"),
+        ],
         &String::from_str(&env, "Title"),
         &String::from_str(&env, "Desc"),
     );
@@ -83,7 +95,11 @@ fn get_vote_options() {
 
     assert_eq!(
         options,
-        vec![&env, symbol_short!("OP1"), symbol_short!("OP2")]
+        vec![
+            &env,
+            String::from_str(&env, "OP1"),
+            String::from_str(&env, "OP2")
+        ]
     );
 }
 
@@ -107,41 +123,45 @@ fn vote() {
 
     client.create_vote(
         &String::from_str(&env, "ID"),
-        &vec![&env, symbol_short!("OP1"), symbol_short!("OP2")],
+        &vec![
+            &env,
+            String::from_str(&env, "OP1"),
+            String::from_str(&env, "OP2"),
+        ],
         &String::from_str(&env, "Title"),
         &String::from_str(&env, "Description"),
     );
 
     client.cast(
         &String::from_str(&env, "ID"),
-        &symbol_short!("OP1"),
+        &String::from_str(&env, "OP1"),
         &user_1,
     );
     client.cast(
         &String::from_str(&env, "ID"),
-        &symbol_short!("OP1"),
+        &String::from_str(&env, "OP1"),
         &user_2,
     );
     client.cast(
         &String::from_str(&env, "ID"),
-        &symbol_short!("OP2"),
+        &String::from_str(&env, "OP2"),
         &user_3,
     );
     client.cast(
         &String::from_str(&env, "ID"),
-        &symbol_short!("OP2"),
+        &String::from_str(&env, "OP2"),
         &user_4,
     );
     client.cast(
         &String::from_str(&env, "ID"),
-        &symbol_short!("OP2"),
+        &String::from_str(&env, "OP2"),
         &user_5,
     );
 
     let votes = client.get_vote_result(&String::from_str(&env, "ID"));
 
-    assert_eq!(votes.get(symbol_short!("OP1")), Some(2));
-    assert_eq!(votes.get(symbol_short!("OP2")), Some(3));
+    assert_eq!(votes.get(String::from_str(&env, "OP1")), Some(2));
+    assert_eq!(votes.get(String::from_str(&env, "OP2")), Some(3));
 }
 
 #[test]
@@ -156,7 +176,11 @@ fn check_if_user_voted() {
 
     client.create_vote(
         &String::from_str(&env, "ID"),
-        &vec![&env, symbol_short!("OP1"), symbol_short!("OP2")],
+        &vec![
+            &env,
+            String::from_str(&env, "OP1"),
+            String::from_str(&env, "OP2"),
+        ],
         &String::from_str(&env, "Title"),
         &String::from_str(&env, "Description"),
     );
@@ -165,7 +189,11 @@ fn check_if_user_voted() {
 
     assert_eq!(has_voted, false);
 
-    client.cast(&String::from_str(&env, "ID"), &symbol_short!("OP1"), &user);
+    client.cast(
+        &String::from_str(&env, "ID"),
+        &String::from_str(&env, "OP2"),
+        &user,
+    );
 
     let has_voted = client.check_if_user_voted(&String::from_str(&env, "ID"), &user);
 

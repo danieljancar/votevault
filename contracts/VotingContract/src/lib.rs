@@ -1,6 +1,6 @@
 #![no_std]
 
-use soroban_sdk::{contract, contractimpl, vec, Address, Env, Map, String, Symbol, Vec};
+use soroban_sdk::{contract, contractimpl, vec, Address, Env, Map, String, Vec};
 
 #[contract]
 pub struct VotingContract;
@@ -10,7 +10,7 @@ impl VotingContract {
     pub fn create_vote(
         env: Env,
         vote_id: String,
-        vote_options: Vec<Symbol>,
+        vote_options: Vec<String>,
         title: String,
         description: String
     ) {
@@ -23,7 +23,7 @@ impl VotingContract {
         env.storage().persistent().set(&vote_id, &data_map);
         env.storage().instance().set(&vote_id, &options_map);
 
-        if vote_options.len() > 6 {
+        if vote_options.len() > 5 {
             panic!("Vote options must be less than 6");
         }
 
@@ -42,8 +42,8 @@ impl VotingContract {
         vec![&env, title, description]
     }
 
-    pub fn get_vote_options(env: Env, vote_id: String) -> Vec<Symbol> {
-        let options_map: Map<Symbol, u32> = env.storage().instance().get(&vote_id).unwrap();
+    pub fn get_vote_options(env: Env, vote_id: String) -> Vec<String> {
+        let options_map: Map<String, u32> = env.storage().instance().get(&vote_id).unwrap();
         options_map.keys()
     }
 
@@ -52,8 +52,8 @@ impl VotingContract {
         env.storage().persistent().has(&has_casted_key)
     }
 
-    pub fn cast(env: Env, vote_id: String, option: Symbol, voter: Address) {
-        let mut options_map: Map<Symbol, u32> = env.storage().instance().get(&vote_id).unwrap();
+    pub fn cast(env: Env, vote_id: String, option: String, voter: Address) {
+        let mut options_map: Map<String, u32> = env.storage().instance().get(&vote_id).unwrap();
         let has_casted_key = (vote_id.clone(), voter.clone());
         let has_casted: bool = env.storage().persistent().has(&has_casted_key.clone());
 
@@ -67,7 +67,7 @@ impl VotingContract {
         env.storage().instance().set(&vote_id, &options_map);
     }
 
-    pub fn get_vote_result(env: Env, vote_id: String) -> Map<Symbol, u32> {
+    pub fn get_vote_result(env: Env, vote_id: String) -> Map<String, u32> {
         env.storage().instance().get(&vote_id).unwrap()
     }
 }
