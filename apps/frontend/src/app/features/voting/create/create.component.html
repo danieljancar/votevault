@@ -70,12 +70,8 @@
           <span
             class="text-sm leading-6"
             [ngClass]="{
-              'text-gray-500':
-                voteForm.controls['title'].valid ||
-                voteForm.controls['title'].value.length === 0,
-              'text-red-600':
-                voteForm.controls['title'].invalid &&
-                voteForm.controls['title'].value.length > 0
+              'text-gray-500': voteForm.controls['title'].value.length <= 150,
+              'text-red-600': voteForm.controls['title'].value.length > 150
             }"
             id="title-counter"
             >{{ voteForm.controls['title'].value.length }}/50</span
@@ -105,11 +101,9 @@
             class="text-sm leading-6"
             [ngClass]="{
               'text-gray-500':
-                voteForm.controls['description'].valid ||
-                voteForm.controls['description'].value.length === 0,
+                voteForm.controls['description'].value.length <= 150,
               'text-red-600':
-                voteForm.controls['description'].invalid &&
-                voteForm.controls['description'].value.length > 0
+                voteForm.controls['description'].value.length > 150
             }"
             id="description-count"
             >{{ voteForm.controls['description'].value.length }}/150</span
@@ -124,6 +118,11 @@
           required
           rows="3"
         ></textarea>
+        @if (titleDescriptionDuplicate){
+        <p class="mt-2 text-sm text-red-600" id="description-error">
+          title and description must be unique
+        </p>
+        }
       </div>
 
       <div formArrayName="options">
@@ -180,6 +179,10 @@
             }
           </div>
         </div>
+        } @if (optionsDuplicate){
+        <p class="mt-2 text-sm text-red-600" id="options-error">
+          the options must be unique
+        </p>
         }
       </div>
 
