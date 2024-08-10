@@ -15,7 +15,6 @@ export class ErrorComponent {
   @Input() action = 'Try again'
   @Input() route = '/'
   @Input() callback: (() => void) | null = null
-  @Input() showAction = true
   @Output() actionClicked = new EventEmitter<void>()
 
   constructor(private router: Router) {}
