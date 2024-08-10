@@ -39,7 +39,7 @@ export class CastVoteService {
           contract.call(
             'cast',
             nativeToScVal(voteId, { type: 'string' }),
-            nativeToScVal(currentOption, { type: 'symbol' }),
+            nativeToScVal(currentOption, { type: 'string' }),
             nativeToScVal(sourceKeypair.publicKey(), { type: 'address' }),
           ),
         )

@@ -41,7 +41,7 @@ export class CreateVoteService {
           contract.call(
             'create_vote',
             nativeToScVal(voteId, { type: 'string' }),
-            nativeToScVal(options, { type: 'symbol' }),
+            nativeToScVal(options, { type: 'string' }),
             nativeToScVal(title, { type: 'string' }),
             nativeToScVal(description, { type: 'string' }),
           ),

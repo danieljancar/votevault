@@ -1,6 +1,7 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core'
-import { CommonModule, NgOptimizedImage } from '@angular/common'
+import { Component, OnInit, OnDestroy } from '@angular/core'
 import { AuthService } from '../../../core/auth.service'
+import { Subscription } from 'rxjs'
+import { CommonModule, NgOptimizedImage } from '@angular/common'
 
 @Component({
   selector: 'app-navbar',
@@ -9,22 +10,23 @@ import { AuthService } from '../../../core/auth.service'
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
   isMenuOpen = false
-  isLoggedIn = true
+  isLoggedIn = false
+  private subscription: Subscription = new Subscription()
 
-  constructor(
-    private authService: AuthService,
-    private cd: ChangeDetectorRef,
-  ) {}
+  constructor(private authService: AuthService) {}
 
-  async ngOnInit(): Promise<void> {
-    await this.updateLoginStatus()
+  ngOnInit(): void {
+    this.subscription.add(
+      this.authService.loginStatusChanged.subscribe(status => {
+        this.isLoggedIn = status
+      }),
+    )
   }
 
-  async updateLoginStatus(): Promise<void> {
-    this.isLoggedIn = await this.authService.isLoggedIn()
-    this.cd.detectChanges()
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe()
   }
 
   toggleMenu(): void {
@@ -37,8 +39,6 @@ export class NavbarComponent implements OnInit {
 
   async logout(): Promise<void> {
     this.closeMenu()
-    this.authService.logout()
-    await this.updateLoginStatus()
-    this.cd.detectChanges()
+    await this.authService.logout()
   }
 }
