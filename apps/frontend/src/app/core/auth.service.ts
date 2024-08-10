@@ -18,7 +18,7 @@ export class AuthService {
     private cookieService: CookieService,
     private router: Router,
   ) {
-    this.initializeKeypair().then()
+    this.initializeKeypair()
   }
 
   generateKeypair(): Keypair {
