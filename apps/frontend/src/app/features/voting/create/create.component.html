@@ -70,8 +70,8 @@
           <span
             class="text-sm leading-6"
             [ngClass]="{
-              'text-gray-500': voteForm.controls['title'].value.length <= 150,
-              'text-red-600': voteForm.controls['title'].value.length > 150
+              'text-gray-500': voteForm.controls['title'].value.length <= 50,
+              'text-red-600': voteForm.controls['title'].value.length > 50
             }"
             id="title-counter"
             >{{ voteForm.controls['title'].value.length }}/50</span
