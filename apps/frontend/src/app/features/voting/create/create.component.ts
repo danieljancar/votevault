@@ -42,6 +42,9 @@ export class CreateComponent
   public successMessage = ''
   private baseVoteConfig!: BaseVoteConfig
 
+  protected titleDescriptionDuplicate = false
+  protected optionsDuplicate = false
+
   constructor(
     private fb: FormBuilder,
     private createVoteService: CreateVoteService,
@@ -56,6 +59,7 @@ export class CreateComponent
           Validators.required,
           Validators.minLength(1),
           Validators.maxLength(50),
+          this.noDuplicateInTitleAndDescription,
         ],
       ],
       description: [
@@ -64,11 +68,17 @@ export class CreateComponent
           Validators.required,
           Validators.minLength(1),
           Validators.maxLength(150),
+          this.noDuplicateInTitleAndDescription,
         ],
       ],
       options: this.fb.array(
         [],
-        [Validators.required, Validators.minLength(2), Validators.maxLength(5)],
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(5),
+          this.noDuplicateInOptions,
+        ],
       ),
     })
   }
@@ -174,5 +184,37 @@ export class CreateComponent
 
   private createVoteId(): string {
     return uuidv4()
+  }
+
+  private noDuplicateInOptions = (
+    control: FormArray,
+  ): { [key: string]: boolean } | null => {
+    const values = control.value.map((opt: { option: string }) => opt.option)
+
+    if (
+      values.length === new Set(values).size ||
+      values.some((element: string) => element === '')
+    ) {
+      this.optionsDuplicate = false
+      return null
+    } else {
+      this.optionsDuplicate = true
+      return { duplicate: true }
+    }
+  }
+
+  protected noDuplicateInTitleAndDescription = (): {
+    [key: string]: boolean
+  } | null => {
+    const title = this.voteForm?.controls['title'].value
+    const description = this.voteForm?.controls['description'].value
+
+    if (title !== description || !title || !description) {
+      this.titleDescriptionDuplicate = false
+      return null
+    } else {
+      this.titleDescriptionDuplicate = true
+      return { duplicate: true }
+    }
   }
 }

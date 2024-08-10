@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms'
   styleUrl: './share.component.css',
 })
 export class ShareComponent {
-  @Input({ required: true }) voteId: string = ''
+  @Input({ required: true }) voteId = ''
 
   public copyLinkToClipboard(voteId: string): void {
     const url = 'https://vv.danieljancar.dev/voting/' + voteId
