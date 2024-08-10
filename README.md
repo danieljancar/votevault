@@ -20,7 +20,9 @@
 
 ---
 
-This project is part of the [Stellar Smart Contract Challenge](https://dev.to/challenges/stellar) on [Dev.to](https://dev.to/). We built a blockchain-based voting platform using Stellar Smart Contracts. VoteVault is a secure and transparent voting platform that allows users to create and participate in voting processes. Find out more about our journey building VoteVault in the [Dev.to post]() or visit the [VoteVault website]().
+This project is part of the [Stellar Smart Contract Challenge](https://dev.to/challenges/stellar) on [Dev.to](https://dev.to/).
+
+We built a blockchain-based voting platform using Stellar Smart Contracts. VoteVault is a secure and transparent voting platform that allows users to create and participate in voting processes. Find out more about our journey building VoteVault in the [Dev.to post]() or visit the [VoteVault website]().
 
 # Table of Contents
 
@@ -29,6 +31,7 @@ This project is part of the [Stellar Smart Contract Challenge](https://dev.to/ch
   - [User Stories](#user-stories)
   - [Use Cases](#use-cases)
   - [Known Issues](#known-issues)
+  - [Future Features](#future-features)
 - [Contributing](#contributing)
   - [Developer Guidelines and Repository Setup](#developer-guidelines-and-repository-setup)
   - [Development Previews](#development-previews)
@@ -77,7 +80,7 @@ VoteVault integrating Stellar Smart Contracts could be used in various scenarios
 - **Community Decisions**: Communities could use VoteVault to make decisions on community projects or initiatives.
 - **Controversial Opinions**: People could use VoteVault to express their opinions on controversial topics.
 
-Based on this evaluation, the product sets a base source code for enhancing the platform with more features. Such as using VoteVault "core" as a base for a more complex voting system, like government elections with each citizen being registered once (which would kill the anonymity of the votes - _sigh_) and more. This provides a real-world use case for the Stellar Smart Contracts and the VoteVault platform.
+Based on this evaluation, the product sets a base source code for enhancing the platform with more features. Such as using VoteVault "core" as a base for a more complex voting system, like government elections with each citizen being registered once (which would kill the anonymity of the votes - _sigh_) or other useful extensions of our application. This provides a real-world use case for the Stellar Smart Contracts and the VoteVault platform.
 
 ## Known Issues
 
@@ -85,7 +88,14 @@ As this project was developed in a short amount of time, there are some known is
 
 - **Accessibility**: The platform is not fully accessible yet. We tried to implement some accessibility features, but there is still some work to do.
 - **Error Handling**: The error handling is not perfect yet, but already pretty good.
-- **Protect from Sybil Attacks**: We need to implement a way to protect the platform better from Sybil and other attacks.
+- **Protect from Sybil Attacks and improved Authentication**: We need to implement a way to protect the platform better from Sybil and other attacks.
+
+## Future Features
+
+We also got some additional features we thought about and couldn't implement yet.
+
+- **Voting Timeframes**: Users creating a new vote can decide whether there's a start and end date for the votes.
+- **Multiple Options**: Users can also create votes where multiple options can be selected.
 
 # Contributing
 

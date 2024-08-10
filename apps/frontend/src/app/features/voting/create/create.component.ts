@@ -6,16 +6,22 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms'
-import { NgClass } from '@angular/common'
-import { CreateVoteService } from '../../../core/stellar/createVote.service'
-import { LoadingComponent } from '../../../shared/feedback/loading/loading.component'
-import { ErrorComponent } from '../../../shared/feedback/error/error.component'
-import { SuccessComponent } from '../../../shared/feedback/success/success.component'
+
 import { v4 as uuidv4 } from 'uuid'
 import { BaseVoteConfig } from '../../../types/vote.types'
 import { ConfirmReloadService } from '../../../shared/services/confirm-reload/confirm-reload.service'
 import { CanComponentDeactivate } from '../../../types/can-deactivate.interfaces'
 import { VoteConfigService } from '../../../core/vote-transaction.service'
+import { CreateVoteService } from '../../../core/stellar/createVote.service'
+import {
+  maxOptionLengthValidator,
+  noDuplicateInOptions,
+  noDuplicateInTitleAndDescription,
+} from '../../../utils/create-vote-validators.util'
+import { NgClass } from '@angular/common'
+import { ErrorComponent } from '../../../shared/feedback/error/error.component'
+import { SuccessComponent } from '../../../shared/feedback/success/success.component'
+import { LoadingComponent } from '../../../shared/feedback/loading/loading.component'
 import { ShareComponent } from './share/share.component'
 
 @Component({
@@ -24,12 +30,12 @@ import { ShareComponent } from './share/share.component'
   styleUrls: ['./create.component.css'],
   standalone: true,
   imports: [
-    ReactiveFormsModule,
     NgClass,
-    LoadingComponent,
     ErrorComponent,
     SuccessComponent,
+    LoadingComponent,
     ShareComponent,
+    ReactiveFormsModule,
   ],
 })
 export class CreateComponent
@@ -42,45 +48,46 @@ export class CreateComponent
   public successMessage = ''
   private baseVoteConfig!: BaseVoteConfig
 
-  protected titleDescriptionDuplicate = false
-  protected optionsDuplicate = false
-
   constructor(
     private fb: FormBuilder,
     private createVoteService: CreateVoteService,
     private confirmReloadService: ConfirmReloadService,
     private voteConfigService: VoteConfigService,
   ) {
-    this.voteForm = this.fb.group({
-      id: ['', Validators.required],
-      title: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(50),
-          this.noDuplicateInTitleAndDescription,
+    this.voteForm = this.fb.group(
+      {
+        id: ['', Validators.required],
+        title: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(1),
+            Validators.maxLength(80),
+          ],
         ],
-      ],
-      description: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(150),
-          this.noDuplicateInTitleAndDescription,
+        description: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(1),
+            Validators.maxLength(350),
+          ],
         ],
-      ],
-      options: this.fb.array(
-        [],
-        [
-          Validators.required,
-          Validators.minLength(2),
-          Validators.maxLength(5),
-          this.noDuplicateInOptions,
-        ],
-      ),
-    })
+        options: this.fb.array(
+          [],
+          [
+            Validators.required,
+            Validators.minLength(2),
+            Validators.maxLength(5),
+            noDuplicateInOptions(),
+            maxOptionLengthValidator(50),
+          ],
+        ),
+      },
+      {
+        validators: noDuplicateInTitleAndDescription('title', 'description'),
+      },
+    )
   }
 
   public get options(): FormArray {
@@ -121,6 +128,8 @@ export class CreateComponent
   }
 
   public async onSubmit(): Promise<void> {
+    if (this.voteForm.invalid) return
+
     this.isLoading = true
     this.hasError = false
     this.errorMessage = ''
@@ -184,37 +193,5 @@ export class CreateComponent
 
   private createVoteId(): string {
     return uuidv4()
-  }
-
-  private noDuplicateInOptions = (
-    control: FormArray,
-  ): { [key: string]: boolean } | null => {
-    const values = control.value.map((opt: { option: string }) => opt.option)
-
-    if (
-      values.length === new Set(values).size ||
-      values.some((element: string) => element === '')
-    ) {
-      this.optionsDuplicate = false
-      return null
-    } else {
-      this.optionsDuplicate = true
-      return { duplicate: true }
-    }
-  }
-
-  protected noDuplicateInTitleAndDescription = (): {
-    [key: string]: boolean
-  } | null => {
-    const title = this.voteForm?.controls['title'].value
-    const description = this.voteForm?.controls['description'].value
-
-    if (title !== description || !title || !description) {
-      this.titleDescriptionDuplicate = false
-      return null
-    } else {
-      this.titleDescriptionDuplicate = true
-      return { duplicate: true }
-    }
   }
 }

@@ -67,15 +67,18 @@
           >
             Title*
           </label>
+          @if (voteForm.controls['title'].value.length > 70) {
           <span
             class="text-sm leading-6"
             [ngClass]="{
-              'text-gray-500': voteForm.controls['title'].value.length <= 150,
-              'text-red-600': voteForm.controls['title'].value.length > 150
-            }"
+                    'text-gray-500': voteForm.controls['title'].value.length <= 75,
+                    'text-red-600': voteForm.controls['title'].value.length > 80,
+                  }"
             id="title-counter"
-            >{{ voteForm.controls['title'].value.length }}/50</span
           >
+            {{ voteForm.controls['title'].value.length }}/80
+          </span>
+          }
         </div>
 
         <input
@@ -87,27 +90,37 @@
           required
           type="text"
         />
+        @if (voteForm.hasError('duplicate', ['title', 'description'])) {
+        <div>
+          <p class="mt-2 text-sm text-red-600" id="description-error">
+            Title and description must be unique
+          </p>
+        </div>
+        }
       </div>
 
       <div class="space-y-2">
         <div class="flex justify-between">
           <label
             class="block text-sm font-medium leading-5 text-gray-700"
-            for="title"
+            for="description"
           >
             Description*
           </label>
+          @if (voteForm.controls['description'].value.length > 340) {
           <span
             class="text-sm leading-6"
             [ngClass]="{
               'text-gray-500':
-                voteForm.controls['description'].value.length <= 150,
+                voteForm.controls['description'].value.length <= 340,
               'text-red-600':
-                voteForm.controls['description'].value.length > 150
+                voteForm.controls['description'].value.length > 350
             }"
-            id="description-count"
-            >{{ voteForm.controls['description'].value.length }}/150</span
+            id="description-counter"
           >
+            {{ voteForm.controls['description'].value.length }}/350
+          </span>
+          }
         </div>
         <textarea
           class="block w-full rounded-none rounded-l-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -118,11 +131,6 @@
           required
           rows="3"
         ></textarea>
-        @if (titleDescriptionDuplicate){
-        <p class="mt-2 text-sm text-red-600" id="description-error">
-          title and description must be unique
-        </p>
-        }
       </div>
 
       <div formArrayName="options">
@@ -132,18 +140,20 @@
         @for (option of options.controls; track $index) {
         <div [formGroupName]="$index" class="space-y-2">
           <div class="flex justify-end">
+            @if (voteForm.value.options[$index].option.length > 45) {
             <span
               [ngClass]="{
                 'text-gray-500':
-                  voteForm.value.options[$index].option.length >= 0,
+                  voteForm.value.options[$index].option.length <= 45,
                 'text-red-600':
-                  voteForm.value.options[$index].option.length > 32
+                  voteForm.value.options[$index].option.length > 50
               }"
               class="text-sm leading-6 text-gray-500"
               id="{{ $index }}-count"
             >
-              {{ voteForm.value.options[$index].option.length }}/32</span
-            >
+              {{ voteForm.value.options[$index].option.length }}/50
+            </span>
+            }
           </div>
           <div class="mt-2 flex rounded-md shadow-sm">
             <input
@@ -179,38 +189,44 @@
             }
           </div>
         </div>
-        } @if (optionsDuplicate){
-        <p class="mt-2 text-sm text-red-600" id="options-error">
-          the options must be unique
-        </p>
+        } @if (voteForm.hasError('duplicate', ['options'])) {
+        <div>
+          <p class="mt-2 text-sm text-red-600" id="options-error">
+            The options must be unique
+          </p>
+        </div>
+        } @if (voteForm.hasError('maxOptionLength', ['options'])) {
+        <div>
+          <p class="mt-2 text-sm text-red-600" id="options-length-error">
+            Each option must be less than 50 characters.
+          </p>
+        </div>
+        } @if (options.controls.length < 5) {
+        <button
+          (click)="addOption()"
+          aria-label="Add Option"
+          class="mt-2 inline-flex items-center px-3 py-1 text-sm font-medium leading-5 text-green-700 transition duration-150 ease-in-out bg-white border border-green-300 rounded-md shadow-sm hover:bg-green-50 focus:outline-none focus:shadow-outline-green focus:bg-green-100 active:bg-green-100"
+          type="button"
+        >
+          Add Option
+        </button>
         }
       </div>
 
-      @if (options.controls.length < 5) {
-      <button
-        (click)="addOption()"
-        aria-label="Add Option"
-        class="mt-2 inline-flex items-center px-3 py-1 text-sm font-medium leading-5 text-green-700 transition duration-150 ease-in-out bg-white border border-green-300 rounded-md shadow-sm hover:bg-green-50 focus:outline-none focus:shadow-outline-green focus:bg-green-100 active:bg-green-100"
-        type="button"
-      >
-        Add Option
-      </button>
-      }
-    </div>
-
-    <div class="flex justify-end">
-      <button
-        [disabled]="voteForm.invalid"
-        [ngClass]="{
-          'bg-gray-700 hover:bg-gray-700': voteForm.invalid,
-          'bg-indigo-600 hover:bg-indigo-700': voteForm.valid
-        }"
-        aria-label="Create Vote"
-        class="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white border border-transparent rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        type="submit"
-      >
-        Create Vote
-      </button>
+      <div class="flex justify-end">
+        <button
+          [disabled]="voteForm.invalid"
+          [ngClass]="{
+            'bg-gray-700 hover:bg-gray-700': voteForm.invalid,
+            'bg-indigo-600 hover:bg-indigo-700': voteForm.valid
+          }"
+          aria-label="Create Vote"
+          class="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white border border-transparent rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          type="submit"
+        >
+          Create Vote
+        </button>
+      </div>
     </div>
   </div>
 </form>
