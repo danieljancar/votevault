@@ -18,7 +18,10 @@
   aria-live="assertive"
   aria-label="Vote created successfully"
 />
-<app-share [voteId]="voteForm.get('id')?.value" />
+<app-share
+  [voteId]="voteForm.get('id')?.value"
+  [voteTitle]="voteForm.get('title')?.value"
+/>
 } @else {
 <form
   (ngSubmit)="onSubmit()"

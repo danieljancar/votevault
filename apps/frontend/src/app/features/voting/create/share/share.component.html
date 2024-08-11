@@ -6,8 +6,18 @@
   >
     <h1 class="font-bold">Share link</h1>
     <p class="text-sm">
-      Share this link to invite others to cast vote on your vote.
+      Share this link to invite others to cast vote on your vote, or download
+      the voteId here:
+      <button
+        class="hover:underline font-medium cursor-pointer text-black focus:outline-none focus:underline"
+        role="button"
+        tabindex="0"
+        (click)="downloadVoteID()"
+      >
+        Download
+      </button>
     </p>
+
     <div class="mt-2 flex rounded-md shadow-sm">
       <input
         [value]="'https://vv.danieljancar.dev/voting/' + voteId"
