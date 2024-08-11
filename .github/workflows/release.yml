@@ -11,6 +11,13 @@ jobs:
     steps:
       - name: Checkout Source Code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Sync with Remote
+        run: |
+          git fetch origin master
+          git reset --hard origin/master
 
       - name: Use Node.js 20
         uses: actions/setup-node@v4
