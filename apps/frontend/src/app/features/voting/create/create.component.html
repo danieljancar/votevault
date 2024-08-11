@@ -131,6 +131,13 @@
           required
           rows="3"
         ></textarea>
+        @if (voteForm.hasError('duplicate')) {
+        <div>
+          <p class="mt-2 text-sm text-red-600" id="title-description-error">
+            Title and description must be unique
+          </p>
+        </div>
+        }
       </div>
 
       <div formArrayName="options">
