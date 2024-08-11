@@ -47,6 +47,8 @@ export class ResultsComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
+    this.resetData()
+
     this.routeSubscription = this.route.params
       .pipe(
         switchMap(params => {
@@ -66,6 +68,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
     if (this.routeSubscription) {
       this.routeSubscription.unsubscribe()
     }
+    this.resetData()
   }
 
   public exportToCSV(): void {
@@ -86,7 +89,14 @@ export class ResultsComponent implements OnInit, OnDestroy {
     window.URL.revokeObjectURL(url)
   }
 
+  private resetData(): void {
+    this.dataArr = []
+    this.resultArr = []
+    this.totalVotes = 0
+  }
+
   private async initializeComponent(): Promise<void> {
+    this.resetData()
     const config = await this.voteConfigService.getBaseVoteConfig()
     this.server = config.server
     this.sourceKeypair = config.sourceKeypair
