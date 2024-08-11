@@ -33,3 +33,7 @@ ESLint on every pull request and alerts us if there are any errors.
 
 The greetings action is a simple action that sends a greeting message to the user that triggered the action. It is used
 to make the new contributors feel welcome and make them aware of the guidelines and best practices.
+
+## Release
+
+We have a fully automated release process that is triggered by a Github Action. The release process is based on the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification. The action gets triggered when pushing the latest changes to `master` branch. It publishes a new Github release with the latest changes and updates the `CHANGELOG.md` file, also it publishes the new apps to our servers (Github Pages).
