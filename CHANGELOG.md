@@ -1,3 +1,9 @@
+## [1.0.1](https://github.com/danieljancar/votevault/compare/v1.0.0...v1.0.1) (2024-08-11)
+
+### Bug Fixes
+
+- make routing hash based ([91d59ca](https://github.com/danieljancar/votevault/commit/91d59cacc357e1fcc7c7f54f3df8c37b4c4392e1))
+
 # 1.0.0 (2024-08-11)
 
 ### Bug Fixes
