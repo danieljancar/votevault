@@ -20,6 +20,9 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      - name: Install Nx CLI
+        run: npm install -g nx
+
       - name: Build Frontend
         run: nx build frontend --prod --base-href https://vv.danieljancar.dev/
 
