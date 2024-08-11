@@ -12,11 +12,13 @@ export function noDuplicateInOptions(): ValidatorFn {
 
     const hasDuplicate = values.length !== new Set(values).size
 
-    return hasDuplicate ? { duplicate: true } : null
+    return hasDuplicate && values.some((element: string) => element !== '')
+      ? { duplicate: true }
+      : null
   }
 }
 
-export function maxOptionLengthValidator(maxLength: number = 32): ValidatorFn {
+export function maxOptionLengthValidator(maxLength = 32): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const formArray = control as FormArray
     const hasLongOption = formArray.value.some(
