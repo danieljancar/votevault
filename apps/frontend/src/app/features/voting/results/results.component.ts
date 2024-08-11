@@ -33,7 +33,6 @@ export class ResultsComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private getVoteResultsService: GetVoteResultsService,
     private getVoteService: GetVoteService,
     private voteConfigService: VoteConfigService,
@@ -50,6 +49,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
         this.voteId = params['id']
         this.isLoading = true
         this.hasError = false
+        await this.checkIfUserHasVoted()
         await this.loadVoteData()
       })
     } catch (error) {
@@ -133,6 +133,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
       this.voteId,
       this.sourceKeypair.publicKey(),
     )
+
     if (result?.hasError) {
       this.hasError = true
       this.errorMessage = result.errorMessage
