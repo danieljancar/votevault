@@ -8,6 +8,7 @@ import { ErrorComponent } from '../../../shared/feedback/error/error.component'
 import { LoadingComponent } from '../../../shared/feedback/loading/loading.component'
 import { GetVoteService } from '../../../core/stellar/getVote.service'
 import { Subscription } from 'rxjs'
+import { CheckUserVotedService } from '../../../core/stellar/checkUserVoted.service'
 
 @Component({
   selector: 'app-results',
@@ -17,6 +18,7 @@ import { Subscription } from 'rxjs'
   imports: [ErrorComponent, LoadingComponent],
 })
 export class ResultsComponent implements OnInit, OnDestroy {
+  public hasAlreadyVoted = false
   public isLoading = true
   public hasError = false
   public errorMessage = ''
@@ -35,6 +37,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
     private getVoteResultsService: GetVoteResultsService,
     private getVoteService: GetVoteService,
     private voteConfigService: VoteConfigService,
+    private checkUserVotedService: CheckUserVotedService,
   ) {}
 
   public async ngOnInit(): Promise<void> {
@@ -120,6 +123,24 @@ export class ResultsComponent implements OnInit, OnDestroy {
         (sum, option) => sum + parseInt(option.val, 10),
         0,
       )
+    }
+  }
+
+  private async checkIfUserHasVoted(): Promise<void> {
+    const result = await this.checkUserVotedService.checkIfUserVoted(
+      this.server,
+      this.sourceKeypair,
+      this.voteId,
+      this.sourceKeypair.publicKey(),
+    )
+    if (result?.hasError) {
+      this.hasError = true
+      this.errorMessage = result.errorMessage
+      this.isLoading = false
+      return
+    }
+    if (result) {
+      this.hasAlreadyVoted = result.hasVoted
     }
   }
 

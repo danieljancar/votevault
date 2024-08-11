@@ -37,6 +37,37 @@
       </div>
     </div>
 
+    @if (!hasAlreadyVoted) {
+    <div class="pt-6">
+      <div
+        aria-live="assertive"
+        class="bg-gray-100 border border-gray-400 text-gray-900 px-4 py-3 rounded"
+        role="alert"
+      >
+        <h2 class="font-bold">Your opinion?</h2>
+        <p class="text-sm">
+          It looks like you didn't cast your vote yet. Give your opinion on this
+          vote - every opinion matters!
+          <a
+            [href]="'/voting/' + voteId"
+            class="hover:underline font-medium cursor-pointer text-gray-900 hover:text-gray-600 focus:outline-none focus:underline focus:text-gray-600"
+            role="link"
+            tabindex="0"
+            aria-label="Cast your vote"
+          >
+            Cast your vote
+          </a>
+        </p>
+      </div>
+    </div>
+    }
+
+    <div class="relative mt-6" role="separator" aria-orientation="horizontal">
+      <div class="absolute inset-0 flex items-center" aria-hidden="true">
+        <div class="w-full border-t border-gray-300"></div>
+      </div>
+    </div>
+
     <div class="pt-6 space-y-4" role="list" aria-labelledby="results-title">
       @for (result of resultArr; track $index) {
       <div class="relative bg-gray-100 rounded-lg p-4" role="listitem">
@@ -75,14 +106,14 @@
         class="bg-gray-100 border border-gray-400 text-gray-900 px-4 py-3 rounded"
         role="alert"
       >
-        <h1 class="font-bold">Export Voting Data</h1>
+        <h2 class="font-bold">Export Voting Data</h2>
         <p class="text-sm">
           You can export the voting results to a CSV file for further analysis
           or record-keeping.
           <button
             (click)="exportToCSV()"
             class="hover:underline font-medium cursor-pointer text-gray-900 hover:text-gray-600 focus:outline-none focus:underline focus:text-gray-600"
-            role="button"
+            role="link"
             tabindex="0"
             aria-label="Export results"
           >
