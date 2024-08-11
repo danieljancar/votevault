@@ -51,6 +51,12 @@ jobs:
         if: steps.semantic_release.outputs.new_release == 'true'
         run: echo "vv.danieljancar.dev" > dist/apps/frontend/CNAME
 
+      - name: Move Files Out of browser Folder
+        if: steps.semantic_release.outputs.new_release == 'true'
+        run: |
+          mv dist/apps/frontend/browser/* dist/apps/frontend/
+          rmdir dist/apps/frontend/browser
+
       - name: Deploy to GitHub Pages
         if: steps.semantic_release.outputs.new_release == 'true'
         run: |
