@@ -107,7 +107,7 @@ export class CastComponent implements OnChanges {
         return
       }
     }
-    this.router.navigate(['/voting/results', this.voteId])
+    this.router.navigate(['/voting/r', this.voteId])
   }
 
   public errorAction(): void {

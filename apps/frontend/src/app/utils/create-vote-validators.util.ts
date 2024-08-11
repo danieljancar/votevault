@@ -16,7 +16,7 @@ export function noDuplicateInOptions(): ValidatorFn {
   }
 }
 
-export function maxOptionLengthValidator(maxLength: number = 32): ValidatorFn {
+export function maxOptionLengthValidator(maxLength = 32): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const formArray = control as FormArray
     const hasLongOption = formArray.value.some(

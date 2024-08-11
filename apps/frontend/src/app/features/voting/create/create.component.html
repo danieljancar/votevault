@@ -140,18 +140,18 @@
         @for (option of options.controls; track $index) {
         <div [formGroupName]="$index" class="space-y-2">
           <div class="flex justify-end">
-            @if (voteForm.value.options[$index].option.length > 45) {
+            @if (voteForm.value.options[$index].option.length > 30) {
             <span
               [ngClass]="{
                 'text-gray-500':
-                  voteForm.value.options[$index].option.length <= 45,
+                  voteForm.value.options[$index].option.length <= 30,
                 'text-red-600':
-                  voteForm.value.options[$index].option.length > 50
+                  voteForm.value.options[$index].option.length > 32
               }"
               class="text-sm leading-6 text-gray-500"
               id="{{ $index }}-count"
             >
-              {{ voteForm.value.options[$index].option.length }}/50
+              {{ voteForm.value.options[$index].option.length }}/32
             </span>
             }
           </div>

@@ -88,7 +88,6 @@ export class VotingComponent implements OnInit, OnDestroy {
     await this.getVoteData()
     await this.checkIfUserHasVoted()
     await this.getVoteOptions()
-    await this.getVoteResults()
     this.isLoading = false
   }
 
@@ -123,23 +122,6 @@ export class VotingComponent implements OnInit, OnDestroy {
     }
     if (result) {
       this.optionsArr = result.optionsArr
-    }
-  }
-
-  private async getVoteResults(): Promise<void> {
-    const result = await this.getVoteResultsService.getVoteResults(
-      this.server,
-      this.sourceKeypair,
-      this.voteId,
-    )
-    if (result?.hasError) {
-      this.hasError = true
-      this.errorMessage = result.errorMessage
-      this.isLoading = false
-      return
-    }
-    if (result) {
-      this.resultArr = result.dataArr
     }
   }
 
