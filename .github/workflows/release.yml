@@ -12,7 +12,7 @@ jobs:
       - name: Checkout Source Code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Ensure full history is fetched
+          fetch-depth: 0
 
       - name: Sync with Remote
         run: |
