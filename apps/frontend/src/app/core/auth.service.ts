@@ -89,14 +89,17 @@ export class AuthService {
     if (keypair) {
       return await this.isAccountExist(keypair.publicKey())
     }
+    this.loginStatusChanged.emit(false)
     return false
   }
 
   async isAccountExist(publicKey: string): Promise<boolean> {
     try {
       await this.server.accounts().accountId(publicKey).call()
+      this.loginStatusChanged.emit(true)
       return true
     } catch (error) {
+      this.loginStatusChanged.emit(false)
       return false
     }
   }
