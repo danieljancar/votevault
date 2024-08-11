@@ -12,11 +12,9 @@ export class AuthGuard implements CanActivate {
     try {
       const isLoggedIn = await this.authService.isLoggedIn()
       if (isLoggedIn) {
-        console.log('User is authenticated')
         return true
       } else {
         this.router.navigate(['/login'])
-        console.log('User is not authenticated')
         return false
       }
     } catch (error) {

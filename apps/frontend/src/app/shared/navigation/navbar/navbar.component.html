@@ -51,9 +51,14 @@
         >About</a
       >
     </div>
-    @if (isLoggedIn === undefined){
+    @if (isLoggedIn === undefined) {
     <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-      <app-loading />
+      <p
+        aria-label="Loading auth status"
+        class="text-sm font-semibold leading-6 text-gray-900"
+      >
+        Loading...
+      </p>
     </div>
     } @else if (!isLoggedIn) {
     <div class="hidden lg:flex lg:flex-1 lg:justify-end">

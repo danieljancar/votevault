@@ -31,13 +31,13 @@
       </p>
     </div>
 
+    @if (!hasAlreadyVoted) {
     <div class="relative mt-6" role="separator" aria-orientation="horizontal">
       <div class="absolute inset-0 flex items-center" aria-hidden="true">
         <div class="w-full border-t border-gray-300"></div>
       </div>
     </div>
 
-    @if (!hasAlreadyVoted) {
     <div class="pt-6">
       <div
         aria-live="assertive"

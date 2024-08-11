@@ -1,21 +1,28 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { ActivatedRoute, Router } from '@angular/router'
+import { ActivatedRoute } from '@angular/router'
 import { SorobanRpc } from '@stellar/stellar-sdk'
 import { Keypair } from '@stellar/typescript-wallet-sdk'
 import { GetVoteResultsService } from '../../../core/stellar/getVoteResults.service'
 import { VoteConfigService } from '../../../core/vote-transaction.service'
-import { ErrorComponent } from '../../../shared/feedback/error/error.component'
-import { LoadingComponent } from '../../../shared/feedback/loading/loading.component'
 import { GetVoteService } from '../../../core/stellar/getVote.service'
-import { Subscription } from 'rxjs'
 import { CheckUserVotedService } from '../../../core/stellar/checkUserVoted.service'
+import { from, of, Subscription } from 'rxjs'
+import {
+  catchError,
+  delay,
+  finalize,
+  retryWhen,
+  switchMap,
+} from 'rxjs/operators'
+import { LoadingComponent } from '../../../shared/feedback/loading/loading.component'
+import { ErrorComponent } from '../../../shared/feedback/error/error.component'
 
 @Component({
   selector: 'app-results',
   standalone: true,
   templateUrl: './results.component.html',
   styleUrls: ['./results.component.css'],
-  imports: [ErrorComponent, LoadingComponent],
+  imports: [LoadingComponent, ErrorComponent],
 })
 export class ResultsComponent implements OnInit, OnDestroy {
   public hasAlreadyVoted = false
@@ -33,27 +40,31 @@ export class ResultsComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private getVoteResultsService: GetVoteResultsService,
     private getVoteService: GetVoteService,
     private voteConfigService: VoteConfigService,
     private checkUserVotedService: CheckUserVotedService,
   ) {}
 
-  public async ngOnInit(): Promise<void> {
-    try {
-      const config = await this.voteConfigService.getBaseVoteConfig()
-      this.server = config.server
-      this.sourceKeypair = config.sourceKeypair
-
-      this.routeSubscription = this.route.params.subscribe(async params => {
-        this.voteId = params['id']
-        this.isLoading = true
-        this.hasError = false
-        await this.loadVoteData()
+  public ngOnInit(): void {
+    this.routeSubscription = this.route.params
+      .pipe(
+        switchMap(params => {
+          this.voteId = params['id']
+          this.isLoading = true
+          this.hasError = false
+          return from(this.initializeComponent())
+        }),
+      )
+      .subscribe({
+        error: error =>
+          this.handleError('Failed to initialize the component.', error),
       })
-    } catch (error) {
-      this.handleError('Failed to initialize results component.', error)
+  }
+
+  public ngOnDestroy(): void {
+    if (this.routeSubscription) {
+      this.routeSubscription.unsubscribe()
     }
   }
 
@@ -75,20 +86,62 @@ export class ResultsComponent implements OnInit, OnDestroy {
     window.URL.revokeObjectURL(url)
   }
 
-  ngOnDestroy(): void {
-    if (this.routeSubscription) {
-      this.routeSubscription.unsubscribe()
-    }
+  private async initializeComponent(): Promise<void> {
+    const config = await this.voteConfigService.getBaseVoteConfig()
+    this.server = config.server
+    this.sourceKeypair = config.sourceKeypair
+    await this.loadVoteDataWithRetry()
+  }
+
+  private async loadVoteDataWithRetry(): Promise<void> {
+    await of(null)
+      .pipe(
+        switchMap(() => from(this.loadVoteData())),
+        retryWhen(errors =>
+          errors.pipe(
+            delay(2000),
+            switchMap((error, index) => {
+              if (index >= 2) {
+                return of(error)
+              }
+              return of(null)
+            }),
+          ),
+        ),
+        catchError(error => {
+          this.handleError('Failed to load vote data after retries.', error)
+          return of(null)
+        }),
+        finalize(() => (this.isLoading = false)),
+      )
+      .toPromise()
   }
 
   private async loadVoteData(): Promise<void> {
-    try {
-      await this.getVoteData()
-      await this.getVoteResults()
-    } catch (error) {
-      this.handleError('Failed to load vote data.', error)
-    } finally {
-      this.isLoading = false
+    await this.checkIfUserHasVoted()
+    await this.getVoteData()
+    await this.getVoteResults()
+    this.validateDataLoad()
+  }
+
+  private validateDataLoad(): void {
+    if (!this.dataArr.length || !this.resultArr.length) {
+      throw new Error('Failed to load all necessary vote data.')
+    }
+  }
+
+  private async checkIfUserHasVoted(): Promise<void> {
+    const result = await this.checkUserVotedService.checkIfUserVoted(
+      this.server,
+      this.sourceKeypair,
+      this.voteId,
+      this.sourceKeypair.publicKey(),
+    )
+    if (result?.hasError) {
+      throw new Error(result.errorMessage)
+    }
+    if (result) {
+      this.hasAlreadyVoted = result.hasVoted
     }
   }
 
@@ -102,7 +155,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
       throw new Error(result.errorMessage)
     }
     if (result) {
-      this.dataArr = result.dataArr
+      this.dataArr = result.dataArr || []
     }
   }
 
@@ -118,30 +171,12 @@ export class ResultsComponent implements OnInit, OnDestroy {
     }
 
     if (result) {
-      this.resultArr = result.dataArr
-      this.totalVotes = this.resultArr.reduce(
-        (sum, option) => sum + parseInt(option.val, 10),
-        0,
-      )
+      this.resultArr = result.dataArr || []
     }
-  }
-
-  private async checkIfUserHasVoted(): Promise<void> {
-    const result = await this.checkUserVotedService.checkIfUserVoted(
-      this.server,
-      this.sourceKeypair,
-      this.voteId,
-      this.sourceKeypair.publicKey(),
+    this.totalVotes = this.resultArr.reduce(
+      (sum, option) => sum + parseInt(option.val, 10),
+      0,
     )
-    if (result?.hasError) {
-      this.hasError = true
-      this.errorMessage = result.errorMessage
-      this.isLoading = false
-      return
-    }
-    if (result) {
-      this.hasAlreadyVoted = result.hasVoted
-    }
   }
 
   private handleError(message: string, error: any): void {
