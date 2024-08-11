@@ -1,33 +1,127 @@
-<div class="flex justify-center mt-20">
-  <fieldset class="w-11/12">
-    <div class="overflow-hidden bg-white sm:rounded-lg sm:shadow">
-      <div class="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
-        <h3 class="font-semibold leading-6 text-gray-900 text-xl">
-          {{ dataArr[0] }} - Results
-        </h3>
-      </div>
-      <ul role="list" class="divide-y divide-gray-200">
-        @for (result of resultArr; track result.key){
-        <li>
-          <a href="#" class="block hover:bg-gray-50">
-            <div class="px-4 py-4 sm:px-6">
-              <div class="flex cursor-pointer justify-between items-center">
-                <div>
-                  <p class="text-gray-950 text-xl">{{ result.key }}</p>
-                </div>
+@if (hasError) {
+<app-error
+  [title]="'Error occurred'"
+  [message]="errorMessage"
+  [action]="'Go to Home'"
+  [route]="'/'"
+  aria-live="assertive"
+  aria-label="Error occurred"
+></app-error>
+} @if (isLoading) {
+<app-loading aria-live="polite" aria-label="Loading results..."></app-loading>
+} @if (!isLoading && !hasError) {
+<div class="mx-auto max-w-7xl" role="region" aria-labelledby="results-title">
+  <div class="mx-1 sm:mx-1.5 md:mx-3 lg:mx-5 xl:mx-0">
+    <h1
+      id="results-title"
+      class="text-2xl font-semibold leading-7 text-gray-900"
+    >
+      Voting Results
+    </h1>
 
-                <div class="ml-2 flex flex-shrink-0">
-                  <span
-                    class="w-12 h-12 inline-flex justify-center items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20"
-                    >{{ result.val }}</span
-                  >
-                </div>
-              </div>
-            </div>
-          </a>
-        </li>
-        }
-      </ul>
+    <div class="py-3">
+      <h2
+        id="vote-question"
+        class="text-xl font-semibold leading-7 text-gray-900"
+      >
+        {{ dataArr[0] }}
+      </h2>
+      <p id="vote-description" class="mt-1 text-sm leading-6 text-gray-600">
+        {{ dataArr[1] }}
+      </p>
     </div>
-  </fieldset>
+
+    <div class="relative mt-6" role="separator" aria-orientation="horizontal">
+      <div class="absolute inset-0 flex items-center" aria-hidden="true">
+        <div class="w-full border-t border-gray-300"></div>
+      </div>
+    </div>
+
+    @if (!hasAlreadyVoted) {
+    <div class="pt-6">
+      <div
+        aria-live="assertive"
+        class="bg-gray-100 border border-gray-400 text-gray-900 px-4 py-3 rounded"
+        role="alert"
+      >
+        <h2 class="font-bold">Your opinion?</h2>
+        <p class="text-sm">
+          It looks like you didn't cast your vote yet. Give your opinion on this
+          vote - every opinion matters!
+          <a
+            [href]="'/voting/' + voteId"
+            class="hover:underline font-medium cursor-pointer text-gray-900 hover:text-gray-600 focus:outline-none focus:underline focus:text-gray-600"
+            role="link"
+            tabindex="0"
+            aria-label="Cast your vote"
+          >
+            Cast your vote
+          </a>
+        </p>
+      </div>
+    </div>
+    }
+
+    <div class="relative mt-6" role="separator" aria-orientation="horizontal">
+      <div class="absolute inset-0 flex items-center" aria-hidden="true">
+        <div class="w-full border-t border-gray-300"></div>
+      </div>
+    </div>
+
+    <div class="pt-6 space-y-4" role="list" aria-labelledby="results-title">
+      @for (result of resultArr; track $index) {
+      <div class="relative bg-gray-100 rounded-lg p-4" role="listitem">
+        <div class="flex justify-between">
+          <p id="option-{{ $index }}" class="text-gray-700 text-lg break-words">
+            {{ result.key }}
+          </p>
+          <p id="votes-{{ $index }}" class="text-gray-500">
+            {{ result.val }} votes
+          </p>
+        </div>
+        <div class="mt-2 h-4 bg-gray-300 rounded-lg">
+          <div
+            class="h-4 rounded-lg bg-indigo-600"
+            role="progressbar"
+            [style.width]="(parseInt(result.val, 10) / totalVotes) * 100 + '%'"
+          ></div>
+        </div>
+      </div>
+      }
+    </div>
+
+    <div class="mt-3 text-center text-sm text-gray-500">
+      <p>Total votes: {{ totalVotes }}</p>
+    </div>
+
+    <div class="relative mt-6" role="separator" aria-orientation="horizontal">
+      <div class="absolute inset-0 flex items-center" aria-hidden="true">
+        <div class="w-full border-t border-gray-300"></div>
+      </div>
+    </div>
+
+    <div class="pt-6">
+      <div
+        aria-live="assertive"
+        class="bg-gray-100 border border-gray-400 text-gray-900 px-4 py-3 rounded"
+        role="alert"
+      >
+        <h2 class="font-bold">Export Voting Data</h2>
+        <p class="text-sm">
+          You can export the voting results to a CSV file for further analysis
+          or record-keeping.
+          <button
+            (click)="exportToCSV()"
+            class="hover:underline font-medium cursor-pointer text-gray-900 hover:text-gray-600 focus:outline-none focus:underline focus:text-gray-600"
+            role="link"
+            tabindex="0"
+            aria-label="Export results"
+          >
+            Export Results
+          </button>
+        </p>
+      </div>
+    </div>
+  </div>
 </div>
+}

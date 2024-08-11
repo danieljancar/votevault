@@ -80,7 +80,7 @@ export class CreateComponent
             Validators.minLength(2),
             Validators.maxLength(5),
             noDuplicateInOptions(),
-            maxOptionLengthValidator(50),
+            maxOptionLengthValidator(32),
           ],
         ),
       },

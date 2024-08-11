@@ -150,18 +150,18 @@
         @for (option of options.controls; track $index) {
         <div [formGroupName]="$index" class="space-y-2">
           <div class="flex justify-end">
-            @if (voteForm.value.options[$index].option.length > 45) {
+            @if (voteForm.value.options[$index].option.length > 30) {
             <span
               [ngClass]="{
                 'text-gray-500':
-                  voteForm.value.options[$index].option.length <= 45,
+                  voteForm.value.options[$index].option.length <= 30,
                 'text-red-600':
-                  voteForm.value.options[$index].option.length > 50
+                  voteForm.value.options[$index].option.length > 32
               }"
               class="text-sm leading-6 text-gray-500"
               id="{{ $index }}-count"
             >
-              {{ voteForm.value.options[$index].option.length }}/50
+              {{ voteForm.value.options[$index].option.length }}/32
             </span>
             }
           </div>
@@ -208,7 +208,7 @@
         } @if (voteForm.hasError('maxOptionLength', ['options'])) {
         <div>
           <p class="mt-2 text-sm text-red-600" id="options-length-error">
-            Each option must be less than 50 characters.
+            Each option must be less than 32 characters.
           </p>
         </div>
         } @if (options.controls.length < 5) {
