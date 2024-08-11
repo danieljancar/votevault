@@ -19,6 +19,9 @@ export class AuthService {
     private router: Router,
   ) {
     this.initializeKeypair()
+    this.isLoggedIn().then((isLoggedIn: boolean) =>
+      this.loginStatusChanged.emit(isLoggedIn),
+    )
   }
 
   generateKeypair(): Keypair {
@@ -89,7 +92,6 @@ export class AuthService {
     if (keypair) {
       return await this.isAccountExist(keypair.publicKey())
     }
-    this.loginStatusChanged.emit(false)
     return false
   }
 
