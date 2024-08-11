@@ -7,12 +7,12 @@
     <h1 class="font-bold">Share link</h1>
     <p class="text-sm">
       Share this link to invite others to cast vote on your vote, or download
-      the voteId here:
+      the voteID.
       <button
+        (click)="downloadVoteID()"
         class="hover:underline font-medium cursor-pointer text-black focus:outline-none focus:underline"
         role="button"
         tabindex="0"
-        (click)="downloadVoteID()"
       >
         Download
       </button>
