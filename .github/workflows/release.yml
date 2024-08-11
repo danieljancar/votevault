@@ -12,7 +12,7 @@ jobs:
       - name: Checkout Source Code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0 # Ensure full history is fetched
 
       - name: Sync with Remote
         run: |
@@ -30,18 +30,29 @@ jobs:
       - name: Install Nx CLI
         run: npm install -g nx
 
+      - name: Lint Code
+        run: nx lint frontend --fix
+
+      # Uncomment the following block once tests are integrated
+      # - name: Run Tests
+      #   run: nx test frontend --ci
+
+      - name: Run Semantic Release
+        id: semantic_release
+        run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build Frontend
+        if: steps.semantic_release.outputs.new_release == 'true'
         run: nx build frontend --prod --base-href https://vv.danieljancar.dev/
 
       - name: Create CNAME
+        if: steps.semantic_release.outputs.new_release == 'true'
         run: echo "vv.danieljancar.dev" > dist/apps/frontend/CNAME
 
-      - name: Configure Git User
-        run: |
-          git config --global user.email "actions@github.com"
-          git config --global user.name "gh-actions[bot]"
-
       - name: Deploy to GitHub Pages
+        if: steps.semantic_release.outputs.new_release == 'true'
         run: |
           git init
           git checkout --orphan gh-pages
@@ -50,8 +61,3 @@ jobs:
           git push -f origin gh-pages
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Run Semantic Release
-        run: npx semantic-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
