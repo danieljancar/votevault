@@ -1,5 +1,5 @@
 @if (hasAlreadyVoted) {
-<app-thanks />
+<app-thanks [voteId]="voteId" />
 } @else { @if (isLoading) {
 <app-loading aria-live="polite" aria-label="Loading..."></app-loading>
 } @if (!isLoading && !hasError) {
