@@ -98,6 +98,7 @@ We also got some additional features we thought about and couldn't implement yet
 - **Multiple Options**: Users can also create votes where multiple options can be selected.
 - **Full Test Coverage**: We want to have full test coverage for the platform.
 - **Automated Testing**: We already have implemented some automated testing and linting, also in the `release.yml` action, where the app is automatically deployed. If we add full test coverage, we can also add automated testing to the deployment process (spec and e2e tests).
+- **Dynamic OG Tags**: We want to implement dynamic OG tags for the vote pages, so users can share the vote on social media platforms even better.
 
 # Contributing
 
