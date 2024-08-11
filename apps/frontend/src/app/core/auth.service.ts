@@ -11,7 +11,7 @@ import { Router } from '@angular/router'
 })
 export class AuthService {
   private server = new Horizon.Server('https://horizon-testnet.stellar.org')
-  public loginStatusChanged = new EventEmitter<boolean>() // Emit login status changes
+  public loginStatusChanged = new EventEmitter<boolean>()
 
   constructor(
     private http: HttpClient,
@@ -72,7 +72,7 @@ export class AuthService {
         await this.server.accounts().accountId(publicKey).call()
         this.cookieService.set('privateKey', privateKey)
         this.cookieService.set('publicKey', publicKey)
-        this.loginStatusChanged.emit(true) // Notify login status change
+        this.loginStatusChanged.emit(true)
         return true
       } catch (error) {
         console.error('Account does not exist or cannot be retrieved:', error)
@@ -89,14 +89,17 @@ export class AuthService {
     if (keypair) {
       return await this.isAccountExist(keypair.publicKey())
     }
+    this.loginStatusChanged.emit(false)
     return false
   }
 
   async isAccountExist(publicKey: string): Promise<boolean> {
     try {
       await this.server.accounts().accountId(publicKey).call()
+      this.loginStatusChanged.emit(true)
       return true
     } catch (error) {
+      this.loginStatusChanged.emit(false)
       return false
     }
   }
@@ -104,7 +107,7 @@ export class AuthService {
   async logout(): Promise<void> {
     this.cookieService.delete('privateKey')
     this.cookieService.delete('publicKey')
-    this.loginStatusChanged.emit(false) // Notify logout status change
+    this.loginStatusChanged.emit(false)
     await this.router.navigate(['/login'])
   }
 

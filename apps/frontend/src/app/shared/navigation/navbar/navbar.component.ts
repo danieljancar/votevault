@@ -2,17 +2,18 @@ import { Component, OnInit, OnDestroy } from '@angular/core'
 import { AuthService } from '../../../core/auth.service'
 import { Subscription } from 'rxjs'
 import { CommonModule, NgOptimizedImage } from '@angular/common'
+import { LoadingComponent } from '../../feedback/loading/loading.component'
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, NgOptimizedImage],
+  imports: [CommonModule, NgOptimizedImage, LoadingComponent],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit, OnDestroy {
   isMenuOpen = false
-  isLoggedIn = false
+  isLoggedIn: boolean | undefined
   private subscription: Subscription = new Subscription()
 
   constructor(private authService: AuthService) {}

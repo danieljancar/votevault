@@ -51,7 +51,11 @@
         >About</a
       >
     </div>
-    @if (!isLoggedIn) {
+    @if (isLoggedIn === undefined){
+    <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+      <app-loading />
+    </div>
+    } @else if (!isLoggedIn) {
     <div class="hidden lg:flex lg:flex-1 lg:justify-end">
       <a
         class="text-sm font-semibold leading-6 text-gray-900 focus:ring-2 focus:ring-gray-500"
