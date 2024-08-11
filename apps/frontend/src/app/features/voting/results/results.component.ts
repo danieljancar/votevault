@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, RouterLink } from '@angular/router'
 import { SorobanRpc } from '@stellar/stellar-sdk'
 import { Keypair } from '@stellar/typescript-wallet-sdk'
 import { GetVoteResultsService } from '../../../core/stellar/getVoteResults.service'
@@ -22,7 +22,7 @@ import { ErrorComponent } from '../../../shared/feedback/error/error.component'
   standalone: true,
   templateUrl: './results.component.html',
   styleUrls: ['./results.component.css'],
-  imports: [LoadingComponent, ErrorComponent],
+  imports: [LoadingComponent, ErrorComponent, RouterLink],
 })
 export class ResultsComponent implements OnInit, OnDestroy {
   public hasAlreadyVoted = false

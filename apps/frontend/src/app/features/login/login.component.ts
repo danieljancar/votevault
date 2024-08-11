@@ -11,6 +11,7 @@ import { AuthService } from '../../core/auth.service'
 import { ErrorComponent } from '../../shared/feedback/error/error.component'
 import { LoadingComponent } from '../../shared/feedback/loading/loading.component'
 import { SuccessComponent } from '../../shared/feedback/success/success.component'
+import { RouterLink } from '@angular/router'
 
 @Component({
   selector: 'app-login',
@@ -23,6 +24,7 @@ import { SuccessComponent } from '../../shared/feedback/success/success.componen
     ErrorComponent,
     LoadingComponent,
     SuccessComponent,
+    RouterLink,
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
