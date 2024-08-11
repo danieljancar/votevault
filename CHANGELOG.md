@@ -1,3 +1,9 @@
+# [1.1.0](https://github.com/danieljancar/votevault/compare/v1.0.1...v1.1.0) (2024-08-11)
+
+### Features
+
+- add og meta tags ([468a47a](https://github.com/danieljancar/votevault/commit/468a47a94a3d668b417355ea4caa660045bd68e1))
+
 ## [1.0.1](https://github.com/danieljancar/votevault/compare/v1.0.0...v1.0.1) (2024-08-11)
 
 ### Bug Fixes
