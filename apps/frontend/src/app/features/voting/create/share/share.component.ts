@@ -14,7 +14,7 @@ export class ShareComponent {
   @Input({ required: true }) voteTitle = ''
 
   public copyLinkToClipboard(voteId: string): void {
-    const url = 'https://vv.danieljancar.dev/voting/' + voteId
+    const url = 'https://vv.danieljancar.dev/#/voting/' + voteId
     navigator.clipboard.writeText(url)
   }
 

@@ -20,7 +20,7 @@
 
     <div class="mt-2 flex rounded-md shadow-sm">
       <input
-        [value]="'https://vv.danieljancar.dev/voting/' + voteId"
+        [value]="'https://vv.danieljancar.dev/#/voting/' + voteId"
         aria-label="Share link"
         class="block w-full rounded-none rounded-l-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 bg-gray-100"
         placeholder="Share link"
@@ -30,7 +30,7 @@
       <button
         (click)="copyLinkToClipboard(voteId)"
         aria-label="Copy link"
-        class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+        class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 active:bg-gray-100"
         type="button"
       >
         Copy
