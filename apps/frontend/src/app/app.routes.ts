@@ -9,6 +9,7 @@ import { AuthGuard } from './guards/auth.guard'
 import { NotAuthGuard } from './guards/not-auth.guard'
 import { UnsavedChangesGuard } from './guards/unsaved-changes.guard'
 import { ResultsComponent } from './features/voting/results/results.component'
+import { PolicyComponent } from './shared/cookie/policy/policy.component'
 
 export const appRoutes: Route[] = [
   {
@@ -52,6 +53,10 @@ export const appRoutes: Route[] = [
         component: VotingComponent,
       },
     ],
+  },
+  {
+    path: 'cookie-policy',
+    component: PolicyComponent,
   },
   {
     path: '**',
