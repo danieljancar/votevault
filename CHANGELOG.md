@@ -1,3 +1,9 @@
+## [1.1.1](https://github.com/danieljancar/votevault/compare/v1.1.0...v1.1.1) (2024-08-12)
+
+### Bug Fixes
+
+- update share link to hash based ([67e4b1c](https://github.com/danieljancar/votevault/commit/67e4b1c148ea4fd06d6213fea8fc5d772763a365))
+
 # [1.1.0](https://github.com/danieljancar/votevault/compare/v1.0.1...v1.1.0) (2024-08-11)
 
 ### Features
