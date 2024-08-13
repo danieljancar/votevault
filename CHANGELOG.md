@@ -1,3 +1,14 @@
+# [1.2.0](https://github.com/danieljancar/votevault/compare/v1.1.1...v1.2.0) (2024-08-13)
+
+### Bug Fixes
+
+- ensure cookie not resetting after browser restart ([#66](https://github.com/danieljancar/votevault/issues/66)) ([381e531](https://github.com/danieljancar/votevault/commit/381e531a730b0f3d618700e05ef1499f8b265236))
+- improve home component and about text ([ea9c49c](https://github.com/danieljancar/votevault/commit/ea9c49cdcff4661e948564079baefcde3289565f))
+
+### Features
+
+- add cookie disclaimer banner ([#68](https://github.com/danieljancar/votevault/issues/68)) ([d2138b0](https://github.com/danieljancar/votevault/commit/d2138b0eb900961e766553510aafa332b7748510))
+
 ## [1.1.1](https://github.com/danieljancar/votevault/compare/v1.1.0...v1.1.1) (2024-08-12)
 
 ### Bug Fixes
