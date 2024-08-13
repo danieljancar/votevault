@@ -30,8 +30,8 @@ export class AuthService {
 
   createAccount(publicKey: string, secretKey: string): boolean {
     try {
-      this.cookieService.set('privateKey', secretKey)
-      this.cookieService.set('publicKey', publicKey)
+      this.cookieService.set('privateKey', secretKey, 30)
+      this.cookieService.set('publicKey', publicKey, 30)
       return true
     } catch (error) {
       console.error('Failed to store keys in cookies:', error)
@@ -73,8 +73,8 @@ export class AuthService {
 
       try {
         await this.server.accounts().accountId(publicKey).call()
-        this.cookieService.set('privateKey', privateKey)
-        this.cookieService.set('publicKey', publicKey)
+        this.cookieService.set('privateKey', privateKey, 30)
+        this.cookieService.set('publicKey', publicKey, 30)
         this.loginStatusChanged.emit(true)
         return true
       } catch (error) {
