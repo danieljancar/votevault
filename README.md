@@ -89,6 +89,7 @@ As this project was developed in a short amount of time, there are some known is
 - **Accessibility**: The platform is not fully accessible yet. We tried to implement some accessibility features, but there is still some work to do.
 - **Error Handling**: The error handling is not perfect yet, but already pretty good.
 - **Protect from Sybil Attacks and improved Authentication**: We need to implement a way to protect the platform better from Sybil and other attacks.
+- **Improve UI/UX**: We implemented a lot of logic and tried to keep the UI clean and straightforward, still we will continue working on it and improving as much as possible.
 
 ## Future Features
 
