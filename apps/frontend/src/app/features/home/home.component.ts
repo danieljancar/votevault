@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core'
-import { CommonModule } from '@angular/common'
+import { CommonModule, NgOptimizedImage } from '@angular/common'
 import { FormControl, ReactiveFormsModule } from '@angular/forms'
-import { Router } from '@angular/router'
+import { Router, RouterLink } from '@angular/router'
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, NgOptimizedImage, RouterLink],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })

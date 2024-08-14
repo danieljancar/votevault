@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing'
+import { ComponentFixture, inject, TestBed } from '@angular/core/testing'
 import { HomeComponent } from './home.component'
 import { Router } from '@angular/router'
 

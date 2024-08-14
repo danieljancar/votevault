@@ -38,21 +38,31 @@ jobs:
       #   run: nx test frontend --ci
 
       - name: Run Semantic Release
-        id: semantic_release
         run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build Frontend
-        if: steps.semantic_release.outputs.new_release == 'true'
         run: nx build frontend --prod --base-href https://vv.danieljancar.dev/
 
       - name: Create CNAME
-        if: steps.semantic_release.outputs.new_release == 'true'
         run: echo "vv.danieljancar.dev" > dist/apps/frontend/CNAME
 
+      - name: Move Files Out of browser Folder
+        run: |
+          mv dist/apps/frontend/browser/* dist/apps/frontend/
+          rmdir dist/apps/frontend/browser
+
+      - name: Copy Social Media Preview Image
+        run: |
+          cp assets/previews/social-media-preview.png dist/apps/frontend/
+
+      - name: Configure Git User
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions Bot"
+
       - name: Deploy to GitHub Pages
-        if: steps.semantic_release.outputs.new_release == 'true'
         run: |
           git init
           git checkout --orphan gh-pages

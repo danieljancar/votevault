@@ -1,13 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'
+import { Component, OnDestroy, OnInit } from '@angular/core'
 import { AuthService } from '../../../core/auth.service'
 import { Subscription } from 'rxjs'
 import { CommonModule, NgOptimizedImage } from '@angular/common'
 import { LoadingComponent } from '../../feedback/loading/loading.component'
+import { RouterLink } from '@angular/router'
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, NgOptimizedImage, LoadingComponent],
+  imports: [CommonModule, NgOptimizedImage, LoadingComponent, RouterLink],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
 })

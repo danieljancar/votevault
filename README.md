@@ -22,7 +22,7 @@
 
 This project is part of the [Stellar Smart Contract Challenge](https://dev.to/challenges/stellar) on [Dev.to](https://dev.to/).
 
-We built a blockchain-based voting platform using Stellar Smart Contracts. VoteVault is a secure and transparent voting platform that allows users to create and participate in voting processes. Find out more about our journey building VoteVault in the [Dev.to post]() or visit the [VoteVault website]().
+We built a blockchain-based voting platform using Stellar Smart Contracts. VoteVault is a secure and transparent voting platform that allows users to create and participate in voting processes. Find out more about our journey building VoteVault in the [Dev.to post](https://dev.to/gr1ll/votevault-our-journey-from-a-lunchtime-idea-to-dapp-2opf) or visit the [VoteVault website](https://vv.danieljancar.dev).
 
 # Table of Contents
 
@@ -89,6 +89,7 @@ As this project was developed in a short amount of time, there are some known is
 - **Accessibility**: The platform is not fully accessible yet. We tried to implement some accessibility features, but there is still some work to do.
 - **Error Handling**: The error handling is not perfect yet, but already pretty good.
 - **Protect from Sybil Attacks and improved Authentication**: We need to implement a way to protect the platform better from Sybil and other attacks.
+- **Improve UI/UX**: We implemented a lot of logic and tried to keep the UI clean and straightforward, still we will continue working on it and improving as much as possible.
 
 ## Future Features
 
@@ -98,6 +99,7 @@ We also got some additional features we thought about and couldn't implement yet
 - **Multiple Options**: Users can also create votes where multiple options can be selected.
 - **Full Test Coverage**: We want to have full test coverage for the platform.
 - **Automated Testing**: We already have implemented some automated testing and linting, also in the `release.yml` action, where the app is automatically deployed. If we add full test coverage, we can also add automated testing to the deployment process (spec and e2e tests).
+- **Dynamic OG Tags**: We want to implement dynamic OG tags for the vote pages, so users can share the vote on social media platforms even better.
 
 # Contributing
 

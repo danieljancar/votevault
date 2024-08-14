@@ -8,7 +8,7 @@ import {
   Validators,
 } from '@angular/forms'
 import { AuthService } from '../../core/auth.service'
-import { Router } from '@angular/router'
+import { Router, RouterLink } from '@angular/router'
 import { ErrorComponent } from '../../shared/feedback/error/error.component'
 import { LoadingComponent } from '../../shared/feedback/loading/loading.component'
 import { SuccessComponent } from '../../shared/feedback/success/success.component'
@@ -24,6 +24,7 @@ import { SuccessComponent } from '../../shared/feedback/success/success.componen
     LoadingComponent,
     SuccessComponent,
     NgOptimizedImage,
+    RouterLink,
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
