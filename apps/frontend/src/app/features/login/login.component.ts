@@ -34,6 +34,7 @@ export class LoginComponent {
   protected hasError = false
   protected errorMessage = ''
   protected successMessage = ''
+  protected isLoading = false
 
   constructor(
     private authService: AuthService,
@@ -46,6 +47,7 @@ export class LoginComponent {
   }
 
   async logInUsingPrivateKey() {
+    this.isLoading = true
     const privateKey = this.loginForm.value.privateKey
     const couldLogin = await this.authService.loginUsingPrivateKey(privateKey)
 
@@ -59,6 +61,7 @@ export class LoginComponent {
         'Failed to login. Please check your private key or register a new account.'
       this.loginForm.reset()
     }
+    this.isLoading = false
   }
 
   errorAction = (): void => {
