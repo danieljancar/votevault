@@ -2,7 +2,7 @@ import { Component } from '@angular/core'
 import { RouterModule } from '@angular/router'
 import { NavbarComponent } from './shared/navigation/navbar/navbar.component'
 import { DisclaimerComponent } from './shared/navigation/disclaimer/disclaimer.component'
-import { FooterComponent } from './shared/footer/footer.component'
+import { FooterComponent } from './shared/navigation/footer/footer.component'
 
 @Component({
   standalone: true,
