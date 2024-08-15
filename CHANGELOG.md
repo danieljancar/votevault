@@ -1,3 +1,18 @@
+# [1.3.0](https://github.com/danieljancar/votevault/compare/v1.2.0...v1.3.0) (2024-08-15)
+
+### Bug Fixes
+
+- add link to results banner on home ([e4ffa89](https://github.com/danieljancar/votevault/commit/e4ffa897a59264f78ff9014bfe5d3c27bd2f8426))
+- disable register button when loading ([#78](https://github.com/danieljancar/votevault/issues/78)) ([e19e5e0](https://github.com/danieljancar/votevault/commit/e19e5e07bdfeda5dc2184dfbe6b2fbce63354105))
+- make sure no duplicates are loaded ([#74](https://github.com/danieljancar/votevault/issues/74)) ([aec417f](https://github.com/danieljancar/votevault/commit/aec417fef67b0d0a9c184f46ce92ed2fd2489974))
+
+### Features
+
+- add button spinner to register button ([#76](https://github.com/danieljancar/votevault/issues/76)) ([3f52851](https://github.com/danieljancar/votevault/commit/3f52851333489ff8c09a3f33cf15ffebd18bb17b))
+- add footer to the bottom of the page ([#80](https://github.com/danieljancar/votevault/issues/80)) ([76554e6](https://github.com/danieljancar/votevault/commit/76554e6b4c4ead25db8b3614fe40203764d934ad))
+- add loading spinner to login button for slow wifi feedback ([#73](https://github.com/danieljancar/votevault/issues/73)) ([4ab4b53](https://github.com/danieljancar/votevault/commit/4ab4b53232d385b5a3dc2e5ced53739265b04601))
+- add spec tests to frontend ([bcb86ec](https://github.com/danieljancar/votevault/commit/bcb86ec4a2d8b9bb33dfb78e96b21729ebce3884))
+
 # [1.2.0](https://github.com/danieljancar/votevault/compare/v1.1.1...v1.2.0) (2024-08-13)
 
 ### Bug Fixes
