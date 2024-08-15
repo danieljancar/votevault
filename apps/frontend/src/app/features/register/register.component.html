@@ -1,6 +1,4 @@
-@if (isLoading) {
-<app-loading aria-live="polite" aria-label="Loading..."></app-loading>
-} @else { @if (hasError) {
+@if (hasError) {
 <app-error
   [title]="'Error occurred'"
   [message]="this.errorMessage"
@@ -135,7 +133,9 @@
             'bg-indigo-600 hover:bg-indigo-700': publicKey && secretKey
           }"
         >
-          Register
+          @if (isLoading){
+          <app-button-spinner />
+          }@else{ Register }
         </button>
       </div>
     </form>
@@ -159,4 +159,4 @@
     </p>
   </div>
 </div>
-} }
+}
