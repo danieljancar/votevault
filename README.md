@@ -11,6 +11,7 @@
 [![Angular](https://img.shields.io/badge/Angular-DD0031?logo=angular)](https://angular.io/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 
+[![Release](https://github.com/danieljancar/votevault/actions/workflows/release.yml/badge.svg)](https://github.com/danieljancar/votevault/actions/workflows/release.yml)
 [![Linter](https://github.com/danieljancar/votevault/actions/workflows/lint.yml/badge.svg)](https://github.com/danieljancar/votevault/actions/workflows/lint.yml)
 [![Formatting](https://github.com/danieljancar/votevault/actions/workflows/format.yml/badge.svg)](https://github.com/danieljancar/votevault/actions/workflows/format.yml)
 

@@ -12,6 +12,7 @@ import { Router, RouterLink } from '@angular/router'
 import { ErrorComponent } from '../../shared/feedback/error/error.component'
 import { LoadingComponent } from '../../shared/feedback/loading/loading.component'
 import { SuccessComponent } from '../../shared/feedback/success/success.component'
+import { ButtonSpinnerComponent } from '../../shared/feedback/button-spinner/button-spinner.component'
 
 @Component({
   selector: 'app-register',
@@ -25,6 +26,7 @@ import { SuccessComponent } from '../../shared/feedback/success/success.componen
     SuccessComponent,
     NgOptimizedImage,
     RouterLink,
+    ButtonSpinnerComponent,
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],

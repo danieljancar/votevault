@@ -25,6 +25,8 @@ export class GetVoteOptionService {
     sourceKeypair: Keypair,
     voteId: string,
   ) {
+    this.resetData()
+
     try {
       const contract = new Contract(this.contractId)
 
@@ -87,5 +89,12 @@ export class GetVoteOptionService {
       hasError: this.hasError,
       errorMessage: this.errorMessage,
     }
+  }
+
+  resetData() {
+    this.optionsArr = []
+    this.isLoading = true
+    this.hasError = false
+    this.errorMessage = ''
   }
 }

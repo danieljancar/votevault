@@ -68,10 +68,12 @@
           [disabled]="loginForm.invalid"
           [ngClass]="{
             'bg-gray-700 hover:bg-gray-700': loginForm.invalid,
-            'bg-indigo-600 hover:bg-indigo-700': loginForm.valid
+            'bg-indigo-600 hover:bg-indigo-700': loginForm.valid,
           }"
         >
-          Log in
+          @if (isLoading){
+          <app-button-spinner />
+          }@else{ Log in }
         </button>
       </div>
     </form>

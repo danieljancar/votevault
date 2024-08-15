@@ -20,11 +20,29 @@ describe('HomeComponent', () => {
     expect(component).toBeTruthy()
   })
 
-  test('should search vote', inject([Router], (mockRouter: Router) => {
-    const spyRouter = spyOn(mockRouter, 'navigate').and.stub()
-
+  test('searchVote', () => {
+    const router = TestBed.inject(Router)
+    const navigateSpy = jest.spyOn(router, 'navigate')
     component.voteId.setValue('123')
     component.searchVote()
-    expect(spyRouter.calls.first().args[0]).toContain('voting' && '123')
-  }))
+    expect(navigateSpy).toHaveBeenCalledWith(['/voting', '123'])
+  })
+
+  test('createVote', () => {
+    const router = TestBed.inject(Router)
+    const navigateSpy = jest.spyOn(router, 'navigate')
+    component.createVote()
+    expect(navigateSpy).toHaveBeenCalledWith(['/voting', 'create'])
+  })
+
+  test('pasteVoteId', async () => {
+    const clipboard = {
+      readText: jest.fn().mockResolvedValue('123'),
+    }
+    Object.defineProperty(navigator, 'clipboard', {
+      value: clipboard,
+    })
+    await component.pasteVoteId()
+    expect(component.voteId.value).toBe('123')
+  })
 })
