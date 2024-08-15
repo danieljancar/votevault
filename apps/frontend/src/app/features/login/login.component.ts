@@ -12,6 +12,7 @@ import { ErrorComponent } from '../../shared/feedback/error/error.component'
 import { LoadingComponent } from '../../shared/feedback/loading/loading.component'
 import { SuccessComponent } from '../../shared/feedback/success/success.component'
 import { RouterLink } from '@angular/router'
+import { ButtonSpinnerComponent } from '../../shared/feedback/button-spinner/button-spinner.component'
 
 @Component({
   selector: 'app-login',
@@ -25,6 +26,7 @@ import { RouterLink } from '@angular/router'
     LoadingComponent,
     SuccessComponent,
     RouterLink,
+    ButtonSpinnerComponent,
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
@@ -34,6 +36,7 @@ export class LoginComponent {
   protected hasError = false
   protected errorMessage = ''
   protected successMessage = ''
+  protected isLoading = false
 
   constructor(
     private authService: AuthService,
@@ -46,6 +49,7 @@ export class LoginComponent {
   }
 
   async logInUsingPrivateKey() {
+    this.isLoading = true
     const privateKey = this.loginForm.value.privateKey
     const couldLogin = await this.authService.loginUsingPrivateKey(privateKey)
 
@@ -59,6 +63,7 @@ export class LoginComponent {
         'Failed to login. Please check your private key or register a new account.'
       this.loginForm.reset()
     }
+    this.isLoading = false
   }
 
   errorAction = (): void => {
