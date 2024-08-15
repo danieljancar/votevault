@@ -12,6 +12,7 @@ import { ErrorComponent } from '../../shared/feedback/error/error.component'
 import { LoadingComponent } from '../../shared/feedback/loading/loading.component'
 import { SuccessComponent } from '../../shared/feedback/success/success.component'
 import { RouterLink } from '@angular/router'
+import { ButtonSpinnerComponent } from '../../shared/feedback/button-spinner/button-spinner.component'
 
 @Component({
   selector: 'app-login',
@@ -25,6 +26,7 @@ import { RouterLink } from '@angular/router'
     LoadingComponent,
     SuccessComponent,
     RouterLink,
+    ButtonSpinnerComponent,
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
