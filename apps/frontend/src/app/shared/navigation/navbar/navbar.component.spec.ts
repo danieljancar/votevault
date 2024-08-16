@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { NavbarComponent } from './navbar.component'
 import { AuthService } from '../../../core/auth.service'
 import { HttpClient } from '@angular/common/http'
+import { ActivatedRoute } from '@angular/router'
 
 describe('NavbarComponent', () => {
   let component: NavbarComponent
@@ -18,6 +19,10 @@ describe('NavbarComponent', () => {
               subscribe: jest.fn(),
             },
           },
+        },
+        {
+          provide: ActivatedRoute,
+          useValue: {},
         },
         {
           provide: HttpClient,

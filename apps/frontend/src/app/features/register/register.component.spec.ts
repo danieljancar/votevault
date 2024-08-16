@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { RegisterComponent } from './register.component'
 import { AuthService } from '../../core/auth.service'
 import { ChangeDetectorRef } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent
@@ -21,6 +22,7 @@ describe('RegisterComponent', () => {
       imports: [RegisterComponent],
       providers: [
         { provide: AuthService, useValue: mockAuthService },
+        { provide: ActivatedRoute, useValue: {} },
         ChangeDetectorRef,
       ],
     }).compileComponents()

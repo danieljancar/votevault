@@ -3,6 +3,7 @@ import { LoginComponent } from './login.component'
 import { AuthService } from '../../core/auth.service'
 import { ChangeDetectorRef } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
+import { ActivatedRoute } from '@angular/router'
 
 describe('LoginComponent', () => {
   let component: LoginComponent
@@ -17,6 +18,7 @@ describe('LoginComponent', () => {
       imports: [ReactiveFormsModule, LoginComponent],
       providers: [
         { provide: AuthService, useValue: mockAuthService },
+        { provide: ActivatedRoute, useValue: {} },
         ChangeDetectorRef,
       ],
     }).compileComponents()
