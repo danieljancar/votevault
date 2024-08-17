@@ -1,3 +1,11 @@
+## [1.3.1](https://github.com/danieljancar/votevault/compare/v1.3.0...v1.3.1) (2024-08-17)
+
+### Bug Fixes
+
+- add ActivatedRoute to spec tests ([#85](https://github.com/danieljancar/votevault/issues/85)) ([fcf38b1](https://github.com/danieljancar/votevault/commit/fcf38b105ed2d4568b07f5d1b8e0a50c4ca3cee2))
+- add link improvements ([48a789f](https://github.com/danieljancar/votevault/commit/48a789fa83408021b03bb6cbe0702a0a95bbc3ae))
+- remove unused contract packages ([#84](https://github.com/danieljancar/votevault/issues/84)) ([95de20a](https://github.com/danieljancar/votevault/commit/95de20add64ec522d2ce20e1e2f943309ecca144))
+
 # [1.3.0](https://github.com/danieljancar/votevault/compare/v1.2.0...v1.3.0) (2024-08-15)
 
 ### Bug Fixes
