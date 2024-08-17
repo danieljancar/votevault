@@ -25,6 +25,8 @@ This project is part of the [Stellar Smart Contract Challenge](https://dev.to/ch
 
 We built a blockchain-based voting platform using Stellar Smart Contracts. VoteVault is a secure and transparent voting platform that allows users to create and participate in voting processes. Find out more about our journey building VoteVault in the [Dev.to post](https://dev.to/gr1ll/votevault-our-journey-from-a-lunchtime-idea-to-dapp-2opf) or visit the [VoteVault website](https://vv.danieljancar.dev).
 
+**Note**: Our Smart Contracts are still deployed on the [Stellar Testnet](https://developers.stellar.org/docs/learn/fundamentals/networks#testnet) and can't be used for a large audience yet. The application currently serves as a proof-of-concept and fully functioning prototype. 🌱
+
 # Table of Contents
 
 - [Features](#features)
