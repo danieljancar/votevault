@@ -103,6 +103,7 @@ We also got some additional features we thought about and couldn't implement yet
 - **Full Test Coverage**: We want to have full test coverage for the platform.
 - **Automated Testing**: We already have implemented some automated testing and linting, also in the `release.yml` action, where the app is automatically deployed. If we add full test coverage, we can also add automated testing to the deployment process (spec and e2e tests).
 - **Dynamic OG Tags**: We want to implement dynamic OG tags for the vote pages, so users can share the vote on social media platforms even better.
+- **Fees and Tokenization**: In a production environment, fees will need to be covered either by the vote creator or the participants. This could involve tokenization mechanisms where a small fee is charged for vote creation or participation, ensuring the platform remains sustainable.
 
 # Contributing
 
