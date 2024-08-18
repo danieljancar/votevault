@@ -66,7 +66,7 @@
         class="text-sm font-semibold leading-6 text-gray-900 focus:ring-2 focus:ring-gray-500"
         routerLink="/login"
       >
-        Log in <span aria-hidden="true">&rarr;</span>
+        Connect Wallet <span aria-hidden="true">&rarr;</span>
       </a>
     </div>
     } @else {
@@ -75,13 +75,14 @@
         (click)="logout()"
         class="text-sm font-semibold leading-6 text-gray-900 focus:ring-2 focus:ring-gray-500"
       >
-        Log out <span aria-hidden="true">&rarr;</span>
+        Disconnect <span aria-hidden="true">&rarr;</span>
       </button>
     </div>
     }
   </nav>
 
-  <div *ngIf="isMenuOpen" aria-modal="true" class="lg:hidden" role="dialog">
+  @if (isMenuOpen) {
+  <div aria-modal="true" class="lg:hidden" role="dialog">
     <div (click)="closeMenu()" class="fixed inset-0 z-10 bg-gray-900/50"></div>
     <div
       class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10"
@@ -145,7 +146,7 @@
               class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 focus:ring-2 focus:ring-gray-500"
               routerLink="/login"
             >
-              Log in
+              Connect Wallet <span aria-hidden="true">&rarr;</span>
             </a>
           </div>
           } @else {
@@ -154,7 +155,7 @@
               (click)="logout()"
               class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 focus:ring-2 focus:ring-gray-500"
             >
-              Log out
+              Disconnect <span aria-hidden="true">&rarr;</span>
             </button>
           </div>
           }
@@ -162,4 +163,5 @@
       </div>
     </div>
   </div>
+  }
 </header>
