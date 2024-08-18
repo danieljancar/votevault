@@ -1,3 +1,10 @@
+## [1.4.2](https://github.com/danieljancar/votevault/compare/v1.4.1...v1.4.2) (2024-08-18)
+
+### Bug Fixes
+
+- update footer spacing ([40acf3a](https://github.com/danieljancar/votevault/commit/40acf3a713a3ce11670b283deaad7d382630bb2b))
+- update news banner ([cdb7840](https://github.com/danieljancar/votevault/commit/cdb784002dfa78e7be6b10cc5d7f4528a65f53fb))
+
 ## [1.4.1](https://github.com/danieljancar/votevault/compare/v1.4.0...v1.4.1) (2024-08-18)
 
 ### Bug Fixes
