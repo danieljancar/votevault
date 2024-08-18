@@ -9,12 +9,12 @@
 />
 } @else if (successMessage) {
 <app-success
-  [title]="'Login Successful'"
+  [title]="'Connecting your wallet was successful.'"
   [message]="successMessage"
   [action]="'Go to Home'"
   [route]="'/'"
   aria-live="assertive"
-  aria-label="Logged in successfully"
+  aria-label="Wallet connection successful"
 />
 } @else {
 <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
@@ -29,10 +29,10 @@
     <h2
       class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900"
     >
-      Log in to your account
+      Connect your wallet
     </h2>
     <p class="mt-1 text-sm leading-6 text-gray-600 text-center">
-      Log in to your Stellar account using your private key.
+      Connect to your Stellar wallet using your private key.
     </p>
   </div>
 
@@ -71,9 +71,9 @@
             'bg-indigo-600 hover:bg-indigo-700': loginForm.valid,
           }"
         >
-          @if (isLoading){
+          @if (isLoading) {
           <app-button-spinner />
-          }@else{ Log in }
+          } @else { Connect }
         </button>
       </div>
     </form>
@@ -88,11 +88,11 @@
     </div>
 
     <p class="mt-3 text-center text-sm text-gray-500">
-      Don't have an account?
+      Don't have a wallet?
       <a
         class="text-indigo-600 hover:underline cursor-pointer focus:outline-none focus:underline"
         routerLink="/register"
-        >Register</a
+        >Create one</a
       >
     </p>
   </div>

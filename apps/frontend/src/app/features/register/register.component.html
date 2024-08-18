@@ -9,13 +9,13 @@
 />
 } @else if (successMessage) {
 <app-success
-  [title]="'Account Created'"
+  [title]="'Wallet created successfully'"
   [message]="successMessage"
   [action]="'Go to Home'"
   [route]="'/'"
   [showHomeButton]="false"
   aria-live="assertive"
-  aria-label="Registered successfully"
+  aria-label="Wallet created successfully"
 />
 <div class="mx-2.5 my-2">
   <div
@@ -47,7 +47,7 @@
         'bg-indigo-600 hover:bg-indigo-700': hasDownloaded
       }"
     >
-      Continue to login
+      Connect Wallet
     </button>
   </div>
 </div>
@@ -64,10 +64,10 @@
     <h2
       class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900"
     >
-      Register with Stellar
+      Create new Stellar Wallet
     </h2>
     <p class="mt-1 text-sm leading-6 text-gray-600 text-center">
-      Register a new account on the Stellar network, please ensure you save your
+      Create a new wallet on the Stellar network, please ensure you save your
       wallets private key in a secure place on the next screen.
     </p>
   </div>
@@ -133,9 +133,9 @@
             'bg-indigo-600 hover:bg-indigo-700': publicKey && secretKey
           }"
         >
-          @if (isLoading){
+          @if (isLoading) {
           <app-button-spinner />
-          }@else{ Register }
+          } @else { Create }
         </button>
       </div>
     </form>
@@ -150,11 +150,11 @@
     </div>
 
     <p class="mt-3 text-center text-sm text-gray-500">
-      Already have an account?
+      Already have a wallet?
       <a
         class="text-indigo-600 hover:underline cursor-pointer focus:outline-none focus:underline"
         routerLink="/login"
-        >Log in</a
+        >Connect instead</a
       >
     </p>
   </div>
