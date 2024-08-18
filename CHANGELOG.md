@@ -1,3 +1,9 @@
+## [1.4.1](https://github.com/danieljancar/votevault/compare/v1.4.0...v1.4.1) (2024-08-18)
+
+### Bug Fixes
+
+- remove votevault logo from home ([779f6b9](https://github.com/danieljancar/votevault/commit/779f6b9c1b9a9bcc1504d970c550dd87890c640b))
+
 # [1.4.0](https://github.com/danieljancar/votevault/compare/v1.3.1...v1.4.0) (2024-08-18)
 
 ### Bug Fixes
