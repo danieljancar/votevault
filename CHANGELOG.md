@@ -1,3 +1,13 @@
+# [1.4.0](https://github.com/danieljancar/votevault/compare/v1.3.1...v1.4.0) (2024-08-18)
+
+### Bug Fixes
+
+- improve news banner and disclaimer ([ad44473](https://github.com/danieljancar/votevault/commit/ad4447367abc5d2be052cb987f22dde81badad4d))
+
+### Features
+
+- add news banner and update to connect wallet for better understanding ([fd95b37](https://github.com/danieljancar/votevault/commit/fd95b37968241c9bd0740e2ab2376538e7f54b9d))
+
 ## [1.3.1](https://github.com/danieljancar/votevault/compare/v1.3.0...v1.3.1) (2024-08-17)
 
 ### Bug Fixes
