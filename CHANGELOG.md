@@ -1,3 +1,9 @@
+## [1.4.3](https://github.com/danieljancar/votevault/compare/v1.4.2...v1.4.3) (2024-08-23)
+
+### Bug Fixes
+
+- update action button banner based on user feedback (ui/ux) (hotfix) ([410d086](https://github.com/danieljancar/votevault/commit/410d086f2027e3264da042027b5794e40c9d7290))
+
 ## [1.4.2](https://github.com/danieljancar/votevault/compare/v1.4.1...v1.4.2) (2024-08-18)
 
 ### Bug Fixes
